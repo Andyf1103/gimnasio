@@ -10,6 +10,7 @@ class Employee extends Authenticatable
     use HasRoles;
 
     protected $table = 'employees';
+    protected $guard_name = 'employee';
     
     protected $fillable = [
         'nombre',
@@ -23,4 +24,9 @@ class Employee extends Authenticatable
     protected $hidden = [
         'contrasena',
     ];
+
+    public function getAuthPassword()
+    {
+        return $this->contrasena;
+    }
 }

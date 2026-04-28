@@ -24,4 +24,9 @@ class Admin extends Authenticatable
     protected $hidden = [
         'contrasena',
     ];
+
+    public function getAuthPassword()
+    {
+        return $this->contrasena;
+    }
 }
