@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('plan_types', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre_plan', 255);
+            $table->text('descripcion')->nullable();
+            $table->decimal('precio_plan', 10, 2);
+            $table->decimal('precio_matricula', 10, 2)->nullable();
+            $table->integer('duracion_dias');
             $table->timestamps();
         });
     }

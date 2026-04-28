@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 100);
+            $table->string('apellido', 100);
+            $table->timestamp('fecha_inscripcion')->userCurrent();
             $table->timestamps();
         });
     }

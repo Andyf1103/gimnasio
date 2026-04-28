@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 100);
+            $table->string('apellido', 100);
+            $table->string('telefono', 20);
+            $table->string('correo', 100)->unique();
+            $table->string('contrasena', 100);
+            $table->timestamp('fecha_creacion')->userCurrent();
+            $table->enum('estado', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
+            $table->foreignId('id_rol')->constrained('roles')->onDelete('cascade');
             $table->timestamps();
         });
     }
