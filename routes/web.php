@@ -1,10 +1,36 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\EmployeeLoginController;
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('admin.login');
 });
 
+// ruta del admin
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+    
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('admin.dashboard');
+    });
+});
 
+// ruta del empleado
+Route::prefix('employee')->group(function () {
+    Route::get('/login', [EmployeeLoginController::class, 'showLoginForm'])->name('employee.login');
+    Route::post('/login', [EmployeeLoginController::class, 'login'])->name('employee.login.submit');
+    Route::post('/logout', [EmployeeLoginController::class, 'logout'])->name('employee.logout');
+    
+    Route::middleware('auth:employee')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('employee.dashboard');
+        })->name('employee.dashboard');
+    });
+});
