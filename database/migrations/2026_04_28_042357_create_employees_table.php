@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('contrasena', 100);
             $table->timestamp('fecha_creacion')->useCurrent();
             $table->enum('estado', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
-            $table->foreignId('rol_id')->constrained('roles')->onDelete('cascade');
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('nombre', 100);
             $table->string('apellido', 100);
             $table->string('telefono', 20)->nullable();
-            $table->string('correo', 150)->unique();
+            $table->string('email', 150)->unique();
+            $table->string('usuario', 50)->unique();
             $table->string('contrasena', 255);
             $table->timestamp('fecha_creacion')->useCurrent();
             $table->timestamps();
