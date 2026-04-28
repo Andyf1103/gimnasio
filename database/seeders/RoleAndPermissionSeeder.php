@@ -12,29 +12,28 @@ class RoleAndPermissionSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Permisos (usando "usuarios" como los llama el dueño)
+        // Permisos para admin
+        Permission::create(['name' => 'crear usuarios', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'editar usuarios', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'eliminar usuarios', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'ver usuarios', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'gestionar productos', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'ver reportes', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'gestionar caja', 'guard_name' => 'admin']);
+
+        // Permisos para empleados
         Permission::create(['name' => 'crear usuarios', 'guard_name' => 'employee']);
         Permission::create(['name' => 'editar usuarios', 'guard_name' => 'employee']);
-        Permission::create(['name' => 'eliminar usuarios', 'guard_name' => 'employee']);
         Permission::create(['name' => 'ver usuarios', 'guard_name' => 'employee']);
         Permission::create(['name' => 'gestionar productos', 'guard_name' => 'employee']);
-        Permission::create(['name' => 'ver reportes', 'guard_name' => 'employee']);
         Permission::create(['name' => 'gestionar caja', 'guard_name' => 'employee']);
 
-        // El administrador tendrá todos los permisos dentro del sistema 
-        $admin = Role::create(['name' => 'Administrador', 'guard_name' => 'employee']);
-        $admin->givePermissionTo(Permission::all());
+        // Rol Admin
+        $admin = Role::create(['name' => 'Administrador', 'guard_name' => 'admin']);
+        $admin->givePermissionTo(Permission::where('guard_name', 'admin')->get());
 
-        // Los permisos que la recepcionista va a tener 
+        // Rol Recepcionista
         $recepcionista = Role::create(['name' => 'Recepcionista', 'guard_name' => 'employee']);
-        $recepcionista->givePermissionTo([
-            'crear usuarios',
-            'editar usuarios',
-            'ver usuarios',
-            'gestionar productos',
-            'gestionar caja',
-        ]);
-        
-
+        $recepcionista->givePermissionTo(Permission::where('guard_name', 'employee')->get());
     }
 }

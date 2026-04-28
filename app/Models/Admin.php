@@ -10,6 +10,7 @@ class Admin extends Authenticatable
     use HasRoles;
 
     protected $table = 'admins';
+    protected $guard_name = 'admin';
     
     protected $fillable = [
         'nombre',
