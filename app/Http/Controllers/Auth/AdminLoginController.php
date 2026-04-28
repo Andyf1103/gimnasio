@@ -15,20 +15,20 @@ class AdminLoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'usuario' => 'required',
+        $request->validate([
+            'email' => 'required',
             'contrasena' => 'required',
         ]);
 
         if (Auth::guard('admin')->attempt([
-            'usuario' => $request->usuario,
+            'email' => $request->email,
             'password' => $request->contrasena,
         ])) {
             $request->session()->regenerate();
             return redirect()->intended(route('admin.dashboard'));
         }
 
-        return back()->withErrors(['usuario' => 'Credenciales incorrectas.'])->onlyInput('usuario');
+        return back()->withErrors(['email' => 'Credenciales incorrectas.']);
     }
 
     public function logout(Request $request)
