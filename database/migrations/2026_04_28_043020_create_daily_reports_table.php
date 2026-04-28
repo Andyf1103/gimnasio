@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('daily_reports', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha')->unique();
+            $table->decimal('total_membresias', 10, 2)->default(0);
+            $table->decimal('total_efectivo', 10, 2)->default(0);
+            $table->decimal('total_digital', 10, 2)->default(0);
+            $table->decimal('total_general', 10, 2)->default(0);
             $table->timestamps();
         });
     }

@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('memberships', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha_inicio');
+            $table->date('fecha_final');
+            $table->decimal('monto_total', 10, 2)->nullable();
+            $table->decimal('saldo', 10, 2)->default(0);
+            $table->enum('estado', ['ACTIVA', 'VENCIDA', 'CONGELADA', 'CANCELADA'])->default('ACTIVA');
+            $table->timestamp('creado_en')->useCurrent();
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
+            $table->foreignId('plan_type_id')->constrained('plan_types')->onDelete('cascade');
+            $table->foreignId('payment_method_id')->constrained('payment_methods')->onDelete('cascade');
             $table->timestamps();
         });
     }

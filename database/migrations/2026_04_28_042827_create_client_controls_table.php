@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('client_controls', function (Blueprint $table) {
             $table->id();
+            $table->decimal('peso_inicial', 5, 2);
+            $table->decimal('peso_final', 5, 2);
+            $table->decimal('talla_usuario', 5, 2);
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
             $table->timestamps();
         });
     }

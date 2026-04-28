@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 100);
             $table->string('apellido', 100);
-            $table->timestamp('fecha_inscripcion')->userCurrent();
+            $table->timestamp('fecha_inscripcion')->useCurrent();
             $table->timestamps();
         });
     }

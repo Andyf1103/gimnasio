@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('telefono', 20);
             $table->string('correo', 100)->unique();
             $table->string('contrasena', 100);
-            $table->timestamp('fecha_creacion')->userCurrent();
+            $table->timestamp('fecha_creacion')->useCurrent();
             $table->enum('estado', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
-            $table->foreignId('id_rol')->constrained('roles')->onDelete('cascade');
+            $table->foreignId('rol_id')->constrained('roles')->onDelete('cascade');
             $table->timestamps();
         });
     }
