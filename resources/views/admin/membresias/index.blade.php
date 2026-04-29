@@ -8,11 +8,6 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">
-            <a href="{{ route('admin.membresias.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Nueva Membresía
-            </a>
-        </div>
         <div class="card-body">
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
