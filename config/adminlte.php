@@ -109,45 +109,58 @@ return [
     'laravel_js_path' => 'js/app.js',
 
     'menu' => [
-        ['header' => 'MENÚ PRINCIPAL'],
-        [
-            'text' => 'Dashboard',
-            'url' => '/admin/dashboard',
-            'icon' => 'fas fa-fw fa-home',
-        ],
-        ['header' => 'GESTIÓN'],
-        [
-            'text' => 'Usuarios',
-            'icon' => 'fas fa-fw fa-users',
-            'can' => 'ver usuarios',
-            'submenu' => [
-                [
-                    'text' => 'Registrar Usuario',
-                    'url' => '/admin/usuarios/create',
-                    'icon' => 'fas fa-fw fa-user-plus',
-                    'can' => 'crear usuarios',
-                ],
-                [
-                    'text' => 'Lista de Usuarios',
-                    'url' => '/admin/usuarios',
-                    'icon' => 'fas fa-fw fa-list',
-                    'can' => 'ver usuarios',
-                ],
+    ['header' => 'MENÚ PRINCIPAL'],
+    [
+        'text' => 'Dashboard',
+        'url' => '/admin/dashboard',
+        'icon' => 'fas fa-fw fa-home',
+    ],
+    ['header' => 'GESTIÓN'],
+    [
+        'text' => 'Usuarios',
+        'icon' => 'fas fa-fw fa-users',
+        'can' => 'ver usuarios',
+        'submenu' => [
+            [
+                'text' => 'Registrar Usuario',
+                'url' => '/admin/usuarios/create',
+                'icon' => 'fas fa-fw fa-user-plus',
+                'can' => 'crear usuarios',
+            ],
+            [
+                'text' => 'Lista de Usuarios',
+                'url' => '/admin/usuarios',
+                'icon' => 'fas fa-fw fa-list',
+                'can' => 'ver usuarios',
             ],
         ],
-        [
-            'text' => 'Productos',
-            'icon' => 'fas fa-fw fa-box',
-            'can' => 'gestionar productos',
-            'url' => '/admin/productos',
-        ],
-        [
-            'text' => 'Reportes',
-            'icon' => 'fas fa-fw fa-chart-bar',
-            'can' => 'ver reportes',
-            'url' => '/admin/reportes',
+    ],
+    [
+        'text' => 'Productos',
+        'icon' => 'fas fa-fw fa-box',
+        'can' => 'gestionar productos',
+        'submenu' => [
+            [
+                'text' => 'Nuevo Producto',
+                'url' => '/admin/productos/create',
+                'icon' => 'fas fa-fw fa-plus',
+                'can' => 'gestionar productos',
+            ],
+            [
+                'text' => 'Lista de Productos',
+                'url' => '/admin/productos',
+                'icon' => 'fas fa-fw fa-list',
+                'can' => 'gestionar productos',
+            ],
         ],
     ],
+    [
+        'text' => 'Reportes',
+        'icon' => 'fas fa-fw fa-chart-bar',
+        'can' => 'ver reportes',
+        'url' => '/admin/reportes',
+    ],
+],
 
     'filters' => [
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\EmployeeLoginController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return redirect()->route('admin.login');
@@ -24,6 +25,11 @@ Route::prefix('admin')->group(function () {
         Route::resource('usuarios', ClientController::class)
             ->names('admin.usuarios')
             ->middleware('permission:ver usuarios');
+        
+        // CRUD Productos con permiso
+        Route::resource('productos', ProductController::class)
+            ->names('admin.productos')
+            ->middleware('permission:gestionar productos');
     });
 });
 
@@ -42,5 +48,10 @@ Route::prefix('employee')->group(function () {
         Route::resource('usuarios', ClientController::class)
             ->names('employee.usuarios')
             ->middleware('permission:ver usuarios');
+        
+        // CRUD Productos para empleado con permiso
+        Route::resource('productos', ProductController::class)
+            ->names('employee.productos')
+            ->middleware('permission:gestionar productos');
     });
 });
