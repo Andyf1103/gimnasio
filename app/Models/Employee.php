@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Authenticatable
 {
@@ -18,6 +19,7 @@ class Employee extends Authenticatable
         'telefono',
         'correo',
         'contrasena',
+        'role_id',
         'estado',
     ];
 
@@ -28,5 +30,10 @@ class Employee extends Authenticatable
     public function getAuthPassword()
     {
         return $this->contrasena;
+    }
+
+    public function sales(): HasMany
+    {
+        return $this->hasMany(Sale::class);
     }
 }

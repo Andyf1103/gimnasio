@@ -108,7 +108,7 @@ return [
     'laravel_css_path' => 'css/app.css',
     'laravel_js_path' => 'js/app.js',
 
-    'menu' => [
+'menu' => [
     ['header' => 'MENÚ PRINCIPAL'],
     [
         'text' => 'Dashboard',
@@ -151,6 +151,22 @@ return [
                 'url' => '/admin/productos',
                 'icon' => 'fas fa-fw fa-list',
                 'can' => 'gestionar productos',
+            ],
+        ],
+    ],
+    [
+        'text' => 'Empleados',
+        'icon' => 'fas fa-fw fa-user-tie',
+        'submenu' => [
+            [
+                'text' => 'Nuevo Empleado',
+                'url' => '/admin/empleados/create',
+                'icon' => 'fas fa-fw fa-plus',
+            ],
+            [
+                'text' => 'Lista de Empleados',
+                'url' => '/admin/empleados',
+                'icon' => 'fas fa-fw fa-list',
             ],
         ],
     ],
