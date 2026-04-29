@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PlanTypeController;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\SaleController;
 
 // Redirigir raíz al login
 Route::get('/', function () {
@@ -44,6 +45,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::resource('membresias', MembershipController::class)
         ->names('admin.membresias')
         ->parameters(['membresias' => 'membresium']);
+    
+    Route::resource('ventas', SaleController::class)
+        ->names('admin.ventas')
+        ->parameters(['ventas' => 'venta']);
 });
 
 // Employee
@@ -63,4 +68,8 @@ Route::middleware('auth:employee')->prefix('employee')->group(function () {
     Route::resource('membresias', MembershipController::class)
         ->names('employee.membresias')
         ->parameters(['membresias' => 'membresium']);
+    
+    Route::resource('ventas', SaleController::class)
+        ->names('employee.ventas')
+        ->parameters(['ventas' => 'venta']);
 });

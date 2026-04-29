@@ -105,7 +105,7 @@ return [
     'laravel_css_path' => 'css/app.css',
     'laravel_js_path' => 'js/app.js',
 
- 'menu' => [
+'menu' => [
     ['header' => 'MENÚ PRINCIPAL'],
     [
         'text' => 'Dashboard',
@@ -146,10 +146,10 @@ return [
         ],
     ],
     [
-    'text' => 'Membresías',
-    'icon' => 'fas fa-fw fa-id-card',
-    'url' => '/admin/membresias',
-],
+        'text' => 'Membresías',
+        'icon' => 'fas fa-fw fa-id-card',
+        'url' => '/admin/membresias',
+    ],
     [
         'text' => 'Productos',
         'icon' => 'fas fa-fw fa-box',
@@ -162,6 +162,22 @@ return [
             [
                 'text' => 'Lista de Productos',
                 'url' => '/admin/productos',
+                'icon' => 'fas fa-fw fa-list',
+            ],
+        ],
+    ],
+    [
+        'text' => 'Ventas',
+        'icon' => 'fas fa-fw fa-shopping-cart',
+        'submenu' => [
+            [
+                'text' => 'Nueva Venta',
+                'url' => '/admin/ventas/create',
+                'icon' => 'fas fa-fw fa-plus',
+            ],
+            [
+                'text' => 'Lista de Ventas',
+                'url' => '/admin/ventas',
                 'icon' => 'fas fa-fw fa-list',
             ],
         ],

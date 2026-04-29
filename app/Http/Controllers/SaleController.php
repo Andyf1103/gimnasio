@@ -2,9 +2,90 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sale;
+use App\Models\SaleDetail;
+use App\Models\Product;
+use App\Models\Client;
+use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
-    //
+    public function index()
+    {
+        $ventas = Sale::with(['client', 'employee', 'paymentMethod'])
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        return view('admin.ventas.index', compact('ventas'));
+    }
+
+    public function create()
+    {
+        $productos = Product::where('stock', '>', 0)->orderBy('nombre')->get();
+        $clientes = Client::orderBy('nombre')->get();
+        $metodos = PaymentMethod::all();
+        return view('admin.ventas.create', compact('productos', 'clientes', 'metodos'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'client_id' => 'nullable|exists:clients,id',
+            'payment_method_id' => 'required|exists:payment_methods,id',
+            'productos' => 'required|array|min:1',
+            'productos.*.id' => 'required|exists:products,id',
+            'productos.*.cantidad' => 'required|integer|min:1',
+        ]);
+
+        $total = 0;
+        $detalles = [];
+
+        foreach ($request->productos as $item) {
+            $producto = Product::find($item['id']);
+            $subtotal = $producto->precio_venta * $item['cantidad'];
+            $total += $subtotal;
+
+            $detalles[] = new SaleDetail([
+                'product_id' => $producto->id,
+                'cantidad' => $item['cantidad'],
+                'precio_unitario' => $producto->precio_venta,
+                'subtotal' => $subtotal,
+            ]);
+
+            // Descontar stock
+            $producto->decrement('stock', $item['cantidad']);
+        }
+
+        $venta = Sale::create([
+            'client_id' => $request->client_id,
+            'employee_id' => Auth::guard('employee')->check() ? Auth::guard('employee')->id() : null,
+            'payment_method_id' => $request->payment_method_id,
+            'total' => $total,
+        ]);
+
+        $venta->saleDetails()->saveMany($detalles);
+
+        return redirect()->route('admin.ventas.index')
+            ->with('success', 'Venta registrada correctamente. Total: Bs ' . number_format($total, 2));
+    }
+
+    public function show(Sale $venta)
+    {
+        $venta->load(['client', 'employee', 'paymentMethod', 'saleDetails.product']);
+        return view('admin.ventas.show', compact('venta'));
+    }
+
+    public function destroy(Sale $venta)
+    {
+        // Reponer stock
+        foreach ($venta->saleDetails as $detalle) {
+            $detalle->product->increment('stock', $detalle->cantidad);
+        }
+
+        $venta->delete();
+
+        return redirect()->route('admin.ventas.index')
+            ->with('success', 'Venta eliminada correctamente.');
+    }
 }
