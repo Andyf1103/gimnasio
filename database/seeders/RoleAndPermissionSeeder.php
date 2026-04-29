@@ -12,28 +12,78 @@ class RoleAndPermissionSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Permisos para admin
-        Permission::create(['name' => 'crear usuarios', 'guard_name' => 'admin']);
-        Permission::create(['name' => 'editar usuarios', 'guard_name' => 'admin']);
-        Permission::create(['name' => 'eliminar usuarios', 'guard_name' => 'admin']);
-        Permission::create(['name' => 'ver usuarios', 'guard_name' => 'admin']);
-        Permission::create(['name' => 'gestionar productos', 'guard_name' => 'admin']);
-        Permission::create(['name' => 'ver reportes', 'guard_name' => 'admin']);
-        Permission::create(['name' => 'gestionar caja', 'guard_name' => 'admin']);
+        $todosLosPermisos = [
+            // Usuarios (Clientes)
+            'crear usuarios',
+            'editar usuarios',
+            'eliminar usuarios',
+            'ver usuarios',
+            // Control de usuarios (peso, talla)
+            'crear control usuarios',
+            'editar control usuarios',
+            'eliminar control usuarios',
+            'ver control usuarios',
+            // Productos
+            'crear productos',
+            'editar productos',
+            'eliminar productos',
+            'ver productos',
+            // Empleados
+            'crear empleados',
+            'editar empleados',
+            'eliminar empleados',
+            'ver empleados',
+            // Planes
+            'crear planes',
+            'editar planes',
+            'eliminar planes',
+            'ver planes',
+            // Membresías
+            'crear membresias',
+            'editar membresias',
+            'eliminar membresias',
+            'ver membresias',
+            // Ventas
+            'crear ventas',
+            'ver ventas',
+            'eliminar ventas',
+            // Caja
+            'gestionar caja',
+            'ver caja',
+            // Reportes
+            'ver reportes',
+            // Roles y permisos
+            'gestionar roles',
+        ];
 
-        // Permisos para empleados
-        Permission::create(['name' => 'crear usuarios', 'guard_name' => 'employee']);
-        Permission::create(['name' => 'editar usuarios', 'guard_name' => 'employee']);
-        Permission::create(['name' => 'ver usuarios', 'guard_name' => 'employee']);
-        Permission::create(['name' => 'gestionar productos', 'guard_name' => 'employee']);
-        Permission::create(['name' => 'gestionar caja', 'guard_name' => 'employee']);
+        foreach ($todosLosPermisos as $permiso) {
+            Permission::firstOrCreate(['name' => $permiso, 'guard_name' => 'admin']);
+            Permission::firstOrCreate(['name' => $permiso, 'guard_name' => 'employee']);
+        }
 
-        // Rol Admin
-        $admin = Role::create(['name' => 'Administrador', 'guard_name' => 'admin']);
-        $admin->givePermissionTo(Permission::where('guard_name', 'admin')->get());
+        // Rol Admin - Todos los permisos
+        $admin = Role::firstOrCreate(['name' => 'Administrador', 'guard_name' => 'admin']);
+        $admin->syncPermissions(Permission::where('guard_name', 'admin')->get());
 
-        // Rol Recepcionista
-        $recepcionista = Role::create(['name' => 'Recepcionista', 'guard_name' => 'employee']);
-        $recepcionista->givePermissionTo(Permission::where('guard_name', 'employee')->get());
+        // Rol Recepcionista - Permisos limitados
+        $recepcionista = Role::firstOrCreate(['name' => 'Recepcionista', 'guard_name' => 'employee']);
+        $recepcionista->syncPermissions([
+            'crear usuarios',
+            'editar usuarios',
+            'ver usuarios',
+            'ver control usuarios',
+            'crear control usuarios',
+            'editar control usuarios',
+            'ver productos',
+            'crear planes',
+            'ver planes',
+            'crear membresias',
+            'editar membresias',
+            'ver membresias',
+            'crear ventas',
+            'ver ventas',
+            'gestionar caja',
+            'ver caja',
+        ]);
     }
 }

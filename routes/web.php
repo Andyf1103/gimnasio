@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\UnifiedLoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\RoleController;
 
 // Redirigir raíz al login
 Route::get('/', function () {
@@ -31,6 +32,8 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
         ->middleware('permission:gestionar productos');
     
     Route::resource('empleados', EmployeeController::class)->names('admin.empleados');
+    
+    Route::resource('roles', RoleController::class)->names('admin.roles');
 });
 
 // Employee
