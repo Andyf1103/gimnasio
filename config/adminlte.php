@@ -146,6 +146,22 @@ return [
         ],
     ],
     [
+        'text' => 'Membresías',
+        'icon' => 'fas fa-fw fa-id-card',
+        'submenu' => [
+            [
+                'text' => 'Nueva Membresía',
+                'url' => '/admin/membresias/create',
+                'icon' => 'fas fa-fw fa-plus',
+            ],
+            [
+                'text' => 'Lista de Membresías',
+                'url' => '/admin/membresias',
+                'icon' => 'fas fa-fw fa-list',
+            ],
+        ],
+    ],
+    [
         'text' => 'Productos',
         'icon' => 'fas fa-fw fa-box',
         'submenu' => [

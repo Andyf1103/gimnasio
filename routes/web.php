@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PlanTypeController;
+use App\Http\Controllers\MembershipController;
 
 // Redirigir raíz al login
 Route::get('/', function () {
@@ -39,6 +40,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::resource('planes', PlanTypeController::class)
         ->names('admin.planes')
         ->parameters(['planes' => 'plan']);
+    
+    Route::resource('membresias', MembershipController::class)
+        ->names('admin.membresias')
+        ->parameters(['membresias' => 'membresium']);
 });
 
 // Employee
@@ -54,4 +59,8 @@ Route::middleware('auth:employee')->prefix('employee')->group(function () {
     Route::resource('productos', ProductController::class)
         ->names('employee.productos')
         ->middleware('permission:gestionar productos');
+    
+    Route::resource('membresias', MembershipController::class)
+        ->names('employee.membresias')
+        ->parameters(['membresias' => 'membresium']);
 });
