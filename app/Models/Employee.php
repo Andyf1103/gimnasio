@@ -36,4 +36,19 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(Sale::class);
     }
+
+    public function adminlte_image()
+    {
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->correo)) . '?d=mp';
+    }
+
+    public function adminlte_desc()
+    {
+        return $this->getRoleNames()->first() ?? 'Empleado';
+    }
+
+    public function adminlte_profile_url()
+    {
+        return '#';
+    }
 }

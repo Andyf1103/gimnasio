@@ -15,20 +15,10 @@ class EmployeeLoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'correo' => 'required',
-            'contrasena' => 'required',
-        ]);
-
-        if (Auth::guard('employee')->attempt([
+        dd(Auth::guard('employee')->attempt([
             'correo' => $request->correo,
             'password' => $request->contrasena,
-        ])) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('employee.dashboard'));
-        }
-
-        return back()->withErrors(['correo' => 'Credenciales incorrectas.'])->onlyInput('correo');
+        ]));
     }
 
     public function logout(Request $request)

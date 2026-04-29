@@ -45,10 +45,7 @@ return [
 
     'usermenu_enabled' => true,
     'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
     'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
 
     'layout_topnav' => null,
     'layout_boxed' => null,
@@ -94,10 +91,10 @@ return [
     'right_sidebar_scrollbar_theme' => 'os-theme-light',
     'right_sidebar_scrollbar_auto_hide' => 'l',
 
-    'use_route_url' => true,
-    'dashboard_url' => 'admin.dashboard',
-    'logout_url' => 'admin.logout',
-    'login_url' => 'admin.login',
+    'use_route_url' => false,
+    'dashboard_url' => '/admin/dashboard',
+    'logout_url' => '/logout',
+    'login_url' => '/login',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
@@ -108,75 +105,63 @@ return [
     'laravel_css_path' => 'css/app.css',
     'laravel_js_path' => 'js/app.js',
 
-'menu' => [
-    ['header' => 'MENÚ PRINCIPAL'],
-    [
-        'text' => 'Dashboard',
-        'url' => '/admin/dashboard',
-        'icon' => 'fas fa-fw fa-home',
-    ],
-    ['header' => 'GESTIÓN'],
-    [
-        'text' => 'Usuarios',
-        'icon' => 'fas fa-fw fa-users',
-        'can' => 'ver usuarios',
-        'submenu' => [
-            [
-                'text' => 'Registrar Usuario',
-                'url' => '/admin/usuarios/create',
-                'icon' => 'fas fa-fw fa-user-plus',
-                'can' => 'crear usuarios',
+    'menu' => [
+        ['header' => 'MENÚ PRINCIPAL'],
+        [
+            'text' => 'Dashboard',
+            'url' => '/admin/dashboard',
+            'icon' => 'fas fa-fw fa-home',
+        ],
+        ['header' => 'GESTIÓN'],
+        [
+            'text' => 'Usuarios',
+            'icon' => 'fas fa-fw fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Registrar Usuario',
+                    'url' => '/admin/usuarios/create',
+                    'icon' => 'fas fa-fw fa-user-plus',
+                ],
+                [
+                    'text' => 'Lista de Usuarios',
+                    'url' => '/admin/usuarios',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
             ],
-            [
-                'text' => 'Lista de Usuarios',
-                'url' => '/admin/usuarios',
-                'icon' => 'fas fa-fw fa-list',
-                'can' => 'ver usuarios',
+        ],
+        [
+            'text' => 'Productos',
+            'icon' => 'fas fa-fw fa-box',
+            'submenu' => [
+                [
+                    'text' => 'Nuevo Producto',
+                    'url' => '/admin/productos/create',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
+                    'text' => 'Lista de Productos',
+                    'url' => '/admin/productos',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Empleados',
+            'icon' => 'fas fa-fw fa-user-tie',
+            'submenu' => [
+                [
+                    'text' => 'Nuevo Empleado',
+                    'url' => '/admin/empleados/create',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
+                    'text' => 'Lista de Empleados',
+                    'url' => '/admin/empleados',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
             ],
         ],
     ],
-    [
-        'text' => 'Productos',
-        'icon' => 'fas fa-fw fa-box',
-        'can' => 'gestionar productos',
-        'submenu' => [
-            [
-                'text' => 'Nuevo Producto',
-                'url' => '/admin/productos/create',
-                'icon' => 'fas fa-fw fa-plus',
-                'can' => 'gestionar productos',
-            ],
-            [
-                'text' => 'Lista de Productos',
-                'url' => '/admin/productos',
-                'icon' => 'fas fa-fw fa-list',
-                'can' => 'gestionar productos',
-            ],
-        ],
-    ],
-    [
-        'text' => 'Empleados',
-        'icon' => 'fas fa-fw fa-user-tie',
-        'submenu' => [
-            [
-                'text' => 'Nuevo Empleado',
-                'url' => '/admin/empleados/create',
-                'icon' => 'fas fa-fw fa-plus',
-            ],
-            [
-                'text' => 'Lista de Empleados',
-                'url' => '/admin/empleados',
-                'icon' => 'fas fa-fw fa-list',
-            ],
-        ],
-    ],
-    [
-        'text' => 'Reportes',
-        'icon' => 'fas fa-fw fa-chart-bar',
-        'can' => 'ver reportes',
-        'url' => '/admin/reportes',
-    ],
-],
 
     'filters' => [
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
