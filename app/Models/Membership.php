@@ -3,8 +3,42 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Membership extends Model
 {
-    //
+    protected $table = 'memberships';
+    
+    protected $fillable = [
+        'client_id',
+        'plan_type_id',
+        'payment_method_id',
+        'fecha_inicio',
+        'fecha_final',
+        'monto_total',
+        'saldo',
+        'estado',
+    ];
+
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_final' => 'date',
+        'creado_en' => 'datetime',
+    ];
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function planType(): BelongsTo
+    {
+        return $this->belongsTo(PlanType::class);
+    }
+
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
 }

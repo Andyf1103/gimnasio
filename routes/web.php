@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\EmployeeLoginController;
-
+use App\Http\Controllers\ClientController;
 
 Route::get('/', function () {
     return redirect()->route('admin.login');
@@ -19,6 +19,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', function () {
             return view('admin/dashboard');
         })->name('admin.dashboard');
+        
+        // CRUD Usuarios con permiso
+        Route::resource('usuarios', ClientController::class)
+            ->names('admin.usuarios')
+            ->middleware('permission:ver usuarios');
     });
 });
 
@@ -32,5 +37,10 @@ Route::prefix('employee')->group(function () {
         Route::get('/dashboard', function () {
             return view('employee.dashboard');
         })->name('employee.dashboard');
+        
+        // CRUD Usuarios para empleado con permiso
+        Route::resource('usuarios', ClientController::class)
+            ->names('employee.usuarios')
+            ->middleware('permission:ver usuarios');
     });
 });

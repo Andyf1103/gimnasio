@@ -115,6 +115,38 @@ return [
             'url' => '/admin/dashboard',
             'icon' => 'fas fa-fw fa-home',
         ],
+        ['header' => 'GESTIÓN'],
+        [
+            'text' => 'Usuarios',
+            'icon' => 'fas fa-fw fa-users',
+            'can' => 'ver usuarios',
+            'submenu' => [
+                [
+                    'text' => 'Registrar Usuario',
+                    'url' => '/admin/usuarios/create',
+                    'icon' => 'fas fa-fw fa-user-plus',
+                    'can' => 'crear usuarios',
+                ],
+                [
+                    'text' => 'Lista de Usuarios',
+                    'url' => '/admin/usuarios',
+                    'icon' => 'fas fa-fw fa-list',
+                    'can' => 'ver usuarios',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Productos',
+            'icon' => 'fas fa-fw fa-box',
+            'can' => 'gestionar productos',
+            'url' => '/admin/productos',
+        ],
+        [
+            'text' => 'Reportes',
+            'icon' => 'fas fa-fw fa-chart-bar',
+            'can' => 'ver reportes',
+            'url' => '/admin/reportes',
+        ],
     ],
 
     'filters' => [
