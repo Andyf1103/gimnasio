@@ -105,7 +105,7 @@ return [
     'laravel_css_path' => 'css/app.css',
     'laravel_js_path' => 'js/app.js',
 
-    'menu' => [
+ 'menu' => [
     ['header' => 'MENÚ PRINCIPAL'],
     [
         'text' => 'Dashboard',
@@ -125,6 +125,22 @@ return [
             [
                 'text' => 'Lista de Usuarios',
                 'url' => '/admin/usuarios',
+                'icon' => 'fas fa-fw fa-list',
+            ],
+        ],
+    ],
+    [
+        'text' => 'Planes',
+        'icon' => 'fas fa-fw fa-tag',
+        'submenu' => [
+            [
+                'text' => 'Nuevo Plan',
+                'url' => '/admin/planes/create',
+                'icon' => 'fas fa-fw fa-plus',
+            ],
+            [
+                'text' => 'Lista de Planes',
+                'url' => '/admin/planes',
                 'icon' => 'fas fa-fw fa-list',
             ],
         ],

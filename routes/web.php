@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PlanTypeController;
 
 // Redirigir raíz al login
 Route::get('/', function () {
@@ -34,6 +35,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::resource('empleados', EmployeeController::class)->names('admin.empleados');
     
     Route::resource('roles', RoleController::class)->names('admin.roles');
+    
+    Route::resource('planes', PlanTypeController::class)
+        ->names('admin.planes')
+        ->parameters(['planes' => 'plan']);
 });
 
 // Employee
