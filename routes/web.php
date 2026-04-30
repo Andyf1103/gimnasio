@@ -12,6 +12,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ClientControlController;
 use App\Http\Controllers\DailyReportController;
+use App\Http\Controllers\DashboardController;
 
 // Redirigir raíz al login
 Route::get('/', function () {
@@ -23,40 +24,26 @@ Route::get('/login', [UnifiedLoginController::class, 'showLoginForm'])->name('lo
 Route::post('/login', [UnifiedLoginController::class, 'login'])->name('login.submit');
 Route::post('/logout', [UnifiedLoginController::class, 'logout'])->name('logout');
 
-// Admin
+// Admin - Acceso total sin restricciones de permisos
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin/dashboard');
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
     
-    Route::resource('usuarios', ClientController::class)
-        ->names('admin.usuarios')
-        ->middleware('permission:ver usuarios');
-    
-    Route::resource('productos', ProductController::class)
-        ->names('admin.productos')
-        ->middleware('permission:gestionar productos');
-    
+    Route::resource('usuarios', ClientController::class)->names('admin.usuarios');
+    Route::resource('productos', ProductController::class)->names('admin.productos');
     Route::resource('empleados', EmployeeController::class)->names('admin.empleados');
-    
     Route::resource('roles', RoleController::class)->names('admin.roles');
-    
     Route::resource('planes', PlanTypeController::class)
         ->names('admin.planes')
         ->parameters(['planes' => 'plan']);
-    
     Route::resource('membresias', MembershipController::class)
         ->names('admin.membresias')
         ->parameters(['membresias' => 'membresium']);
-    
     Route::resource('ventas', SaleController::class)
         ->names('admin.ventas')
         ->parameters(['ventas' => 'venta']);
-    
     Route::resource('metodos_pago', PaymentMethodController::class)
         ->names('admin.metodos_pago')
         ->parameters(['metodos_pago' => 'metodo']);
-    
     Route::resource('controles', ClientControlController::class)
         ->names('admin.controles')
         ->parameters(['controles' => 'control']);
@@ -65,7 +52,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/reportes/exportar', [DailyReportController::class, 'exportar'])->name('admin.reportes.exportar');
 });
 
-// Employee
+// Employee - Con restricciones de permisos
 Route::middleware('auth:employee')->prefix('employee')->group(function () {
     Route::get('/dashboard', function () {
         return view('employee.dashboard');
@@ -77,7 +64,7 @@ Route::middleware('auth:employee')->prefix('employee')->group(function () {
     
     Route::resource('productos', ProductController::class)
         ->names('employee.productos')
-        ->middleware('permission:gestionar productos');
+        ->middleware('permission:ver productos');
     
     Route::resource('membresias', MembershipController::class)
         ->names('employee.membresias')

@@ -7,5 +7,121 @@
 @stop
 
 @section('content')
-    <p>Bienvenido, {{ Auth::guard('admin')->user()->nombre }}.</p>
+    <p>Bienvenido, <strong>{{ Auth::guard('admin')->user()->nombre }}</strong>.</p>
+
+    <div class="row">
+        {{-- Usuarios Activos --}}
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ $usuariosActivos }}</h3>
+                    <p>Usuarios Activos</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+        </div>
+
+        {{-- Ingresos del Día --}}
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>Bs {{ number_format($ingresosDia, 2) }}</h3>
+                    <p>Ingresos del Día</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-money-bill"></i>
+                </div>
+            </div>
+        </div>
+
+        {{-- Productos Bajo Stock --}}
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ $productosBajoStock->count() }}</h3>
+                    <p>Productos Bajo Stock</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-box"></i>
+                </div>
+            </div>
+        </div>
+
+        {{-- Membresías por Vencer --}}
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ $membresiasPorVencer->count() }}</h3>
+                    <p>Membresías por Vencer</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {{-- Membresías por Vencer - Detalle --}}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Membresías por Vencer (7 días)</h3>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Plan</th>
+                                <th>Vence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($membresiasPorVencer as $m)
+                                <tr>
+                                    <td>{{ $m->client->nombre ?? 'N/A' }} {{ $m->client->apellido ?? '' }}</td>
+                                    <td>{{ $m->planType->nombre_plan ?? 'N/A' }}</td>
+                                    <td>{{ $m->fecha_final->format('d/m/Y') }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="3" class="text-center">Sin membresías por vencer.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {{-- Productos Bajo Stock - Detalle --}}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Productos con Bajo Stock</h3>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($productosBajoStock as $p)
+                                <tr>
+                                    <td>{{ $p->nombre }}</td>
+                                    <td>{{ $p->stock }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="2" class="text-center">Todo en orden.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop

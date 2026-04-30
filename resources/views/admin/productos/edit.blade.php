@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    @can('gestionar productos')
+    @if(auth('admin')->check() || auth('employee')->check())
     <div class="card">
         <div class="card-body">
             <form action="{{ route('admin.productos.update', $producto) }}" method="POST">
@@ -60,6 +60,6 @@
         </div>
     </div>
     @else
-        <div class="alert alert-danger">No tienes permiso para gestionar productos.</div>
-    @endcan
+        <div class="alert alert-danger">No tienes permiso.</div>
+    @endif
 @stop

@@ -9,11 +9,11 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            @can('gestionar productos')
+            @if(auth('admin')->check() || auth('employee')->check())
                 <a href="{{ route('admin.productos.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nuevo Producto
                 </a>
-            @endcan
+            @endif
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -36,9 +36,13 @@
                             <td>{{ $producto->id }}</td>
                             <td>{{ $producto->nombre }}</td>
                             <td>Bs {{ number_format($producto->precio_venta, 2) }}</td>
-                            <td>{{ $producto->stock }}</td>
                             <td>
-                                @can('gestionar productos')
+                                <span class="badge {{ $producto->stock <= 3 ? 'badge-danger' : 'badge-success' }}">
+                                    {{ $producto->stock }}
+                                </span>
+                            </td>
+                            <td>
+                                @if(auth('admin')->check() || auth('employee')->check())
                                     <a href="{{ route('admin.productos.edit', $producto) }}" class="btn btn-sm btn-warning">
                                         <i class="fas fa-edit"></i>
                                     </a>
@@ -49,7 +53,7 @@
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
-                                @endcan
+                                @endif
                             </td>
                         </tr>
                     @endforeach
