@@ -62,6 +62,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
         ->parameters(['controles' => 'control']);
     
     Route::get('/reportes/detalle', [DailyReportController::class, 'detalle'])->name('admin.reportes.detalle');
+    Route::get('/reportes/exportar', [DailyReportController::class, 'exportar'])->name('admin.reportes.exportar');
 });
 
 // Employee

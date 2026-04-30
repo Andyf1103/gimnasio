@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Membership;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use App\Exports\ReporteExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DailyReportController extends Controller
 {
@@ -41,5 +43,14 @@ class DailyReportController extends Controller
             ->get();
 
         return view('admin.reportes.detalle', compact('membresias', 'ventas', 'fechaInicio', 'fechaFin'));
+    }
+
+    public function exportar(Request $request)
+    {
+        $fechaInicio = $request->get('fecha_inicio', date('Y-m-d'));
+        $fechaFin = $request->get('fecha_fin', date('Y-m-d'));
+        $tipo = $request->get('tipo');
+
+        return Excel::download(new ReporteExport($fechaInicio, $fechaFin, $tipo), 'reporte.xlsx');
     }
 }
