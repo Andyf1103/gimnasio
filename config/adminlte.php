@@ -183,6 +183,11 @@ return [
         ],
     ],
     [
+        'text' => 'Control de Usuarios',
+        'icon' => 'fas fa-fw fa-weight',
+        'url' => '/admin/controles',
+    ],
+    [
         'text' => 'Empleados',
         'icon' => 'fas fa-fw fa-user-tie',
         'submenu' => [
