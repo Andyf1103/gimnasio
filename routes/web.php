@@ -54,9 +54,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
 // Employee - Con restricciones de permisos
 Route::middleware('auth:employee')->prefix('employee')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('employee.dashboard');
-    })->name('employee.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'employee'])->name('employee.dashboard');
     
     Route::resource('usuarios', ClientController::class)
         ->names('employee.usuarios')
