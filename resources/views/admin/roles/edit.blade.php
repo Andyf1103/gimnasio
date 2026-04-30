@@ -32,9 +32,9 @@
                         'Productos' => ['crear productos', 'editar productos', 'eliminar productos', 'ver productos'],
                         'Empleados' => ['crear empleados', 'editar empleados', 'eliminar empleados', 'ver empleados'],
                         'Planes' => ['crear planes', 'editar planes', 'eliminar planes', 'ver planes'],
-                        'Membresías' => ['crear membresias', 'editar membresias', 'eliminar membresias', 'ver membresias'],
+                        'Membresías' => ['editar membresias', 'ver membresias'],
                         'Ventas' => ['crear ventas', 'ver ventas', 'eliminar ventas'],
-                        'Caja' => ['gestionar caja', 'ver caja'],
+                        'Métodos de Pago' => ['crear metodos pago', 'editar metodos pago', 'eliminar metodos pago', 'ver metodos pago'],
                         'Reportes' => ['ver reportes'],
                         'Roles' => ['gestionar roles'],
                     ];
