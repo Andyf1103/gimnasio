@@ -10,7 +10,7 @@
     @can('crear usuarios')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.usuarios.store') }}" method="POST">
+            <form action="{{ route('admin.usuarios.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <h5>Datos del Usuario</h5>
@@ -52,7 +52,9 @@
                             <select name="payment_method_id" id="payment_method_id" class="form-control" required>
                                 <option value="">Seleccione</option>
                                 @foreach($metodos as $metodo)
-                                    <option value="{{ $metodo->id }}">{{ $metodo->nombre }}</option>
+                                    <option value="{{ $metodo->id }}" data-nombre="{{ $metodo->nombre }}">
+                                        {{ $metodo->nombre }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -84,6 +86,15 @@
                     </div>
                 </div>
 
+                <div class="form-group" id="grupoComprobante" style="display: none;">
+                    <label for="comprobante">Comprobante (QR)</label>
+                    <input type="file" name="comprobante" id="comprobante" 
+                           class="form-control @error('comprobante') is-invalid @enderror">
+                    @error('comprobante')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <button type="submit" class="btn btn-primary mt-3">
                     <i class="fas fa-save"></i> Guardar
                 </button>
@@ -96,4 +107,18 @@
     @else
         <div class="alert alert-danger">No tienes permiso para registrar usuarios.</div>
     @endcan
+@stop
+
+@section('js')
+<script>
+    $('#payment_method_id').on('change', function() {
+        let nombre = $(this).find(':selected').data('nombre');
+        if (nombre && nombre.toLowerCase() === 'qr') {
+            $('#grupoComprobante').show();
+        } else {
+            $('#grupoComprobante').hide();
+            $('#comprobante').val('');
+        }
+    });
+</script>
 @stop

@@ -36,6 +36,7 @@ class SaleController extends Controller
             'productos' => 'required|array|min:1',
             'productos.*.id' => 'required|exists:products,id',
             'productos.*.cantidad' => 'required|integer|min:1',
+            'comprobante' => 'nullable|image|max:2048',
         ]);
 
         $total = 0;
@@ -53,8 +54,13 @@ class SaleController extends Controller
                 'subtotal' => $subtotal,
             ]);
 
-            // Descontar stock
             $producto->decrement('stock', $item['cantidad']);
+        }
+
+        $rutaComprobante = null;
+        $metodo = PaymentMethod::find($request->payment_method_id);
+        if ($metodo && strtolower($metodo->nombre) == 'qr' && $request->hasFile('comprobante')) {
+            $rutaComprobante = $request->file('comprobante')->store('comprobantes', 'public');
         }
 
         $venta = Sale::create([
@@ -62,6 +68,7 @@ class SaleController extends Controller
             'employee_id' => Auth::guard('employee')->check() ? Auth::guard('employee')->id() : null,
             'payment_method_id' => $request->payment_method_id,
             'total' => $total,
+            'comprobante' => $rutaComprobante,
         ]);
 
         $venta->saleDetails()->saveMany($detalles);
@@ -78,7 +85,6 @@ class SaleController extends Controller
 
     public function destroy(Sale $venta)
     {
-        // Reponer stock
         foreach ($venta->saleDetails as $detalle) {
             $detalle->product->increment('stock', $detalle->cantidad);
         }

@@ -35,10 +35,17 @@ class MembershipController extends Controller
             'fecha_inicio' => 'required|date',
             'monto_total' => 'required|numeric|min:0',
             'saldo' => 'required|numeric|min:0',
+            'comprobante' => 'nullable|image|max:2048',
         ]);
 
         $plan = PlanType::find($request->plan_type_id);
         $fecha_final = date('Y-m-d', strtotime($request->fecha_inicio . ' + ' . $plan->duracion_dias . ' days'));
+
+        $rutaComprobante = null;
+        $metodo = PaymentMethod::find($request->payment_method_id);
+        if ($metodo && strtolower($metodo->nombre) == 'qr' && $request->hasFile('comprobante')) {
+            $rutaComprobante = $request->file('comprobante')->store('comprobantes', 'public');
+        }
 
         Membership::create([
             'client_id' => $request->client_id,
@@ -48,6 +55,7 @@ class MembershipController extends Controller
             'fecha_final' => $fecha_final,
             'monto_total' => $request->monto_total,
             'saldo' => $request->saldo,
+            'comprobante' => $rutaComprobante,
         ]);
 
         return redirect()->route('admin.membresias.index')
@@ -79,9 +87,19 @@ class MembershipController extends Controller
             'monto_total' => 'required|numeric|min:0',
             'saldo' => 'required|numeric|min:0',
             'estado' => 'required|in:activa,vencida,congelada,cancelada',
+            'comprobante' => 'nullable|image|max:2048',
         ]);
 
-        $membresium->update($request->all());
+        $data = $request->except('comprobante');
+
+        $metodo = PaymentMethod::find($request->payment_method_id);
+        if ($request->hasFile('comprobante')) {
+            $data['comprobante'] = $request->file('comprobante')->store('comprobantes', 'public');
+        } elseif (strtolower($metodo->nombre ?? '') != 'qr') {
+            $data['comprobante'] = null;
+        }
+
+        $membresium->update($data);
 
         return redirect()->route('admin.membresias.index')
             ->with('success', 'Membresía actualizada correctamente.');

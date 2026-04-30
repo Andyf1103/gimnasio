@@ -9,7 +9,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.membresias.update', $membresium) }}" method="POST">
+            <form action="{{ route('admin.membresias.update', $membresium) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
@@ -52,7 +52,8 @@
                             <label for="payment_method_id">Método de Pago *</label>
                             <select name="payment_method_id" id="payment_method_id" class="form-control" required>
                                 @foreach($metodos as $metodo)
-                                    <option value="{{ $metodo->id }}" {{ old('payment_method_id', $membresium->payment_method_id) == $metodo->id ? 'selected' : '' }}>
+                                    <option value="{{ $metodo->id }}" data-nombre="{{ $metodo->nombre }}"
+                                        {{ old('payment_method_id', $membresium->payment_method_id) == $metodo->id ? 'selected' : '' }}>
                                         {{ $metodo->nombre }}
                                     </option>
                                 @endforeach
@@ -125,6 +126,20 @@
                     </div>
                 </div>
 
+                <div class="form-group" id="grupoComprobante" style="display: {{ strtolower($membresium->paymentMethod->nombre ?? '') == 'qr' ? 'block' : 'none' }};">
+                    <label for="comprobante">Comprobante (QR)</label>
+                    @if($membresium->comprobante)
+                        <br>
+                        <a href="{{ asset('storage/' . $membresium->comprobante) }}" target="_blank">Ver comprobante actual</a>
+                    @endif
+                    <input type="file" name="comprobante" id="comprobante" 
+                           class="form-control @error('comprobante') is-invalid @enderror">
+                    <small>Dejar vacío para mantener el actual.</small>
+                    @error('comprobante')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <button type="submit" class="btn btn-primary mt-3">
                     <i class="fas fa-save"></i> Actualizar
                 </button>
@@ -134,4 +149,18 @@
             </form>
         </div>
     </div>
+@stop
+
+@section('js')
+<script>
+    $('#payment_method_id').on('change', function() {
+        let nombre = $(this).find(':selected').data('nombre');
+        if (nombre && nombre.toLowerCase() === 'qr') {
+            $('#grupoComprobante').show();
+        } else {
+            $('#grupoComprobante').hide();
+            $('#comprobante').val('');
+        }
+    });
+</script>
 @stop

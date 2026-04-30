@@ -16,6 +16,11 @@
                     <p><strong>Método de Pago:</strong> {{ $venta->paymentMethod->nombre ?? 'N/A' }}</p>
                     <p><strong>Fecha:</strong> {{ $venta->created_at->format('d/m/Y H:i') }}</p>
                     <p><strong>Total:</strong> <strong>Bs {{ number_format($venta->total, 2) }}</strong></p>
+                    @if($venta->comprobante)
+                        <p><strong>Comprobante:</strong> 
+                            <a href="{{ asset('storage/' . $venta->comprobante) }}" target="_blank">Ver comprobante</a>
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>

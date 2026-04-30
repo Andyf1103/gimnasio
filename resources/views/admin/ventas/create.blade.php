@@ -72,7 +72,7 @@
                     <h3 class="card-title">Datos de la Venta</h3>
                 </div>
                 <div class="card-body">
-                    <form id="formVenta" action="{{ route('admin.ventas.store') }}" method="POST">
+                    <form id="formVenta" action="{{ route('admin.ventas.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         
                         <div id="productosContainer"></div>
@@ -94,9 +94,20 @@
                             <select name="payment_method_id" id="payment_method_id" class="form-control" required>
                                 <option value="">Seleccione</option>
                                 @foreach($metodos as $metodo)
-                                    <option value="{{ $metodo->id }}">{{ $metodo->nombre }}</option>
+                                    <option value="{{ $metodo->id }}" data-nombre="{{ $metodo->nombre }}">
+                                        {{ $metodo->nombre }}
+                                    </option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <div class="form-group" id="grupoComprobante" style="display: none;">
+                            <label for="comprobante">Comprobante (QR)</label>
+                            <input type="file" name="comprobante" id="comprobante" 
+                                   class="form-control @error('comprobante') is-invalid @enderror">
+                            @error('comprobante')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block">
@@ -112,6 +123,17 @@
 @section('js')
 <script>
     let contador = 0;
+
+    // Mostrar/ocultar comprobante según método de pago
+    $('#payment_method_id').on('change', function() {
+        let nombre = $(this).find(':selected').data('nombre');
+        if (nombre && nombre.toLowerCase() === 'qr') {
+            $('#grupoComprobante').show();
+        } else {
+            $('#grupoComprobante').hide();
+            $('#comprobante').val('');
+        }
+    });
 
     $('#btnAgregar').click(function() {
         let select = $('#producto_id');
@@ -147,13 +169,11 @@
 
         $('#tablaCarrito tbody').append(fila);
 
-        // Hidden inputs
         $('#productosContainer').append(`
             <input type="hidden" name="productos[${contador}][id]" value="${id}">
             <input type="hidden" name="productos[${contador}][cantidad]" value="${cantidad}">
         `);
 
-        // Reset
         $('#producto_id').val('');
         $('#cantidad').val(1);
 
@@ -164,7 +184,6 @@
         let fila = $(this).closest('tr');
         let index = fila.index();
 
-        // Remover hidden inputs
         $('#productosContainer input').eq(index - 1).remove();
         $('#productosContainer input').eq(index - 1).remove();
 

@@ -42,6 +42,15 @@
                     <p><strong>Creado:</strong> {{ $membresium->created_at->format('d/m/Y H:i') }}</p>
                 </div>
             </div>
+            @if($membresium->comprobante)
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><strong>Comprobante:</strong> 
+                            <a href="{{ asset('storage/' . $membresium->comprobante) }}" target="_blank">Ver comprobante</a>
+                        </p>
+                    </div>
+                </div>
+            @endif
 
             <a href="{{ route('admin.membresias.index') }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Volver

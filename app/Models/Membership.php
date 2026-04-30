@@ -18,6 +18,7 @@ class Membership extends Model
         'monto_total',
         'saldo',
         'estado',
+        'comprobante',
     ];
 
     protected $casts = [

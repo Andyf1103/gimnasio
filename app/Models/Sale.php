@@ -15,6 +15,7 @@ class Sale extends Model
         'employee_id',
         'payment_method_id',
         'total',
+        'comprobante',
     ];
 
     protected $casts = [
