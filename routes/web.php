@@ -11,6 +11,7 @@ use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ClientControlController;
+use App\Http\Controllers\DailyReportController;
 
 // Redirigir raíz al login
 Route::get('/', function () {
@@ -59,6 +60,8 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::resource('controles', ClientControlController::class)
         ->names('admin.controles')
         ->parameters(['controles' => 'control']);
+    
+    Route::get('/reportes/detalle', [DailyReportController::class, 'detalle'])->name('admin.reportes.detalle');
 });
 
 // Employee

@@ -224,6 +224,13 @@ return [
             ],
         ],
     ],
+    ['header' => 'FINANZAS'],
+    [
+        'text' => 'Reporte Detallado',
+        'icon' => 'fas fa-fw fa-chart-bar',
+        'can' => 'ver reportes',
+        'url' => '/admin/reportes/detalle',
+    ],
 ],
 
     'filters' => [
