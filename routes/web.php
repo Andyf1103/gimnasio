@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PlanTypeController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\PaymentMethodController;
 
 // Redirigir raíz al login
 Route::get('/', function () {
@@ -49,6 +50,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::resource('ventas', SaleController::class)
         ->names('admin.ventas')
         ->parameters(['ventas' => 'venta']);
+    
+    Route::resource('metodos_pago', PaymentMethodController::class)
+        ->names('admin.metodos_pago')
+        ->parameters(['metodos_pago' => 'metodo']);
 });
 
 // Employee
@@ -72,4 +77,8 @@ Route::middleware('auth:employee')->prefix('employee')->group(function () {
     Route::resource('ventas', SaleController::class)
         ->names('employee.ventas')
         ->parameters(['ventas' => 'venta']);
+    
+    Route::resource('metodos_pago', PaymentMethodController::class)
+        ->names('employee.metodos_pago')
+        ->parameters(['metodos_pago' => 'metodo']);
 });

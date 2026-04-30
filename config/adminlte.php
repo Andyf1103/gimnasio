@@ -199,6 +199,11 @@ return [
         ],
     ],
     [
+        'text' => 'Métodos de Pago',
+        'icon' => 'fas fa-fw fa-credit-card',
+        'url' => '/admin/metodos_pago',
+    ],
+    [
         'text' => 'Roles y Permisos',
         'icon' => 'fas fa-fw fa-lock',
         'submenu' => [

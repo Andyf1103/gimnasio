@@ -11,7 +11,6 @@ class PaymentMethod extends Model
     
     protected $fillable = [
         'nombre',
-        'comprobante',
     ];
 
     public function memberships(): HasMany
