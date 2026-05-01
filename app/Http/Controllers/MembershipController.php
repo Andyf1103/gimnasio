@@ -13,7 +13,7 @@ class MembershipController extends Controller
     public function index()
     {
         $membresias = Membership::with(['client', 'planType', 'paymentMethod'])
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.membresias.index', compact('membresias'));
     }

@@ -15,7 +15,7 @@ class SaleController extends Controller
     public function index()
     {
         $ventas = Sale::with(['client', 'employee', 'paymentMethod'])
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.ventas.index', compact('ventas'));
     }

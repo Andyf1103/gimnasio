@@ -9,7 +9,7 @@ class PlanTypeController extends Controller
 {
     public function index()
     {
-        $planes = PlanType::orderBy('id', 'desc')->paginate(10);
+        $planes = PlanType::orderBy('id', 'asc')->paginate(10);
         return view('admin.planes.index', compact('planes'));
     }
 

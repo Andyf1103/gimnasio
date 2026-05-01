@@ -11,7 +11,7 @@ class ClientControlController extends Controller
     public function index()
     {
         $controles = ClientControl::with('client')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.controles.index', compact('controles'));
     }
