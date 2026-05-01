@@ -38,7 +38,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="plan_type_id">Plan *</label>
-                            <select name="plan_type_id" id="plan_type_id" class="form-control" required>
+                            <select name="plan_type_id" id="plan_type_id" class="form-control select2" style="width: 100%;" required>
                                 <option value="">Seleccione un plan</option>
                                 @foreach($planes as $plan)
                                     <option value="{{ $plan->id }}">{{ $plan->nombre_plan }} - Bs {{ $plan->precio_plan }}</option>
@@ -111,14 +111,25 @@
 
 @section('js')
 <script>
-    $('#payment_method_id').on('change', function() {
-        let nombre = $(this).find(':selected').data('nombre');
-        if (nombre && nombre.toLowerCase() === 'qr') {
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: 'Buscar plan...',
+            allowClear: true
+        });
+
+        @if(old('payment_method_id') && old('payment_method_id') != '' && $metodos->where('id', old('payment_method_id'))->first()?->nombre == 'QR')
             $('#grupoComprobante').show();
-        } else {
-            $('#grupoComprobante').hide();
-            $('#comprobante').val('');
-        }
+        @endif
+
+        $('#payment_method_id').on('change', function() {
+            let nombre = $(this).find(':selected').data('nombre');
+            if (nombre && nombre.toLowerCase() === 'qr') {
+                $('#grupoComprobante').show();
+            } else {
+                $('#grupoComprobante').hide();
+                $('#comprobante').val('');
+            }
+        });
     });
 </script>
 @stop
