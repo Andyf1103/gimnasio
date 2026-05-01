@@ -13,9 +13,9 @@
                 @csrf
                 
                 <div class="form-group">
-                    <label for="client_id">Cliente *</label>
-                    <select name="client_id" id="client_id" class="form-control" required>
-                        <option value="">Seleccione un cliente</option>
+                    <label for="client_id">Usuario *</label>
+                    <select name="client_id" id="client_id" class="form-control select2" style="width: 100%;" required>
+                        <option value="">Seleccione un usuario</option>
                         @foreach($clientes as $cliente)
                             <option value="{{ $cliente->id }}" {{ old('client_id') == $cliente->id ? 'selected' : '' }}>
                                 {{ $cliente->nombre }} {{ $cliente->apellido }}
@@ -72,4 +72,15 @@
             </form>
         </div>
     </div>
+@stop
+
+@section('js')
+<script>
+    $(document).ready(function() {
+        $('#client_id').select2({
+            placeholder: 'Buscar usuario...',
+            allowClear: true
+        });
+    });
+</script>
 @stop
