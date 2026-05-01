@@ -9,6 +9,19 @@
 @section('content')
     <p>Bienvenido, <strong>{{ Auth::guard('admin')->user()->nombre }}</strong>.</p>
 
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary btn-block">
+                <i class="fas fa-user-plus"></i> Nuevo Usuario
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ route('admin.ventas.create') }}" class="btn btn-success btn-block">
+                <i class="fas fa-shopping-cart"></i> Nueva Venta
+            </a>
+        </div>
+    </div>
+
     <div class="row">
         {{-- Usuarios Activos --}}
         <div class="col-lg-3 col-6">
