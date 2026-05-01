@@ -116,32 +116,38 @@ return [
     [
         'text' => 'Usuarios',
         'icon' => 'fas fa-fw fa-users',
+        'can' => 'ver usuarios',
         'submenu' => [
             [
                 'text' => 'Registrar Usuario',
                 'url' => '/admin/usuarios/create',
                 'icon' => 'fas fa-fw fa-user-plus',
+                'can' => 'crear usuarios',
             ],
             [
                 'text' => 'Lista de Usuarios',
                 'url' => '/admin/usuarios',
                 'icon' => 'fas fa-fw fa-list',
+                'can' => 'ver usuarios',
             ],
         ],
     ],
     [
         'text' => 'Planes',
         'icon' => 'fas fa-fw fa-tag',
+        'can' => 'ver planes',
         'submenu' => [
             [
                 'text' => 'Nuevo Plan',
                 'url' => '/admin/planes/create',
                 'icon' => 'fas fa-fw fa-plus',
+                'can' => 'crear planes',
             ],
             [
                 'text' => 'Lista de Planes',
                 'url' => '/admin/planes',
                 'icon' => 'fas fa-fw fa-list',
+                'can' => 'ver planes',
             ],
         ],
     ],
@@ -149,36 +155,43 @@ return [
         'text' => 'Membresías',
         'icon' => 'fas fa-fw fa-id-card',
         'url' => '/admin/membresias',
+        'can' => 'ver membresias',
     ],
     [
         'text' => 'Productos',
         'icon' => 'fas fa-fw fa-box',
+        'can' => 'ver productos',
         'submenu' => [
             [
                 'text' => 'Nuevo Producto',
                 'url' => '/admin/productos/create',
                 'icon' => 'fas fa-fw fa-plus',
+                'can' => 'crear productos',
             ],
             [
                 'text' => 'Lista de Productos',
                 'url' => '/admin/productos',
                 'icon' => 'fas fa-fw fa-list',
+                'can' => 'ver productos',
             ],
         ],
     ],
     [
         'text' => 'Ventas',
         'icon' => 'fas fa-fw fa-shopping-cart',
+        'can' => 'ver ventas',
         'submenu' => [
             [
                 'text' => 'Nueva Venta',
                 'url' => '/admin/ventas/create',
                 'icon' => 'fas fa-fw fa-plus',
+                'can' => 'crear ventas',
             ],
             [
                 'text' => 'Lista de Ventas',
                 'url' => '/admin/ventas',
                 'icon' => 'fas fa-fw fa-list',
+                'can' => 'ver ventas',
             ],
         ],
     ],
@@ -186,20 +199,24 @@ return [
         'text' => 'Control de Usuarios',
         'icon' => 'fas fa-fw fa-weight',
         'url' => '/admin/controles',
+        'can' => 'ver control usuarios',
     ],
     [
         'text' => 'Empleados',
         'icon' => 'fas fa-fw fa-user-tie',
+        'can' => 'ver empleados',
         'submenu' => [
             [
                 'text' => 'Nuevo Empleado',
                 'url' => '/admin/empleados/create',
                 'icon' => 'fas fa-fw fa-plus',
+                'can' => 'crear empleados',
             ],
             [
                 'text' => 'Lista de Empleados',
                 'url' => '/admin/empleados',
                 'icon' => 'fas fa-fw fa-list',
+                'can' => 'ver empleados',
             ],
         ],
     ],
@@ -207,24 +224,28 @@ return [
         'text' => 'Métodos de Pago',
         'icon' => 'fas fa-fw fa-credit-card',
         'url' => '/admin/metodos_pago',
+        'can' => 'ver metodos pago',
     ],
     [
         'text' => 'Roles y Permisos',
         'icon' => 'fas fa-fw fa-lock',
+        'can' => 'ver roles',
         'submenu' => [
             [
                 'text' => 'Nuevo Rol',
                 'url' => '/admin/roles/create',
                 'icon' => 'fas fa-fw fa-plus',
+                'can' => 'crear roles',
             ],
             [
                 'text' => 'Lista de Roles',
                 'url' => '/admin/roles',
                 'icon' => 'fas fa-fw fa-list',
+                'can' => 'ver roles',
             ],
         ],
     ],
-    ['header' => 'FINANZAS'],
+    
     [
         'text' => 'Reporte Detallado',
         'icon' => 'fas fa-fw fa-chart-bar',

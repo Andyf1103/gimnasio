@@ -20,7 +20,6 @@ class UnifiedLoginController extends Controller
             'password' => 'required',
         ]);
 
-        // Intentar como Admin
         if (Auth::guard('admin')->attempt([
             'email' => $request->email,
             'password' => $request->password,
@@ -29,13 +28,12 @@ class UnifiedLoginController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        // Intentar como Employee
         if (Auth::guard('employee')->attempt([
             'correo' => $request->email,
             'password' => $request->password,
         ])) {
             $request->session()->regenerate();
-            return redirect()->route('employee.dashboard');
+            return redirect()->route('admin.dashboard'); // 👈 cambiado
         }
 
         return back()->withErrors([

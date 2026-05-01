@@ -10,7 +10,6 @@
     <p>Bienvenid@, <strong>{{ Auth::guard('employee')->user()->nombre }}</strong>.</p>
 
     <div class="row">
-        {{-- Usuarios Activos --}}
         <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
                 <div class="inner">
@@ -23,7 +22,6 @@
             </div>
         </div>
 
-        {{-- Ventas del Día (propias) --}}
         <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
                 <div class="inner">
@@ -36,7 +34,6 @@
             </div>
         </div>
 
-        {{-- Membresías por Vencer --}}
         <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
                 <div class="inner">
@@ -49,7 +46,6 @@
             </div>
         </div>
 
-        {{-- Atajos Rápidos --}}
         <div class="col-lg-3 col-6">
             <div class="small-box bg-danger">
                 <div class="inner">
@@ -64,20 +60,18 @@
     </div>
 
     <div class="row">
-        {{-- Botones de Atajos --}}
         <div class="col-md-6">
-            <a href="{{ route('employee.usuarios.create') }}" class="btn btn-primary btn-block mb-2">
+            <a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary btn-block mb-2">
                 <i class="fas fa-user-plus"></i> Nuevo Usuario
             </a>
         </div>
         <div class="col-md-6">
-            <a href="{{ route('employee.ventas.create') }}" class="btn btn-success btn-block mb-2">
+            <a href="{{ route('admin.ventas.create') }}" class="btn btn-success btn-block mb-2">
                 <i class="fas fa-shopping-cart"></i> Nueva Venta
             </a>
         </div>
     </div>
 
-    {{-- Membresías por Vencer - Detalle --}}
     <div class="card mt-3">
         <div class="card-header">
             <h3 class="card-title">Membresías por Vencer (7 días)</h3>

@@ -12,25 +12,26 @@ class DashboardController extends Controller
 {
     public function admin()
     {
-        // Usuarios activos
+        if (Auth::guard('employee')->check()) {
+            return $this->employee();
+        }
+
+        $fechaHoy = date('Y-m-d');
+
         $usuariosActivos = Membership::where('estado', 'activa')
             ->distinct('client_id')
             ->count();
 
-        // Ingresos del día
-        $fechaHoy = date('Y-m-d');
         $ingresosMembresias = Membership::whereDate('created_at', $fechaHoy)->sum('monto_total');
         $ingresosVentas = Sale::whereDate('created_at', $fechaHoy)->sum('total');
         $ingresosDia = $ingresosMembresias + $ingresosVentas;
 
-        // Membresías por vencer (7 días)
         $membresiasPorVencer = Membership::where('estado', 'activa')
             ->whereDate('fecha_final', '>=', $fechaHoy)
             ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+7 days')))
             ->with('client')
             ->get();
 
-        // Productos con bajo stock (3 o menos)
         $productosBajoStock = Product::where('stock', '<=', 3)->get();
 
         return view('admin.dashboard', compact(
@@ -45,17 +46,14 @@ class DashboardController extends Controller
     {
         $fechaHoy = date('Y-m-d');
 
-        // Usuarios activos
         $usuariosActivos = Membership::where('estado', 'activa')
             ->distinct('client_id')
             ->count();
 
-        // Ventas del día (propias)
         $ventasDia = Sale::whereDate('created_at', $fechaHoy)
             ->where('employee_id', Auth::guard('employee')->id())
             ->sum('total');
 
-        // Membresías por vencer (7 días)
         $membresiasPorVencer = Membership::where('estado', 'activa')
             ->whereDate('fecha_final', '>=', $fechaHoy)
             ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+7 days')))
