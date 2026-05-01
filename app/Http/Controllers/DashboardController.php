@@ -28,7 +28,7 @@ class DashboardController extends Controller
 
         $membresiasPorVencer = Membership::where('estado', 'activa')
             ->whereDate('fecha_final', '>=', $fechaHoy)
-            ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+7 days')))
+            ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+3 days')))
             ->with('client')
             ->get();
 
@@ -56,7 +56,7 @@ class DashboardController extends Controller
 
         $membresiasPorVencer = Membership::where('estado', 'activa')
             ->whereDate('fecha_final', '>=', $fechaHoy)
-            ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+7 days')))
+            ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+3 days')))
             ->with('client')
             ->get();
 

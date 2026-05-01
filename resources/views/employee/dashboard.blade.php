@@ -10,7 +10,7 @@
     <p>Bienvenid@, <strong>{{ Auth::guard('employee')->user()->nombre }}</strong>.</p>
 
     <div class="row">
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-4 col-6">
             <div class="small-box bg-info">
                 <div class="inner">
                     <h3>{{ $usuariosActivos }}</h3>
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-4 col-6">
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>Bs {{ number_format($ventasDia, 2) }}</h3>
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-4 col-6">
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{ $membresiasPorVencer->count() }}</h3>
@@ -42,18 +42,6 @@
                 </div>
                 <div class="icon">
                     <i class="fas fa-calendar-alt"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>+</h3>
-                    <p>Atajos Rápidos</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-bolt"></i>
                 </div>
             </div>
         </div>
@@ -74,13 +62,13 @@
 
     <div class="card mt-3">
         <div class="card-header">
-            <h3 class="card-title">Membresías por Vencer (7 días)</h3>
+            <h3 class="card-title">Membresías por Vencer (3 días)</h3>
         </div>
         <div class="card-body table-responsive p-0">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Cliente</th>
+                        <th>Usuario</th>
                         <th>Plan</th>
                         <th>Vence</th>
                     </tr>
