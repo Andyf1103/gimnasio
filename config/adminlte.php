@@ -52,7 +52,7 @@ return [
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => false,
+    'layout_dark_mode' => null,
 
     'classes_auth_card' => 'card-outline card-primary',
     'classes_auth_header' => '',
