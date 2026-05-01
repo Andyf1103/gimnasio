@@ -41,8 +41,8 @@
                             <button type="submit" class="btn btn-primary btn-block">
                                 <i class="fas fa-search"></i> Filtrar
                             </button>
-                            <a href="{{ route('admin.reportes.exportar', request()->query()) }}" class="btn btn-success btn-block mt-2">
-                                <i class="fas fa-file-excel"></i> Exportar Excel
+                            <a href="{{ route('admin.reportes.pdf', request()->query()) }}" class="btn btn-danger btn-block mt-2" target="_blank">
+                                <i class="fas fa-file-pdf"></i> Exportar PDF
                             </a>
                         </div>
                     </div>

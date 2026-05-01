@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Membership;
 use App\Models\Sale;
 use Illuminate\Http\Request;
-use App\Exports\ReporteExport;
-use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DailyReportController extends Controller
 {
@@ -45,12 +44,40 @@ class DailyReportController extends Controller
         return view('admin.reportes.detalle', compact('membresias', 'ventas', 'fechaInicio', 'fechaFin'));
     }
 
-    public function exportar(Request $request)
+    public function exportarPdf(Request $request)
     {
         $fechaInicio = $request->get('fecha_inicio', date('Y-m-d'));
         $fechaFin = $request->get('fecha_fin', date('Y-m-d'));
         $tipo = $request->get('tipo');
 
-        return Excel::download(new ReporteExport($fechaInicio, $fechaFin, $tipo), 'reporte.xlsx');
+        $membresias = Membership::with(['planType', 'paymentMethod'])
+            ->whereDate('created_at', '>=', $fechaInicio)
+            ->whereDate('created_at', '<=', $fechaFin)
+            ->when($tipo, function ($query, $tipo) {
+                if ($tipo == 'efectivo') {
+                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
+                } elseif ($tipo == 'digital') {
+                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
+                }
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $ventas = Sale::with(['employee', 'paymentMethod', 'saleDetails.product'])
+            ->whereDate('created_at', '>=', $fechaInicio)
+            ->whereDate('created_at', '<=', $fechaFin)
+            ->when($tipo, function ($query, $tipo) {
+                if ($tipo == 'efectivo') {
+                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
+                } elseif ($tipo == 'digital') {
+                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
+                }
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $pdf = Pdf::loadView('admin.reportes.pdf', compact('membresias', 'ventas', 'fechaInicio', 'fechaFin'));
+
+        return $pdf->download('reporte.pdf');
     }
 }

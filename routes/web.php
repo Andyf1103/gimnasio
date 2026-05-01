@@ -60,6 +60,7 @@ Route::middleware(['auth:admin,employee'])->prefix('admin')->group(function () {
 
     Route::get('/reportes/detalle', [DailyReportController::class, 'detalle'])
         ->name('admin.reportes.detalle');
-    Route::get('/reportes/exportar', [DailyReportController::class, 'exportar'])
-        ->name('admin.reportes.exportar');
+
+    Route::get('/reportes/pdf', [DailyReportController::class, 'exportarPdf'])
+        ->name('admin.reportes.pdf');
 });
