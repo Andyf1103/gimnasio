@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <select id="producto_id" class="form-control">
+                            <select id="producto_id" class="form-control select2" style="width: 100%;">
                                 <option value="">Seleccione un producto</option>
                                 @foreach($productos as $producto)
                                     <option value="{{ $producto->id }}" 
@@ -122,9 +122,15 @@
 
 @section('js')
 <script>
+    $(document).ready(function() {
+        $('#producto_id').select2({
+            placeholder: 'Buscar producto...',
+            allowClear: true
+        });
+    });
+
     let contador = 0;
 
-    // Mostrar/ocultar comprobante según método de pago
     $('#payment_method_id').on('change', function() {
         let nombre = $(this).find(':selected').data('nombre');
         if (nombre && nombre.toLowerCase() === 'qr') {
@@ -174,7 +180,7 @@
             <input type="hidden" name="productos[${contador}][cantidad]" value="${cantidad}">
         `);
 
-        $('#producto_id').val('');
+        $('#producto_id').val('').trigger('change');
         $('#cantidad').val(1);
 
         actualizarTotal();
