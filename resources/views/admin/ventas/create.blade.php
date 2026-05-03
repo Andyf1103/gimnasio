@@ -22,8 +22,9 @@
                                 @foreach($productos as $producto)
                                     <option value="{{ $producto->id }}" 
                                             data-nombre="{{ $producto->nombre }}"
-                                            data-precio="{{ $producto->precio_venta }}">
-                                        {{ $producto->nombre }} - Bs {{ number_format($producto->precio_venta, 2) }}
+                                            data-precio="{{ $producto->precio_venta }}"
+                                            data-stock="{{ $producto->stock }}">
+                                        {{ $producto->nombre }} - Bs {{ number_format($producto->precio_venta, 2) }} (Stock: {{ $producto->stock }})
                                     </option>
                                 @endforeach
                             </select>
@@ -146,6 +147,7 @@
         let id = select.val();
         let nombre = select.find(':selected').data('nombre');
         let precio = parseFloat(select.find(':selected').data('precio'));
+        let stockDisponible = parseInt(select.find(':selected').data('stock'));
         let cantidad = parseInt($('#cantidad').val());
 
         if (!id || !nombre) {
@@ -153,8 +155,18 @@
             return;
         }
 
+        if (stockDisponible === 0) {
+            alert('No hay stock de este producto.');
+            return;
+        }
+
         if (cantidad < 1) {
             alert('La cantidad debe ser al menos 1.');
+            return;
+        }
+
+        if (cantidad > stockDisponible) {
+            alert('No hay suficiente stock. Solo hay ' + stockDisponible + ' disponible(s).');
             return;
         }
 
