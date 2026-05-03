@@ -11,9 +11,17 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = Client::orderBy('id', 'asc')->paginate(10);
+        $query = Client::query();
+
+        if ($request->buscar) {
+            $query->where('nombre', 'like', '%' . $request->buscar . '%')
+                  ->orWhere('apellido', 'like', '%' . $request->buscar . '%');
+        }
+
+        $usuarios = $query->orderBy('id', 'asc')->paginate(10);
+
         return view('admin.usuarios.index', compact('usuarios'));
     }
 

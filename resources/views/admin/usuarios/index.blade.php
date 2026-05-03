@@ -9,11 +9,23 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            @can('crear usuarios')
-                <a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nuevo Usuario
-                </a>
-            @endcan
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" id="buscar" class="form-control" placeholder="Buscar..." value="{{ request('buscar') }}">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 text-right">
+                    @can('crear usuarios')
+                        <a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Usuario
+                        </a>
+                    @endcan
+                </div>
+            </div>
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -63,4 +75,17 @@
             {{ $usuarios->links() }}
         </div>
     </div>
+@stop
+
+@section('js')
+<script>
+    let timer;
+    $('#buscar').on('input', function() {
+        clearTimeout(timer);
+        let valor = $(this).val();
+        timer = setTimeout(function() {
+            window.location = '{{ route("admin.usuarios.index") }}?buscar=' + encodeURIComponent(valor);
+        }, 500);
+    });
+</script>
 @stop
