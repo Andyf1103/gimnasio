@@ -67,7 +67,7 @@
                             <td>Bs {{ number_format($m->monto_total, 2) }}</td>
                             <td>{{ $m->paymentMethod->nombre ?? 'N/A' }}</td>
                             <td>{{ $m->creator->nombre ?? 'Admin' }} {{ $m->creator->apellido ?? '' }}</td>
-                            <td>{{ $m->created_at->format('d/m/Y') }}</td>
+                            <td>{{ $m->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
                     @empty
                         <tr><td colspan="5" class="text-center">Sin membresías.</td></tr>
