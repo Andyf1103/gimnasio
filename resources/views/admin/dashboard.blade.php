@@ -49,6 +49,19 @@
             </div>
         </div>
 
+        {{-- Ganancias del Mes --}}
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+                <div class="inner">
+                    <h3>Bs {{ number_format($ingresosMes, 2) }}</h3>
+                    <p>Ganancias del Mes</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+            </div>
+        </div>
+
         {{-- Productos Bajo Stock --}}
         <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
@@ -81,7 +94,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Membresías por Vencer (7 días)</h3>
+                    <h3 class="card-title">Membresías por Vencer (3 días)</h3>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped">

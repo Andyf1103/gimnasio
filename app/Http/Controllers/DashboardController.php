@@ -26,6 +26,11 @@ class DashboardController extends Controller
         $ingresosVentas = Sale::whereDate('created_at', $fechaHoy)->sum('total');
         $ingresosDia = $ingresosMembresias + $ingresosVentas;
 
+        $primerDiaMes = date('Y-m-01');
+        $ingresosMesMembresias = Membership::whereDate('created_at', '>=', $primerDiaMes)->sum('monto_total');
+        $ingresosMesVentas = Sale::whereDate('created_at', '>=', $primerDiaMes)->sum('total');
+        $ingresosMes = $ingresosMesMembresias + $ingresosMesVentas;
+
         $membresiasPorVencer = Membership::where('estado', 'activa')
             ->whereDate('fecha_final', '>=', $fechaHoy)
             ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+3 days')))
@@ -37,6 +42,7 @@ class DashboardController extends Controller
         return view('admin.dashboard', compact(
             'usuariosActivos',
             'ingresosDia',
+            'ingresosMes',
             'membresiasPorVencer',
             'productosBajoStock'
         ));
