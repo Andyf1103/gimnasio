@@ -13,6 +13,7 @@ class Membership extends Model
         'client_id',
         'plan_type_id',
         'payment_method_id',
+        'employee_id',
         'fecha_inicio',
         'fecha_final',
         'monto_total',
@@ -40,5 +41,10 @@ class Membership extends Model
     public function paymentMethod(): BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 }

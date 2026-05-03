@@ -56,6 +56,7 @@
                         <th>Plan</th>
                         <th>Monto</th>
                         <th>Método</th>
+                        <th>Recepcionista</th>
                         <th>Fecha</th>
                     </tr>
                 </thead>
@@ -65,15 +66,16 @@
                             <td>{{ $m->planType->nombre_plan ?? 'N/A' }}</td>
                             <td>Bs {{ number_format($m->monto_total, 2) }}</td>
                             <td>{{ $m->paymentMethod->nombre ?? 'N/A' }}</td>
+                            <td>{{ $m->creator->nombre ?? 'Admin' }} {{ $m->creator->apellido ?? '' }}</td>
                             <td>{{ $m->created_at->format('d/m/Y') }}</td>
                         </tr>
                     @empty
-                        <tr><td colspan="4" class="text-center">Sin membresías.</td></tr>
+                        <tr><td colspan="5" class="text-center">Sin membresías.</td></tr>
                     @endforelse
                     <tr>
                         <th class="text-right">Total:</th>
                         <th>Bs {{ number_format($membresias->sum('monto_total'), 2) }}</th>
-                        <th colspan="2"></th>
+                        <th colspan="3"></th>
                     </tr>
                 </tbody>
             </table>

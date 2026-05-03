@@ -7,6 +7,7 @@ use App\Models\PlanType;
 use App\Models\PaymentMethod;
 use App\Models\Membership;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -54,6 +55,7 @@ class ClientController extends Controller
             'client_id' => $cliente->id,
             'plan_type_id' => $request->plan_type_id,
             'payment_method_id' => $request->payment_method_id,
+            'employee_id' => Auth::guard('admin')->check() ? null : Auth::guard('employee')->id(),
             'fecha_inicio' => $request->fecha_inicio,
             'fecha_final' => $fecha_final,
             'monto_total' => $request->monto_total,
