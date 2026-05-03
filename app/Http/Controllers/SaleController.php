@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\Product;
-use App\Models\Client;
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,15 +22,13 @@ class SaleController extends Controller
     public function create()
     {
         $productos = Product::where('stock', '>', 0)->orderBy('nombre')->get();
-        $clientes = Client::orderBy('nombre')->get();
         $metodos = PaymentMethod::all();
-        return view('admin.ventas.create', compact('productos', 'clientes', 'metodos'));
+        return view('admin.ventas.create', compact('productos', 'metodos'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'client_id' => 'nullable|exists:clients,id',
             'payment_method_id' => 'required|exists:payment_methods,id',
             'productos' => 'required|array|min:1',
             'productos.*.id' => 'required|exists:products,id',
@@ -64,7 +61,7 @@ class SaleController extends Controller
         }
 
         $venta = Sale::create([
-            'client_id' => $request->client_id,
+            'client_id' => null,
             'employee_id' => Auth::guard('employee')->check() ? Auth::guard('employee')->id() : null,
             'payment_method_id' => $request->payment_method_id,
             'total' => $total,

@@ -79,18 +79,6 @@
                         <div id="productosContainer"></div>
 
                         <div class="form-group">
-                            <label for="client_id">Cliente (opcional)</label>
-                            <select name="client_id" id="client_id" class="form-control">
-                                <option value="">Externo</option>
-                                @foreach($clientes as $cliente)
-                                    <option value="{{ $cliente->id }}">
-                                        {{ $cliente->nombre }} {{ $cliente->apellido }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
                             <label for="payment_method_id">Método de Pago *</label>
                             <select name="payment_method_id" id="payment_method_id" class="form-control" required>
                                 <option value="">Seleccione</option>
@@ -111,7 +99,19 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-block">
+                        <div id="grupoEfectivo" style="display: none;">
+                            <div class="form-group">
+                                <label for="paga_con">Paga con (Bs)</label>
+                                <input type="number" step="0.01" id="paga_con" class="form-control" placeholder="0.00">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cambio:</label>
+                                <h4 id="cambio" class="text-success">Bs 0.00</h4>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" id="btnCobrar">
                             <i class="fas fa-shopping-cart"></i> Cobrar
                         </button>
                     </form>
@@ -136,10 +136,24 @@
         let nombre = $(this).find(':selected').data('nombre');
         if (nombre && nombre.toLowerCase() === 'qr') {
             $('#grupoComprobante').show();
-        } else {
+            $('#grupoEfectivo').hide();
+            $('#paga_con').val('');
+            $('#cambio').text('Bs 0.00');
+        } else if (nombre && nombre.toLowerCase() === 'efectivo') {
             $('#grupoComprobante').hide();
             $('#comprobante').val('');
+            $('#grupoEfectivo').show();
+        } else {
+            $('#grupoComprobante').hide();
+            $('#grupoEfectivo').hide();
         }
+    });
+
+    $('#paga_con').on('input', function() {
+        let paga = parseFloat($(this).val()) || 0;
+        let total = parseFloat($('#totalCarrito').text().replace('Bs ', '')) || 0;
+        let cambio = paga - total;
+        $('#cambio').text('Bs ' + cambio.toFixed(2));
     });
 
     $('#btnAgregar').click(function() {
@@ -221,6 +235,7 @@
             if (!isNaN(subtotal)) total += subtotal;
         });
         $('#totalCarrito').text('Bs ' + total.toFixed(2));
+        $('#paga_con').trigger('input');
     }
 </script>
 @stop
