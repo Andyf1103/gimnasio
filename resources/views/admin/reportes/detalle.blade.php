@@ -101,7 +101,13 @@
                             </td>
                             <td>Bs {{ number_format($v->total, 2) }}</td>
                             <td>{{ $v->paymentMethod->nombre ?? 'N/A' }}</td>
-                            <td>{{ $v->employee->nombre ?? 'N/A' }} {{ $v->employee->apellido ?? '' }}</td>
+                            <td>
+                                @if($v->employee)
+                                    {{ $v->employee->nombre }} {{ $v->employee->apellido }}
+                                @else
+                                    Admin
+                                @endif
+                            </td>
                             <td>{{ $v->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
                     @empty
