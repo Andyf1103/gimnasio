@@ -23,7 +23,7 @@
                     <tr>
                         <th>#</th>
                         <th>Cliente</th>
-                        <th>Empleado</th>
+                        <th>Recepcionista</th>
                         <th>Método</th>
                         <th>Total</th>
                         <th>Fecha</th>
@@ -35,7 +35,13 @@
                         <tr>
                             <td>{{ $venta->id }}</td>
                             <td>{{ $venta->client->nombre ?? 'Externo' }} {{ $venta->client->apellido ?? '' }}</td>
-                            <td>{{ $venta->employee->nombre ?? 'N/A' }}</td>
+                            <td>
+                                @if($venta->employee)
+                                    {{ $venta->employee->nombre }} {{ $venta->employee->apellido }}
+                                @else
+                                    Admin
+                                @endif
+                            </td>
                             <td>{{ $venta->paymentMethod->nombre ?? 'N/A' }}</td>
                             <td>Bs {{ number_format($venta->total, 2) }}</td>
                             <td>{{ $venta->created_at->format('d/m/Y H:i') }}</td>
