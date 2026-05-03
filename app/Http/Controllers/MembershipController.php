@@ -71,9 +71,17 @@ class MembershipController extends Controller
             ->with('success', 'Membresía creada correctamente.');
     }
 
-    public function show(Membership $membresium)
+    public function show(Membership $membresium, Request $request)
     {
-        $membresium->load(['client', 'planType', 'paymentMethod']);
+        $membresium->load(['client', 'planType', 'paymentMethod', 'pagos.paymentMethod']);
+
+        if ($request->modal == '1') {
+            $clientes = Client::orderBy('nombre')->get();
+            $planes = PlanType::all();
+            $metodos = PaymentMethod::all();
+            return view('admin.membresias.modal', compact('membresium', 'clientes', 'planes', 'metodos'));
+        }
+
         return view('admin.membresias.show', compact('membresium'));
     }
 

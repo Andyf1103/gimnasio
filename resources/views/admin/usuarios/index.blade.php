@@ -69,14 +69,12 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('admin.usuarios.show', $usuario) }}" class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                @can('editar usuarios')
-                                    <a href="{{ route('admin.usuarios.edit', $usuario) }}" class="btn btn-sm btn-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
+                                @if($membresiaActiva)
+                                    <button type="button" class="btn btn-sm btn-info btn-membresia" 
+                                            data-id="{{ $membresiaActiva->id }}">
+                                        <i class="fas fa-id-card"></i>
+                                    </button>
+                                @endif
                                 @can('eliminar usuarios')
                                     <form action="{{ route('admin.usuarios.destroy', $usuario) }}" method="POST" style="display:inline">
                                         @csrf
@@ -94,6 +92,21 @@
             {!! $usuarios->links('pagination::bootstrap-4') !!}
         </div>
     </div>
+
+    {{-- Contenedor del Modal --}}
+    <div class="modal fade" id="modalMembresia" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Membresía</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="contenidoMembresia">
+                    Cargando...
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('js')
@@ -105,6 +118,16 @@
         timer = setTimeout(function() {
             window.location = '{{ route("admin.usuarios.index") }}?buscar=' + encodeURIComponent(valor);
         }, 500);
+    });
+
+    $('.btn-membresia').click(function() {
+        let id = $(this).data('id');
+        $('#modalMembresia').modal('show');
+        $('#contenidoMembresia').html('Cargando...');
+
+        $.get('{{ url("/admin/membresias") }}/' + id + '?modal=1', function(data) {
+            $('#contenidoMembresia').html(data);
+        });
     });
 </script>
 @stop
