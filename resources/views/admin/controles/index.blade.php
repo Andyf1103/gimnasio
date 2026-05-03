@@ -3,7 +3,7 @@
 @section('title', 'Control de Usuarios')
 
 @section('content_header')
-    <h1>Control de Usuarios</h1>
+    <h1>Control Físico de Usuarios</h1>
 @stop
 
 @section('content')
@@ -56,7 +56,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $controles->links() }}
+            {!! $controles->links('pagination::bootstrap-4') !!}
         </div>
     </div>
 @stop

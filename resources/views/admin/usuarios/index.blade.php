@@ -91,7 +91,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $usuarios->links() }}
+            {!! $usuarios->links('pagination::bootstrap-4') !!}
         </div>
     </div>
 @stop

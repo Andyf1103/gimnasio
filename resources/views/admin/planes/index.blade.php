@@ -53,7 +53,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $planes->links() }}
+            {!! $planes->links('pagination::bootstrap-4') !!}
         </div>
     </div>
 @stop

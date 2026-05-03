@@ -59,7 +59,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $productos->links() }}
+            {!! $productos->links('pagination::bootstrap-4') !!}
         </div>
     </div>
 @stop

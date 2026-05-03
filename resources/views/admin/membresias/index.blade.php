@@ -54,7 +54,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $membresias->links() }}
+            {!! $membresias->links('pagination::bootstrap-4') !!}
         </div>
     </div>
 @stop

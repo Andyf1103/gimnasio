@@ -122,7 +122,6 @@ class ClientController extends Controller
 
         while ($diasAgregados < $diasHabiles) {
             $fecha->modify('+1 day');
-            // 0 = domingo, 1 = lunes, ..., 6 = sábado
             if ($fecha->format('w') != 0) {
                 $diasAgregados++;
             }
