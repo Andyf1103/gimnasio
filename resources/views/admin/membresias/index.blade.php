@@ -9,6 +9,17 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" id="buscar" class="form-control" placeholder="Buscar por cliente..." value="{{ request('buscar') }}">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
@@ -57,4 +68,17 @@
             {!! $membresias->links('pagination::bootstrap-4') !!}
         </div>
     </div>
+@stop
+
+@section('js')
+<script>
+    let timer;
+    $('#buscar').on('input', function() {
+        clearTimeout(timer);
+        let valor = $(this).val();
+        timer = setTimeout(function() {
+            window.location = '{{ route("admin.membresias.index") }}?buscar=' + encodeURIComponent(valor);
+        }, 500);
+    });
+</script>
 @stop

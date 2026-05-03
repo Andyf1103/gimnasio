@@ -11,11 +11,19 @@ use Illuminate\Http\Request;
 
 class MembershipController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $membresias = Membership::with(['client', 'planType', 'paymentMethod'])
-            ->orderBy('id', 'asc')
-            ->paginate(10);
+        $query = Membership::with(['client', 'planType', 'paymentMethod']);
+
+        if ($request->buscar) {
+            $query->whereHas('client', function ($q) use ($request) {
+                $q->where('nombre', 'like', '%' . $request->buscar . '%')
+                  ->orWhere('apellido', 'like', '%' . $request->buscar . '%');
+            });
+        }
+
+        $membresias = $query->orderBy('id', 'asc')->paginate(10);
+
         return view('admin.membresias.index', compact('membresias'));
     }
 
