@@ -18,6 +18,7 @@ class Membership extends Model
         'fecha_final',
         'monto_total',
         'saldo',
+        'fecha_limite_pago',
         'estado',
         'comprobante',
     ];
@@ -25,6 +26,7 @@ class Membership extends Model
     protected $casts = [
         'fecha_inicio' => 'date',
         'fecha_final' => 'date',
+        'fecha_limite_pago' => 'date',
         'creado_en' => 'datetime',
     ];
 

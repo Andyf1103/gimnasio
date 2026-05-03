@@ -53,6 +53,11 @@ class ClientController extends Controller
         $plan = PlanType::find($request->plan_type_id);
         $fecha_final = date('Y-m-d', strtotime($request->fecha_inicio . ' + ' . $plan->duracion_dias . ' days'));
 
+        $fecha_limite_pago = null;
+        if ($request->saldo > 0) {
+            $fecha_limite_pago = date('Y-m-d', strtotime($request->fecha_inicio . ' + 10 days'));
+        }
+
         $rutaComprobante = null;
         $metodo = PaymentMethod::find($request->payment_method_id);
         if ($metodo && strtolower($metodo->nombre) == 'qr' && $request->hasFile('comprobante')) {
@@ -68,6 +73,7 @@ class ClientController extends Controller
             'fecha_final' => $fecha_final,
             'monto_total' => $request->monto_total,
             'saldo' => $request->saldo,
+            'fecha_limite_pago' => $fecha_limite_pago,
             'comprobante' => $rutaComprobante,
         ]);
 

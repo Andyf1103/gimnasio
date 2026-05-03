@@ -39,6 +39,7 @@
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Fecha Inscripción</th>
+                        <th>Saldo Pendiente</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -49,6 +50,24 @@
                             <td>{{ $usuario->nombre }}</td>
                             <td>{{ $usuario->apellido }}</td>
                             <td>{{ $usuario->fecha_inscripcion->format('d/m/Y') }}</td>
+                            <td>
+                                @php
+                                    $membresiaActiva = $usuario->memberships->whereIn('estado', ['ACTIVA', 'activa'])->first();
+                                @endphp
+                                @if($membresiaActiva && $membresiaActiva->saldo > 0)
+                                    <span class="badge badge-warning">
+                                        Bs {{ number_format($membresiaActiva->saldo, 2) }}
+                                    </span>
+                                    <br>
+                                    <small class="text-danger">
+                                        Vence: {{ $membresiaActiva->fecha_limite_pago ? $membresiaActiva->fecha_limite_pago->format('d/m/Y') : 'N/A' }}
+                                    </small>
+                                @elseif($membresiaActiva && $membresiaActiva->fecha_limite_pago)
+                                    <span class="badge badge-success">Pagado</span>
+                                @else
+                                    <span class="text-muted">Ninguno</span>
+                                @endif
+                            </td>
                             <td>
                                 <a href="{{ route('admin.usuarios.show', $usuario) }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
