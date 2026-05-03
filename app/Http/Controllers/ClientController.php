@@ -51,7 +51,7 @@ class ClientController extends Controller
         ]);
 
         $plan = PlanType::find($request->plan_type_id);
-        $fecha_final = date('Y-m-d', strtotime($request->fecha_inicio . ' + ' . $plan->duracion_dias . ' days'));
+        $fecha_final = $this->calcularFechaFinal($request->fecha_inicio, $plan->duracion_dias);
 
         $fecha_limite_pago = null;
         if ($request->saldo > 0) {
@@ -113,5 +113,21 @@ class ClientController extends Controller
 
         return redirect()->route('admin.usuarios.index')
             ->with('success', 'Usuario eliminado correctamente.');
+    }
+
+    private function calcularFechaFinal($fechaInicio, $diasHabiles)
+    {
+        $fecha = new \DateTime($fechaInicio);
+        $diasAgregados = 0;
+
+        while ($diasAgregados < $diasHabiles) {
+            $fecha->modify('+1 day');
+            // 0 = domingo, 1 = lunes, ..., 6 = sábado
+            if ($fecha->format('w') != 0) {
+                $diasAgregados++;
+            }
+        }
+
+        return $fecha->format('Y-m-d');
     }
 }

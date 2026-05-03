@@ -40,7 +40,7 @@ class MembershipController extends Controller
         ]);
 
         $plan = PlanType::find($request->plan_type_id);
-        $fecha_final = date('Y-m-d', strtotime($request->fecha_inicio . ' + ' . $plan->duracion_dias . ' days'));
+        $fecha_final = $this->calcularFechaFinal($request->fecha_inicio, $plan->duracion_dias);
 
         $rutaComprobante = null;
         $metodo = PaymentMethod::find($request->payment_method_id);
@@ -141,5 +141,20 @@ class MembershipController extends Controller
 
         return redirect()->route('admin.membresias.edit', $membresium)
             ->with('success', 'Pago registrado correctamente.');
+    }
+
+    private function calcularFechaFinal($fechaInicio, $diasHabiles)
+    {
+        $fecha = new \DateTime($fechaInicio);
+        $diasAgregados = 0;
+
+        while ($diasAgregados < $diasHabiles) {
+            $fecha->modify('+1 day');
+            if ($fecha->format('w') != 0) {
+                $diasAgregados++;
+            }
+        }
+
+        return $fecha->format('Y-m-d');
     }
 }
