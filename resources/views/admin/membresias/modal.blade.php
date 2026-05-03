@@ -1,6 +1,7 @@
-<form action="{{ route('admin.membresias.update', $membresium) }}" method="POST" enctype="multipart/form-data">
+<form id="formEditarMembresiaModal" enctype="multipart/form-data">
     @csrf
     @method('PUT')
+    <input type="hidden" id="modalEditMembresiaId" value="{{ $membresium->id }}">
     
     <div class="row">
         <div class="col-md-6">
@@ -92,13 +93,23 @@
 
 <hr>
 
+{{-- Comprobante del primer pago --}}
+@if($membresium->comprobante)
+    <h6>Comprobante del Primer Pago</h6>
+    <p>
+        <a href="{{ asset('storage/' . $membresium->comprobante) }}" target="_blank">Ver comprobante</a>
+    </p>
+    <hr>
+@endif
+
 @if($membresium->saldo > 0)
     <h6>Registrar Pago</h6>
-    <form action="{{ route('admin.membresias.registrarPago', $membresium) }}" method="POST" enctype="multipart/form-data">
+    <form id="formPagoModal" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" id="modalMembresiaId" value="{{ $membresium->id }}">
         <div class="row">
             <div class="col-md-3">
-                <input type="number" step="0.01" name="monto" class="form-control" placeholder="Monto" max="{{ $membresium->saldo }}" required>
+                <input type="number" step="0.01" name="monto" id="modalMonto" class="form-control" placeholder="Monto" max="{{ $membresium->saldo }}" required>
             </div>
             <div class="col-md-3">
                 <select name="payment_method_id" id="modalPagoMetodo" class="form-control" required>
@@ -110,11 +121,11 @@
             </div>
             <div class="col-md-2">
                 <div id="modalComprobanteGrupo" style="display: none;">
-                    <input type="file" name="comprobante" class="form-control">
+                    <input type="file" name="comprobante" id="modalComprobante" class="form-control">
                 </div>
             </div>
             <div class="col-md-2">
-                <input type="date" name="fecha_pago" class="form-control" value="{{ date('Y-m-d') }}" required>
+                <input type="date" name="fecha_pago" id="modalFechaPago" class="form-control" value="{{ date('Y-m-d') }}" required>
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary btn-block">
@@ -156,6 +167,7 @@
 @endif
 
 <script>
+    // Mostrar/ocultar comprobante
     $('#modalPagoMetodo').on('change', function() {
         let metodo = $(this).find(':selected').text().toLowerCase();
         if (metodo.includes('qr')) {
@@ -163,5 +175,50 @@
         } else {
             $('#modalComprobanteGrupo').hide();
         }
+    });
+
+    // Enviar edición por AJAX
+    $('#formEditarMembresiaModal').on('submit', function(e) {
+        e.preventDefault();
+        let id = $('#modalEditMembresiaId').val();
+        let formData = new FormData(this);
+
+        $.ajax({
+            url: '/admin/membresias/' + id,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert('Membresía actualizada.');
+                $('#modalMembresia').modal('hide');
+            },
+            error: function(xhr) {
+                alert('Error al actualizar la membresía.');
+            }
+        });
+    });
+
+    // Enviar pago por AJAX
+    $('#formPagoModal').on('submit', function(e) {
+        e.preventDefault();
+        let id = $('#modalMembresiaId').val();
+        let formData = new FormData(this);
+
+        $.ajax({
+            url: '/admin/membresias/' + id + '/pago',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $.get('/admin/membresias/' + id + '?modal=1', function(data) {
+                    $('#contenidoMembresia').html(data);
+                });
+            },
+            error: function(xhr) {
+                alert('Error al registrar el pago.');
+            }
+        });
     });
 </script>

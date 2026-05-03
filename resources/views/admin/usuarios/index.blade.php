@@ -129,5 +129,10 @@
             $('#contenidoMembresia').html(data);
         });
     });
+
+    // Recargar página al cerrar el modal
+    $('#modalMembresia').on('hidden.bs.modal', function() {
+        location.reload();
+    });
 </script>
 @stop

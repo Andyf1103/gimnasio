@@ -155,8 +155,7 @@ class MembershipController extends Controller
         $membresium->saldo = $membresium->saldo - $request->monto;
         $membresium->save();
 
-        return redirect()->route('admin.membresias.edit', $membresium)
-            ->with('success', 'Pago registrado correctamente.');
+        return response()->json(['success' => true]);
     }
 
     private function calcularFechaFinal($fechaInicio, $diasHabiles)
