@@ -6,6 +6,7 @@ use App\Models\Membership;
 use App\Models\Client;
 use App\Models\PlanType;
 use App\Models\PaymentMethod;
+use App\Models\PagoMembresia;
 use Illuminate\Http\Request;
 
 class MembershipController extends Controller
@@ -110,5 +111,35 @@ class MembershipController extends Controller
         $membresium->delete();
         return redirect()->route('admin.membresias.index')
             ->with('success', 'Membresía eliminada correctamente.');
+    }
+
+    public function registrarPago(Request $request, Membership $membresium)
+    {
+        $request->validate([
+            'monto' => 'required|numeric|min:0.01|max:' . $membresium->saldo,
+            'payment_method_id' => 'required|exists:payment_methods,id',
+            'comprobante' => 'nullable|image|max:2048',
+            'fecha_pago' => 'required|date',
+        ]);
+
+        $rutaComprobante = null;
+        $metodo = PaymentMethod::find($request->payment_method_id);
+        if ($metodo && strtolower($metodo->nombre) == 'qr' && $request->hasFile('comprobante')) {
+            $rutaComprobante = $request->file('comprobante')->store('comprobantes', 'public');
+        }
+
+        PagoMembresia::create([
+            'membership_id' => $membresium->id,
+            'monto' => $request->monto,
+            'payment_method_id' => $request->payment_method_id,
+            'comprobante' => $rutaComprobante,
+            'fecha_pago' => $request->fecha_pago,
+        ]);
+
+        $membresium->saldo = $membresium->saldo - $request->monto;
+        $membresium->save();
+
+        return redirect()->route('admin.membresias.edit', $membresium)
+            ->with('success', 'Pago registrado correctamente.');
     }
 }

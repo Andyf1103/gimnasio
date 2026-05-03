@@ -149,6 +149,87 @@
             </form>
         </div>
     </div>
+
+    {{-- Pagos realizados --}}
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Pagos Realizados</h5>
+        </div>
+        <div class="card-body">
+            @if($membresium->pagos->isNotEmpty())
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Monto</th>
+                            <th>Método</th>
+                            <th>Comprobante</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($membresium->pagos as $pago)
+                            <tr>
+                                <td>Bs {{ number_format($pago->monto, 2) }}</td>
+                                <td>{{ $pago->paymentMethod->nombre ?? 'N/A' }}</td>
+                                <td>
+                                    @if($pago->comprobante)
+                                        <a href="{{ asset('storage/' . $pago->comprobante) }}" target="_blank">Ver</a>
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>{{ $pago->fecha_pago->format('d/m/Y') }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p class="text-muted">Sin pagos registrados.</p>
+            @endif
+
+            @if($membresium->saldo > 0)
+                <hr>
+                <h5>Registrar Nuevo Pago</h5>
+                <form action="{{ route('admin.membresias.registrarPago', $membresium) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="monto">Monto (Bs) *</label>
+                                <input type="number" step="0.01" name="monto" id="monto" class="form-control" max="{{ $membresium->saldo }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="pago_metodo">Método *</label>
+                                <select name="payment_method_id" id="pago_metodo" class="form-control" required>
+                                    <option value="">Seleccione</option>
+                                    @foreach($metodos as $metodo)
+                                        <option value="{{ $metodo->id }}" data-nombre="{{ $metodo->nombre }}">{{ $metodo->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="fecha_pago">Fecha *</label>
+                                <input type="date" name="fecha_pago" id="fecha_pago" class="form-control" value="{{ date('Y-m-d') }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="grupoComprobantePago" style="display: none;">
+                                <label for="comprobante_pago">Comprobante</label>
+                                <input type="file" name="comprobante" id="comprobante_pago" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Registrar Pago
+                    </button>
+                </form>
+            @endif
+        </div>
+    </div>
 @stop
 
 @section('js')
@@ -160,6 +241,16 @@
         } else {
             $('#grupoComprobante').hide();
             $('#comprobante').val('');
+        }
+    });
+
+    $('#pago_metodo').on('change', function() {
+        let nombre = $(this).find(':selected').data('nombre');
+        if (nombre && nombre.toLowerCase() === 'qr') {
+            $('#grupoComprobantePago').show();
+        } else {
+            $('#grupoComprobantePago').hide();
+            $('#comprobante_pago').val('');
         }
     });
 </script>

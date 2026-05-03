@@ -46,6 +46,8 @@ Route::middleware(['auth:admin,employee'])->prefix('admin')->group(function () {
         ->names('admin.membresias')
         ->parameters(['membresias' => 'membresium']);
 
+    Route::post('/membresias/{membresium}/pago', [MembershipController::class, 'registrarPago'])->name('admin.membresias.registrarPago');
+
     Route::resource('ventas', SaleController::class)
         ->names('admin.ventas')
         ->parameters(['ventas' => 'venta']);

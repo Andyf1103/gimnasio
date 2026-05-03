@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Membership extends Model
 {
@@ -48,5 +49,10 @@ class Membership extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    public function pagos(): HasMany
+    {
+        return $this->hasMany(PagoMembresia::class);
     }
 }
