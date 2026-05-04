@@ -11,12 +11,25 @@ use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $columna = $request->get('orden', 'id');
+        $direccion = $request->get('direccion', 'desc');
+
+        $columnasPermitidas = ['id', 'total', 'created_at'];
+        if (!in_array($columna, $columnasPermitidas)) {
+            $columna = 'id';
+        }
+        if (!in_array($direccion, ['asc', 'desc'])) {
+            $direccion = 'desc';
+        }
+
         $ventas = Sale::with(['client', 'employee', 'paymentMethod'])
-            ->orderBy('id', 'asc')
-            ->paginate(10);
-        return view('admin.ventas.index', compact('ventas'));
+            ->orderBy($columna, $direccion)
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.ventas.index', compact('ventas', 'columna', 'direccion'));
     }
 
     public function create()

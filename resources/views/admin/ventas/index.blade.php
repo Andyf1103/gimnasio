@@ -21,11 +21,23 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>
+                            <a href="{{ route('admin.ventas.index', ['orden' => 'id', 'direccion' => $columna == 'id' && $direccion == 'asc' ? 'desc' : 'asc']) }}">
+                                # @if($columna == 'id') @if($direccion == 'asc') 🔼 @else 🔽 @endif @endif
+                            </a>
+                        </th>
                         <th>Recepcionista</th>
                         <th>Método</th>
-                        <th>Total</th>
-                        <th>Fecha</th>
+                        <th>
+                            <a href="{{ route('admin.ventas.index', ['orden' => 'total', 'direccion' => $columna == 'total' && $direccion == 'asc' ? 'desc' : 'asc']) }}">
+                                Total @if($columna == 'total') @if($direccion == 'asc') 🔼 @else 🔽 @endif @endif
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ route('admin.ventas.index', ['orden' => 'created_at', 'direccion' => $columna == 'created_at' && $direccion == 'asc' ? 'desc' : 'asc']) }}">
+                                Fecha @if($columna == 'created_at') @if($direccion == 'asc') 🔼 @else 🔽 @endif @endif
+                            </a>
+                        </th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
