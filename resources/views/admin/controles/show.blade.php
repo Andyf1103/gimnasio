@@ -3,7 +3,7 @@
 @section('title', 'Detalle de Control')
 
 @section('content_header')
-    <h1>Detalle de Control</h1>
+    <h1>Detalle de Control Físico </h1>
 @stop
 
 @section('content')
