@@ -158,6 +158,25 @@ class MembershipController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function renovar(Request $request, Membership $membresium)
+    {
+        $plan = $membresium->planType;
+        
+        $membresium->update([
+            'fecha_inicio' => date('Y-m-d'),
+            'fecha_final' => $this->calcularFechaFinal(date('Y-m-d'), $plan->duracion_dias),
+            'monto_total' => $plan->precio_plan,
+            'saldo' => $plan->precio_plan,
+            'estado' => 'activa',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'modal_url' => url('/admin/membresias/' . $membresium->id . '?modal=1'),
+            'message' => 'Membresía renovada. Nuevo vencimiento: ' . $membresium->fecha_final->format('d/m/Y'),
+        ]);
+    }
+
     private function calcularFechaFinal($fechaInicio, $diasHabiles)
     {
         $fecha = new \DateTime($fechaInicio);

@@ -45,15 +45,15 @@
                 </thead>
                 <tbody>
                     @foreach($usuarios as $usuario)
+                        @php
+                            $membresiaActiva = $usuario->memberships->whereIn('estado', ['ACTIVA', 'activa', 'VENCIDA', 'vencida'])->first();
+                        @endphp
                         <tr>
                             <td>{{ $usuario->id }}</td>
                             <td>{{ $usuario->nombre }}</td>
                             <td>{{ $usuario->apellido }}</td>
                             <td>{{ $usuario->fecha_inscripcion->format('d/m/Y') }}</td>
                             <td>
-                                @php
-                                    $membresiaActiva = $usuario->memberships->whereIn('estado', ['ACTIVA', 'activa'])->first();
-                                @endphp
                                 @if($membresiaActiva && $membresiaActiva->saldo > 0)
                                     <span class="badge badge-warning">
                                         Bs {{ number_format($membresiaActiva->saldo, 2) }}
@@ -70,6 +70,12 @@
                             </td>
                             <td>
                                 @if($membresiaActiva)
+                                    @if($membresiaActiva->fecha_final < now())
+                                        <button type="button" class="btn btn-sm btn-success btn-renovar" 
+                                                data-id="{{ $membresiaActiva->id }}">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    @endif
                                     <button type="button" class="btn btn-sm btn-info btn-membresia" 
                                             data-id="{{ $membresiaActiva->id }}">
                                         <i class="fas fa-id-card"></i>
@@ -124,13 +130,38 @@
         let id = $(this).data('id');
         $('#modalMembresia').modal('show');
         $('#contenidoMembresia').html('Cargando...');
-
         $.get('{{ url("/admin/membresias") }}/' + id + '?modal=1', function(data) {
             $('#contenidoMembresia').html(data);
         });
     });
 
-    // Recargar página al cerrar el modal
+    // Botón Renovar
+    $(document).on('click', '.btn-renovar', function() {
+        let id = $(this).data('id');
+        let btn = $(this);
+        btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+
+        $.ajax({
+            url: '{{ url("/admin/membresias") }}/' + id + '/renovar',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                btn.prop('disabled', false).html('<i class="fas fa-sync-alt"></i>');
+                $('#modalMembresia').modal('show');
+                $('#contenidoMembresia').html('Cargando...');
+                $.get(response.modal_url, function(data) {
+                    $('#contenidoMembresia').html(data);
+                });
+            },
+            error: function() {
+                btn.prop('disabled', false).html('<i class="fas fa-sync-alt"></i>');
+                alert('Error al renovar la membresía.');
+            }
+        });
+    });
+
     $('#modalMembresia').on('hidden.bs.modal', function() {
         location.reload();
     });
