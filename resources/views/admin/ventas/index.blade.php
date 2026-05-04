@@ -22,7 +22,6 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Cliente</th>
                         <th>Recepcionista</th>
                         <th>Método</th>
                         <th>Total</th>
@@ -34,7 +33,6 @@
                     @foreach($ventas as $venta)
                         <tr>
                             <td>{{ $venta->id }}</td>
-                            <td>{{ $venta->client->nombre ?? 'Externo' }} {{ $venta->client->apellido ?? '' }}</td>
                             <td>
                                 @if($venta->employee)
                                     {{ $venta->employee->nombre }} {{ $venta->employee->apellido }}

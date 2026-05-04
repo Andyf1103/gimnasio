@@ -11,7 +11,6 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <p><strong>Cliente:</strong> {{ $venta->client->nombre ?? 'Externo' }} {{ $venta->client->apellido ?? '' }}</p>
                     <p><strong>Empleado:</strong> {{ $venta->employee->nombre ?? 'N/A' }} {{ $venta->employee->apellido ?? '' }}</p>
                     <p><strong>Método de Pago:</strong> {{ $venta->paymentMethod->nombre ?? 'N/A' }}</p>
                     <p><strong>Fecha:</strong> {{ $venta->created_at->format('d/m/Y H:i') }}</p>
