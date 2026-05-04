@@ -11,23 +11,23 @@
         <div class="card-body">
             <form method="GET" class="mb-4">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label for="fecha_inicio">Fecha Inicio</label>
                             <input type="date" name="fecha_inicio" id="fecha_inicio" 
                                    class="form-control" value="{{ request('fecha_inicio', date('Y-m-d')) }}">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label for="fecha_fin">Fecha Fin</label>
                             <input type="date" name="fecha_fin" id="fecha_fin" 
                                    class="form-control" value="{{ request('fecha_fin', date('Y-m-d')) }}">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <label for="tipo">Tipo</label>
+                            <label for="tipo">Método</label>
                             <select name="tipo" id="tipo" class="form-control">
                                 <option value="">Todos</option>
                                 <option value="efectivo" {{ request('tipo') == 'efectivo' ? 'selected' : '' }}>Efectivo</option>
@@ -35,20 +35,36 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="modulo">Módulo</label>
+                            <select name="modulo" id="modulo" class="form-control">
+                                <option value="">Todos</option>
+                                <option value="membresias" {{ request('modulo') == 'membresias' ? 'selected' : '' }}>Membresías</option>
+                                <option value="ventas" {{ request('modulo') == 'ventas' ? 'selected' : '' }}>Productos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label>&nbsp;</label>
                             <button type="submit" class="btn btn-primary btn-block">
                                 <i class="fas fa-search"></i> Filtrar
                             </button>
-                            <a href="{{ route('admin.reportes.pdf', request()->query()) }}" class="btn btn-danger btn-block mt-2" target="_blank">
-                                <i class="fas fa-file-pdf"></i> Exportar PDF
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <a href="{{ route('admin.reportes.pdf', request()->query()) }}" class="btn btn-danger btn-block" target="_blank">
+                                <i class="fas fa-file-pdf"></i> PDF
                             </a>
                         </div>
                     </div>
                 </div>
             </form>
 
+            @if(!request('modulo') || request('modulo') == 'membresias')
             <h5>Membresías Vendidas</h5>
             <table class="table table-bordered mb-4">
                 <thead>
@@ -79,7 +95,9 @@
                     </tr>
                 </tbody>
             </table>
+            @endif
 
+            @if(!request('modulo') || request('modulo') == 'ventas')
             <h5>Ventas de Productos</h5>
             <table class="table table-bordered">
                 <thead>
@@ -120,6 +138,7 @@
                     </tr>
                 </tbody>
             </table>
+            @endif
         </div>
     </div>
 @stop

@@ -14,32 +14,40 @@ class DailyReportController extends Controller
         $fechaInicio = $request->get('fecha_inicio', date('Y-m-d'));
         $fechaFin = $request->get('fecha_fin', date('Y-m-d'));
         $tipo = $request->get('tipo');
+        $modulo = $request->get('modulo');
 
-        $membresias = Membership::with(['client', 'planType', 'paymentMethod'])
-            ->whereDate('created_at', '>=', $fechaInicio)
-            ->whereDate('created_at', '<=', $fechaFin)
-            ->when($tipo, function ($query, $tipo) {
-                if ($tipo == 'efectivo') {
-                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
-                } elseif ($tipo == 'digital') {
-                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
-                }
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $membresias = collect();
+        $ventas = collect();
 
-        $ventas = Sale::with(['client', 'employee', 'paymentMethod', 'saleDetails.product'])
-            ->whereDate('created_at', '>=', $fechaInicio)
-            ->whereDate('created_at', '<=', $fechaFin)
-            ->when($tipo, function ($query, $tipo) {
-                if ($tipo == 'efectivo') {
-                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
-                } elseif ($tipo == 'digital') {
-                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
-                }
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        if (!$modulo || $modulo == 'membresias') {
+            $membresias = Membership::with(['client', 'planType', 'paymentMethod', 'creator'])
+                ->whereDate('created_at', '>=', $fechaInicio)
+                ->whereDate('created_at', '<=', $fechaFin)
+                ->when($tipo, function ($query, $tipo) {
+                    if ($tipo == 'efectivo') {
+                        $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
+                    } elseif ($tipo == 'digital') {
+                        $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
+                    }
+                })
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        if (!$modulo || $modulo == 'ventas') {
+            $ventas = Sale::with(['client', 'employee', 'paymentMethod', 'saleDetails.product'])
+                ->whereDate('created_at', '>=', $fechaInicio)
+                ->whereDate('created_at', '<=', $fechaFin)
+                ->when($tipo, function ($query, $tipo) {
+                    if ($tipo == 'efectivo') {
+                        $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
+                    } elseif ($tipo == 'digital') {
+                        $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
+                    }
+                })
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
 
         return view('admin.reportes.detalle', compact('membresias', 'ventas', 'fechaInicio', 'fechaFin'));
     }
@@ -49,32 +57,40 @@ class DailyReportController extends Controller
         $fechaInicio = $request->get('fecha_inicio', date('Y-m-d'));
         $fechaFin = $request->get('fecha_fin', date('Y-m-d'));
         $tipo = $request->get('tipo');
+        $modulo = $request->get('modulo');
 
-        $membresias = Membership::with(['planType', 'paymentMethod'])
-            ->whereDate('created_at', '>=', $fechaInicio)
-            ->whereDate('created_at', '<=', $fechaFin)
-            ->when($tipo, function ($query, $tipo) {
-                if ($tipo == 'efectivo') {
-                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
-                } elseif ($tipo == 'digital') {
-                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
-                }
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $membresias = collect();
+        $ventas = collect();
 
-        $ventas = Sale::with(['employee', 'paymentMethod', 'saleDetails.product'])
-            ->whereDate('created_at', '>=', $fechaInicio)
-            ->whereDate('created_at', '<=', $fechaFin)
-            ->when($tipo, function ($query, $tipo) {
-                if ($tipo == 'efectivo') {
-                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
-                } elseif ($tipo == 'digital') {
-                    $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
-                }
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        if (!$modulo || $modulo == 'membresias') {
+            $membresias = Membership::with(['planType', 'paymentMethod', 'creator'])
+                ->whereDate('created_at', '>=', $fechaInicio)
+                ->whereDate('created_at', '<=', $fechaFin)
+                ->when($tipo, function ($query, $tipo) {
+                    if ($tipo == 'efectivo') {
+                        $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
+                    } elseif ($tipo == 'digital') {
+                        $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
+                    }
+                })
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        if (!$modulo || $modulo == 'ventas') {
+            $ventas = Sale::with(['employee', 'paymentMethod', 'saleDetails.product'])
+                ->whereDate('created_at', '>=', $fechaInicio)
+                ->whereDate('created_at', '<=', $fechaFin)
+                ->when($tipo, function ($query, $tipo) {
+                    if ($tipo == 'efectivo') {
+                        $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) LIKE ?', ['%efectivo%']));
+                    } elseif ($tipo == 'digital') {
+                        $query->whereHas('paymentMethod', fn($q) => $q->whereRaw('LOWER(nombre) NOT LIKE ?', ['%efectivo%']));
+                    }
+                })
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
 
         $pdf = Pdf::loadView('admin.reportes.pdf', compact('membresias', 'ventas', 'fechaInicio', 'fechaFin'));
 

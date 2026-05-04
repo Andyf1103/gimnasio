@@ -18,6 +18,7 @@
     <h1>Reporte Detallado</h1>
     <p>Desde: {{ $fechaInicio }} - Hasta: {{ $fechaFin }}</p>
 
+    @if(!request('modulo') || request('modulo') == 'membresias')
     <h3>Membresías Vendidas</h3>
     <table>
         <thead>
@@ -48,7 +49,9 @@
             </tr>
         </tbody>
     </table>
+    @endif
 
+    @if(!request('modulo') || request('modulo') == 'ventas')
     <h3>Ventas de Productos</h3>
     <table>
         <thead>
@@ -89,5 +92,6 @@
             </tr>
         </tbody>
     </table>
+    @endif
 </body>
 </html>
