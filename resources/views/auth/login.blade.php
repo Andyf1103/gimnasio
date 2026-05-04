@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gimnasio - Login</title>
+    <title>Spasso Gym - Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -11,7 +11,9 @@
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="#" class="h3"><b>Gimnasio</b></a>
+                <img src="{{ asset('img/logo.png') }}" alt="Spasso Gym" style="max-width: 120px; margin-bottom: 10px;">
+                <br>
+                <a href="#" class="h3"><b>Spasso Gym</b></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Inicia sesión</p>
