@@ -81,10 +81,10 @@
             <div class="form-group">
                 <label>Estado</label>
                 <select name="estado" class="form-control" required>
-                    <option value="activa" {{ $membresium->estado == 'activa' ? 'selected' : '' }}>Activa</option>
-                    <option value="vencida" {{ $membresium->estado == 'vencida' ? 'selected' : '' }}>Vencida</option>
-                    <option value="congelada" {{ $membresium->estado == 'congelada' ? 'selected' : '' }}>Congelada</option>
-                    <option value="cancelada" {{ $membresium->estado == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+                    <option value="activa" {{ $membresium->estado_real == 'activa' ? 'selected' : '' }}>Activa</option>
+                    <option value="vencida" {{ $membresium->estado_real == 'vencida' || $membresium->estado_real == 'VENCIDA' ? 'selected' : '' }}>Vencida</option>
+                    <option value="congelada" {{ $membresium->estado_real == 'congelada' ? 'selected' : '' }}>Congelada</option>
+                    <option value="cancelada" {{ $membresium->estado_real == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
                 </select>
             </div>
         </div>

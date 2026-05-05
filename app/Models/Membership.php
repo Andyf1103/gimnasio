@@ -55,4 +55,12 @@ class Membership extends Model
     {
         return $this->hasMany(PagoMembresia::class);
     }
+
+    public function getEstadoRealAttribute()
+    {
+        if ($this->fecha_final < now() && in_array($this->estado, ['ACTIVA', 'activa'])) {
+            return 'VENCIDA';
+        }
+        return $this->estado;
+    }
 }

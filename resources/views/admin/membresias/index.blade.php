@@ -63,7 +63,7 @@
                             <td>{{ $membresia->fecha_final->format('d/m/Y') }}</td>
                             <td>Bs {{ number_format($membresia->monto_total, 2) }}</td>
                             <td>Bs {{ number_format($membresia->saldo, 2) }}</td>
-                            <td>{{ $membresia->estado }}</td>
+                            <td>{{ $membresia->estado_real }}</td>
                             <td>
                                 @can('editar membresias')
                                 <a href="{{ route($routePrefix . '.membresias.edit', $membresia) }}" class="btn btn-sm btn-warning">
