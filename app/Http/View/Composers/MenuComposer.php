@@ -42,10 +42,6 @@ class MenuComposer
         if ($this->canAccessModule($user, $isAdmin, 'usuarios')) {
             $submenu = [];
 
-            if ($isAdmin || $user->can('crear usuarios')) {
-                $submenu[] = ['text' => 'Registrar Usuario', 'url' => $base . '/usuarios/create', 'icon' => 'fas fa-fw fa-user-plus'];
-            }
-
             if ($this->hasAnyPermission($user, $isAdmin, PermissionRegistry::permissionsFor('usuarios'))) {
                 $submenu[] = ['text' => 'Lista de Usuarios', 'url' => $base . '/usuarios', 'icon' => 'fas fa-fw fa-list'];
             }
@@ -59,10 +55,6 @@ class MenuComposer
 
         if ($this->canAccessModule($user, $isAdmin, 'planes')) {
             $submenu = [];
-
-            if ($isAdmin || $user->can('crear planes')) {
-                $submenu[] = ['text' => 'Nuevo Plan', 'url' => $base . '/planes/create', 'icon' => 'fas fa-fw fa-plus'];
-            }
 
             if ($this->hasAnyPermission($user, $isAdmin, PermissionRegistry::permissionsFor('planes'))) {
                 $submenu[] = ['text' => 'Lista de Planes', 'url' => $base . '/planes', 'icon' => 'fas fa-fw fa-list'];
@@ -78,10 +70,6 @@ class MenuComposer
         if ($this->canAccessModule($user, $isAdmin, 'membresias')) {
             $submenu = [];
 
-            if ($isAdmin || $user->can('crear membresias')) {
-                $submenu[] = ['text' => 'Nueva Membresia', 'url' => $base . '/membresias/create', 'icon' => 'fas fa-fw fa-plus'];
-            }
-
             if ($this->hasAnyPermission($user, $isAdmin, PermissionRegistry::permissionsFor('membresias'))) {
                 $submenu[] = ['text' => 'Lista de Membresias', 'url' => $base . '/membresias', 'icon' => 'fas fa-fw fa-list'];
             }
@@ -95,10 +83,6 @@ class MenuComposer
 
         if ($this->canAccessModule($user, $isAdmin, 'productos')) {
             $submenu = [];
-
-            if ($isAdmin || $user->can('crear productos')) {
-                $submenu[] = ['text' => 'Nuevo Producto', 'url' => $base . '/productos/create', 'icon' => 'fas fa-fw fa-plus'];
-            }
 
             if ($this->hasAnyPermission($user, $isAdmin, PermissionRegistry::permissionsFor('productos'))) {
                 $submenu[] = ['text' => 'Lista de Productos', 'url' => $base . '/productos', 'icon' => 'fas fa-fw fa-list'];
@@ -114,10 +98,6 @@ class MenuComposer
         if ($this->canAccessModule($user, $isAdmin, 'ventas')) {
             $submenu = [];
 
-            if ($isAdmin || $user->can('crear ventas')) {
-                $submenu[] = ['text' => 'Nueva Venta', 'url' => $base . '/ventas/create', 'icon' => 'fas fa-fw fa-plus'];
-            }
-
             if ($this->hasAnyPermission($user, $isAdmin, PermissionRegistry::permissionsFor('ventas'))) {
                 $submenu[] = ['text' => 'Lista de Ventas', 'url' => $base . '/ventas', 'icon' => 'fas fa-fw fa-list'];
             }
@@ -132,10 +112,6 @@ class MenuComposer
         if ($this->canAccessModule($user, $isAdmin, 'controles')) {
             $submenu = [];
 
-            if ($isAdmin || $user->can('crear control usuarios')) {
-                $submenu[] = ['text' => 'Nuevo Control', 'url' => $base . '/controles/create', 'icon' => 'fas fa-fw fa-plus'];
-            }
-
             if ($this->hasAnyPermission($user, $isAdmin, PermissionRegistry::permissionsFor('controles'))) {
                 $submenu[] = ['text' => 'Lista de Controles', 'url' => $base . '/controles', 'icon' => 'fas fa-fw fa-list'];
             }
@@ -149,10 +125,6 @@ class MenuComposer
 
         if ($this->canAccessModule($user, $isAdmin, 'metodos_pago')) {
             $submenu = [];
-
-            if ($isAdmin || $user->can('crear metodos pago')) {
-                $submenu[] = ['text' => 'Nuevo Metodo', 'url' => $base . '/metodos_pago/create', 'icon' => 'fas fa-fw fa-plus'];
-            }
 
             if ($this->hasAnyPermission($user, $isAdmin, PermissionRegistry::permissionsFor('metodos_pago'))) {
                 $submenu[] = ['text' => 'Lista de Metodos', 'url' => $base . '/metodos_pago', 'icon' => 'fas fa-fw fa-list'];
@@ -170,7 +142,6 @@ class MenuComposer
                 'text'    => 'Empleados',
                 'icon'    => 'fas fa-fw fa-user-tie',
                 'submenu' => [
-                    ['text' => 'Nuevo Empleado',     'url' => $base . '/empleados/create', 'icon' => 'fas fa-fw fa-plus'],
                     ['text' => 'Lista de Empleados', 'url' => $base . '/empleados',        'icon' => 'fas fa-fw fa-list'],
                 ],
             ];
@@ -179,7 +150,6 @@ class MenuComposer
                 'text'    => 'Roles y Permisos',
                 'icon'    => 'fas fa-fw fa-lock',
                 'submenu' => [
-                    ['text' => 'Nuevo Rol',      'url' => $base . '/roles/create', 'icon' => 'fas fa-fw fa-plus'],
                     ['text' => 'Lista de Roles', 'url' => $base . '/roles',        'icon' => 'fas fa-fw fa-list'],
                 ],
             ];

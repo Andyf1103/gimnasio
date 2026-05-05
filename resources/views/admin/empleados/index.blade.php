@@ -7,13 +7,20 @@
 @stop
 
 @section('content')
+    @php
+        $puedeCrear = Auth::guard('admin')->check();
+    @endphp
     <div class="card">
         <div class="card-header">
-            @can('crear empleados')
-                <a href="{{ route('admin.empleados.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nuevo Empleado
-                </a>
-            @endcan
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    @if($puedeCrear)
+                        <a href="{{ route('admin.empleados.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Empleado
+                        </a>
+                    @endif
+                </div>
+            </div>
         </div>
         <div class="card-body">
             @if(session('success'))

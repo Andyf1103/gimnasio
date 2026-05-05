@@ -9,8 +9,20 @@
 @section('content')
     @php
         $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+        $puedeCrear = Auth::guard('admin')->check() || (Auth::guard('employee')->check() && Auth::guard('employee')->user()->can('crear membresias'));
     @endphp
     <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    @if($puedeCrear)
+                        <a href="{{ route($routePrefix . '.membresias.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nueva Membresía
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-4">

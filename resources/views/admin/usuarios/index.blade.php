@@ -11,6 +11,9 @@
         $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
         $urlPrefix = Auth::guard('admin')->check() ? '/admin' : '/employee';
     @endphp
+    @php
+        $puedeCrear = Auth::guard('admin')->check() || (Auth::guard('employee')->check() && Auth::guard('employee')->user()->can('crear usuarios'));
+    @endphp
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -23,11 +26,11 @@
                     </div>
                 </div>
                 <div class="col-md-8 text-right">
-                    @can('crear usuarios')
+                    @if($puedeCrear)
                         <a href="{{ route($routePrefix . '.usuarios.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Nuevo Usuario
                         </a>
-                    @endcan
+                    @endif
                 </div>
             </div>
         </div>

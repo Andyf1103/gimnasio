@@ -10,13 +10,20 @@
     @php
         $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
     @endphp
+    @php
+        $puedeCrear = Auth::guard('admin')->check() || (Auth::guard('employee')->check() && Auth::guard('employee')->user()->can('crear ventas'));
+    @endphp
     <div class="card">
         <div class="card-header">
-            @can('crear ventas')
-            <a href="{{ route($routePrefix . '.ventas.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Nueva Venta
-            </a>
-            @endcan
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    @if($puedeCrear)
+                        <a href="{{ route($routePrefix . '.ventas.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nueva Venta
+                        </a>
+                    @endif
+                </div>
+            </div>
         </div>
         <div class="card-body">
             @if(session('success'))

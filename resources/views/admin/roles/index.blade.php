@@ -7,11 +7,20 @@
 @stop
 
 @section('content')
+    @php
+        $puedeCrear = Auth::guard('admin')->check();
+    @endphp
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Nuevo Rol
-            </a>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    @if($puedeCrear)
+                        <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Rol
+                        </a>
+                    @endif
+                </div>
+            </div>
         </div>
         <div class="card-body">
             @if(session('success'))

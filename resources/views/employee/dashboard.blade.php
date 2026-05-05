@@ -49,13 +49,13 @@
 
     <div class="row">
         <div class="col-md-6">
-            <a href="{{ route('employee.usuarios.create') }}" class="btn btn-primary btn-block mb-2">
-                <i class="fas fa-user-plus"></i> Nuevo Usuario
+            <a href="{{ route('employee.usuarios.index') }}" class="btn btn-primary btn-block mb-2">
+                <i class="fas fa-list"></i> Lista de Usuarios
             </a>
         </div>
         <div class="col-md-6">
-            <a href="{{ route('employee.ventas.create') }}" class="btn btn-success btn-block mb-2">
-                <i class="fas fa-shopping-cart"></i> Nueva Venta
+            <a href="{{ route('employee.ventas.index') }}" class="btn btn-success btn-block mb-2">
+                <i class="fas fa-list"></i> Lista de Ventas
             </a>
         </div>
     </div>
