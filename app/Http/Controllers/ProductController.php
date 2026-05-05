@@ -4,9 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:ver productos|crear productos|editar productos|eliminar productos')->only(['index', 'show']);
+        $this->middleware('permission:crear productos')->only(['create', 'store']);
+        $this->middleware('permission:editar productos')->only(['edit', 'update']);
+        $this->middleware('permission:eliminar productos')->only(['destroy']);
+    }
+
+    private function routePrefix(): string
+    {
+        return Auth::guard('admin')->check() ? 'admin' : 'employee';
+    }
+
     public function index()
     {
         $productos = Product::orderBy('id', 'asc')->paginate(10);
@@ -28,7 +42,7 @@ class ProductController extends Controller
 
         Product::create($request->all());
 
-        return redirect()->route('admin.productos.index')
+        return redirect()->route($this->routePrefix() . '.productos.index')
             ->with('success', 'Producto registrado correctamente.');
     }
 
@@ -52,7 +66,7 @@ class ProductController extends Controller
 
         $producto->update($request->all());
 
-        return redirect()->route('admin.productos.index')
+        return redirect()->route($this->routePrefix() . '.productos.index')
             ->with('success', 'Producto actualizado correctamente.');
     }
 
@@ -60,7 +74,7 @@ class ProductController extends Controller
     {
         $producto->delete();
 
-        return redirect()->route('admin.productos.index')
+        return redirect()->route($this->routePrefix() . '.productos.index')
             ->with('success', 'Producto eliminado correctamente.');
     }
 }

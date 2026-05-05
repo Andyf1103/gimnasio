@@ -8,9 +8,28 @@ use App\Models\PlanType;
 use App\Models\PaymentMethod;
 use App\Models\PagoMembresia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MembershipController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:ver membresias|crear membresias|editar membresias|eliminar membresias')->only(['index', 'show']);
+        $this->middleware('permission:crear membresias')->only(['create', 'store']);
+        $this->middleware('permission:editar membresias')->only(['edit', 'update', 'registrarPago', 'renovar']);
+        $this->middleware('permission:eliminar membresias')->only(['destroy']);
+    }
+
+    private function routePrefix(): string
+    {
+        return Auth::guard('admin')->check() ? 'admin' : 'employee';
+    }
+
+    private function urlPrefix(): string
+    {
+        return Auth::guard('admin')->check() ? '/admin' : '/employee';
+    }
+
     public function index(Request $request)
     {
         $query = Membership::with(['client', 'planType', 'paymentMethod']);
@@ -67,7 +86,7 @@ class MembershipController extends Controller
             'comprobante' => $rutaComprobante,
         ]);
 
-        return redirect()->route('admin.membresias.index')
+        return redirect()->route($this->routePrefix() . '.membresias.index')
             ->with('success', 'Membresía creada correctamente.');
     }
 
@@ -118,14 +137,14 @@ class MembershipController extends Controller
 
         $membresium->update($data);
 
-        return redirect()->route('admin.membresias.index')
+        return redirect()->route($this->routePrefix() . '.membresias.index')
             ->with('success', 'Membresía actualizada correctamente.');
     }
 
     public function destroy(Membership $membresium)
     {
         $membresium->delete();
-        return redirect()->route('admin.membresias.index')
+        return redirect()->route($this->routePrefix() . '.membresias.index')
             ->with('success', 'Membresía eliminada correctamente.');
     }
 
@@ -172,7 +191,7 @@ class MembershipController extends Controller
 
         return response()->json([
             'success' => true,
-            'modal_url' => url('/admin/membresias/' . $membresium->id . '?modal=1'),
+            'modal_url' => url($this->urlPrefix() . '/membresias/' . $membresium->id . '?modal=1'),
             'message' => 'Membresía renovada. Nuevo vencimiento: ' . $membresium->fecha_final->format('d/m/Y'),
         ]);
     }

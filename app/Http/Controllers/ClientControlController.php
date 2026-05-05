@@ -5,9 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\ClientControl;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientControlController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:ver control usuarios|crear control usuarios|editar control usuarios|eliminar control usuarios')->only(['index', 'show']);
+        $this->middleware('permission:crear control usuarios')->only(['create', 'store']);
+        $this->middleware('permission:editar control usuarios')->only(['edit', 'update']);
+        $this->middleware('permission:eliminar control usuarios')->only(['destroy']);
+    }
+
+    private function routePrefix(): string
+    {
+        return Auth::guard('admin')->check() ? 'admin' : 'employee';
+    }
+
     public function index()
     {
         $controles = ClientControl::with('client')
@@ -33,7 +47,7 @@ class ClientControlController extends Controller
 
         ClientControl::create($request->all());
 
-        return redirect()->route('admin.controles.index')
+        return redirect()->route($this->routePrefix() . '.controles.index')
             ->with('success', 'Control registrado correctamente.');
     }
 
@@ -60,14 +74,14 @@ class ClientControlController extends Controller
 
         $control->update($request->all());
 
-        return redirect()->route('admin.controles.index')
+        return redirect()->route($this->routePrefix() . '.controles.index')
             ->with('success', 'Control actualizado correctamente.');
     }
 
     public function destroy(ClientControl $control)
     {
         $control->delete();
-        return redirect()->route('admin.controles.index')
+        return redirect()->route($this->routePrefix() . '.controles.index')
             ->with('success', 'Control eliminado correctamente.');
     }
 }

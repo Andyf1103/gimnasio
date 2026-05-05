@@ -50,6 +50,11 @@ class RoleAndPermissionSeeder extends Seeder
             // Caja
             'gestionar caja',
             'ver caja',
+            // Métodos de Pago
+            'crear metodos pago',
+            'editar metodos pago',
+            'eliminar metodos pago',
+            'ver metodos pago',
             // Reportes
             'ver reportes',
             // Roles y permisos
@@ -76,12 +81,16 @@ class RoleAndPermissionSeeder extends Seeder
             'editar control usuarios',
             'ver productos',
             'crear planes',
+            'editar planes',
             'ver planes',
             'crear membresias',
             'editar membresias',
+            'eliminar membresias',
             'ver membresias',
             'crear ventas',
             'ver ventas',
+            'ver metodos pago',
+            'crear metodos pago',
             'gestionar caja',
             'ver caja',
         ]);

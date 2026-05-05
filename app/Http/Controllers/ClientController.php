@@ -11,6 +11,19 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:ver usuarios|crear usuarios|editar usuarios|eliminar usuarios')->only(['index', 'show']);
+        $this->middleware('permission:crear usuarios')->only(['create', 'store']);
+        $this->middleware('permission:editar usuarios')->only(['edit', 'update']);
+        $this->middleware('permission:eliminar usuarios')->only(['destroy']);
+    }
+
+    private function routePrefix(): string
+    {
+        return Auth::guard('admin')->check() ? 'admin' : 'employee';
+    }
+
     public function index(Request $request)
     {
         $query = Client::query();
@@ -77,7 +90,7 @@ class ClientController extends Controller
             'comprobante' => $rutaComprobante,
         ]);
 
-        return redirect()->route('admin.usuarios.index')
+        return redirect()->route($this->routePrefix() . '.usuarios.index')
             ->with('success', 'Usuario y membresía registrados correctamente.');
     }
 
@@ -103,7 +116,7 @@ class ClientController extends Controller
             'apellido' => $request->apellido,
         ]);
 
-        return redirect()->route('admin.usuarios.index')
+        return redirect()->route($this->routePrefix() . '.usuarios.index')
             ->with('success', 'Usuario actualizado correctamente.');
     }
 
@@ -111,7 +124,7 @@ class ClientController extends Controller
     {
         $usuario->delete();
 
-        return redirect()->route('admin.usuarios.index')
+        return redirect()->route($this->routePrefix() . '.usuarios.index')
             ->with('success', 'Usuario eliminado correctamente.');
     }
 

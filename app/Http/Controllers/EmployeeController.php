@@ -6,9 +6,18 @@ use App\Models\Employee;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:ver empleados|crear empleados|editar empleados|eliminar empleados')->only(['index']);
+        $this->middleware('permission:crear empleados')->only(['create', 'store']);
+        $this->middleware('permission:editar empleados')->only(['edit', 'update']);
+        $this->middleware('permission:eliminar empleados')->only(['destroy']);
+    }
+
     public function index()
     {
         $empleados = Employee::orderBy('id', 'asc')->paginate(10);
@@ -29,7 +38,10 @@ class EmployeeController extends Controller
             'telefono' => 'required|string|max:20',
             'correo' => 'required|email|unique:employees,correo',
             'contrasena' => 'required|string|min:6',
-            'role_id' => 'required|exists:roles,id',
+            'role_id' => [
+                'required',
+                Rule::exists('roles', 'id')->where(fn ($query) => $query->where('guard_name', 'employee')),
+            ],
         ]);
 
         $empleado = Employee::create([
@@ -55,6 +67,11 @@ class EmployeeController extends Controller
         return view('admin.empleados.edit', compact('empleado', 'roles'));
     }
 
+    public function show(Employee $empleado)
+    {
+        return view('admin.empleados.show', compact('empleado'));
+    }
+
     public function update(Request $request, Employee $empleado)
     {
         $request->validate([
@@ -62,7 +79,10 @@ class EmployeeController extends Controller
             'apellido' => 'required|string|max:100',
             'telefono' => 'required|string|max:20',
             'correo' => 'required|email|unique:employees,correo,' . $empleado->id,
-            'role_id' => 'required|exists:roles,id',
+            'role_id' => [
+                'required',
+                Rule::exists('roles', 'id')->where(fn ($query) => $query->where('guard_name', 'employee')),
+            ],
         ]);
 
         $empleado->update([
@@ -70,6 +90,7 @@ class EmployeeController extends Controller
             'apellido' => $request->apellido,
             'telefono' => $request->telefono,
             'correo' => $request->correo,
+            'role_id' => $request->role_id,
         ]);
 
         if ($request->contrasena) {

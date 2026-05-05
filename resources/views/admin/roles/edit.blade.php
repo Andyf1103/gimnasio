@@ -25,29 +25,14 @@
 
                 <h5>Permisos</h5>
                 
-                @php
-                    $modulos = [
-                        'Usuarios' => ['crear usuarios', 'editar usuarios', 'eliminar usuarios', 'ver usuarios'],
-                        'Control Usuarios' => ['crear control usuarios', 'editar control usuarios', 'eliminar control usuarios', 'ver control usuarios'],
-                        'Productos' => ['crear productos', 'editar productos', 'eliminar productos', 'ver productos'],
-                        'Empleados' => ['crear empleados', 'editar empleados', 'eliminar empleados', 'ver empleados'],
-                        'Planes' => ['crear planes', 'editar planes', 'eliminar planes', 'ver planes'],
-                        'Membresías' => ['editar membresias', 'ver membresias'],
-                        'Ventas' => ['crear ventas', 'ver ventas', 'eliminar ventas'],
-                        'Métodos de Pago' => ['crear metodos pago', 'editar metodos pago', 'eliminar metodos pago', 'ver metodos pago'],
-                        'Reportes' => ['ver reportes'],
-                        'Roles' => ['gestionar roles'],
-                    ];
-                @endphp
-
-                @foreach($modulos as $modulo => $permisosDelModulo)
+                @foreach($modulos as $modulo)
                     <div class="card card-outline card-secondary mb-2">
                         <div class="card-header">
-                            <h6 class="card-title mb-0">{{ $modulo }}</h6>
+                            <h6 class="card-title mb-0">{{ $modulo['label'] }}</h6>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                @foreach($permisosDelModulo as $permisoNombre)
+                                @foreach($modulo['permissions'] as $permisoNombre)
                                     @php $permiso = $permisos->where('name', $permisoNombre)->first(); @endphp
                                     @if($permiso)
                                         <div class="col-md-4">

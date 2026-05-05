@@ -11,6 +11,18 @@ use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:ver ventas|crear ventas|eliminar ventas')->only(['index', 'show']);
+        $this->middleware('permission:crear ventas')->only(['create', 'store']);
+        $this->middleware('permission:eliminar ventas')->only(['destroy']);
+    }
+
+    private function routePrefix(): string
+    {
+        return Auth::guard('admin')->check() ? 'admin' : 'employee';
+    }
+
     public function index(Request $request)
     {
         $columna = $request->get('orden', 'id');
@@ -83,7 +95,7 @@ class SaleController extends Controller
 
         $venta->saleDetails()->saveMany($detalles);
 
-        return redirect()->route('admin.ventas.index')
+        return redirect()->route($this->routePrefix() . '.ventas.index')
             ->with('success', 'Venta registrada correctamente. Total: Bs ' . number_format($total, 2));
     }
 
@@ -101,7 +113,7 @@ class SaleController extends Controller
 
         $venta->delete();
 
-        return redirect()->route('admin.ventas.index')
+        return redirect()->route($this->routePrefix() . '.ventas.index')
             ->with('success', 'Venta eliminada correctamente.');
     }
 }

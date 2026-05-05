@@ -4,9 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\PlanType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PlanTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:ver planes|crear planes|editar planes|eliminar planes')->only(['index']);
+        $this->middleware('permission:crear planes')->only(['create', 'store']);
+        $this->middleware('permission:editar planes')->only(['edit', 'update']);
+        $this->middleware('permission:eliminar planes')->only(['destroy']);
+    }
+
+    private function routePrefix(): string
+    {
+        return Auth::guard('admin')->check() ? 'admin' : 'employee';
+    }
+
     public function index()
     {
         $planes = PlanType::orderBy('id', 'asc')->paginate(10);
@@ -16,6 +30,13 @@ class PlanTypeController extends Controller
     public function create()
     {
         return view('admin.planes.create');
+    }
+
+    public function show(PlanType $plan)
+    {
+        $plan->load(['memberships.client']);
+
+        return view('admin.planes.show', compact('plan'));
     }
 
     public function store(Request $request)
@@ -30,7 +51,7 @@ class PlanTypeController extends Controller
 
         PlanType::create($request->all());
 
-        return redirect()->route('admin.planes.index')
+        return redirect()->route($this->routePrefix() . '.planes.index')
             ->with('success', 'Plan creado correctamente.');
     }
 
@@ -51,7 +72,7 @@ class PlanTypeController extends Controller
 
         $plan->update($request->all());
 
-        return redirect()->route('admin.planes.index')
+        return redirect()->route($this->routePrefix() . '.planes.index')
             ->with('success', 'Plan actualizado correctamente.');
     }
 
@@ -59,7 +80,7 @@ class PlanTypeController extends Controller
     {
         $plan->delete();
 
-        return redirect()->route('admin.planes.index')
+        return redirect()->route($this->routePrefix() . '.planes.index')
             ->with('success', 'Plan eliminado correctamente.');
     }
 }

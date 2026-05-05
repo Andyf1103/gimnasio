@@ -4,9 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentMethodController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:ver metodos pago|crear metodos pago|editar metodos pago|eliminar metodos pago')->only(['index']);
+        $this->middleware('permission:crear metodos pago')->only(['create', 'store']);
+        $this->middleware('permission:editar metodos pago')->only(['edit', 'update']);
+        $this->middleware('permission:eliminar metodos pago')->only(['destroy']);
+    }
+
+    private function routePrefix(): string
+    {
+        return Auth::guard('admin')->check() ? 'admin' : 'employee';
+    }
+
     public function index()
     {
         $metodos = PaymentMethod::orderBy('id', 'asc')->paginate(10);
@@ -26,7 +40,7 @@ class PaymentMethodController extends Controller
 
         PaymentMethod::create($request->all());
 
-        return redirect()->route('admin.metodos_pago.index')
+        return redirect()->route($this->routePrefix() . '.metodos_pago.index')
             ->with('success', 'Método de pago creado.');
     }
 
@@ -43,14 +57,14 @@ class PaymentMethodController extends Controller
 
         $metodo->update($request->all());
 
-        return redirect()->route('admin.metodos_pago.index')
+        return redirect()->route($this->routePrefix() . '.metodos_pago.index')
             ->with('success', 'Método de pago actualizado.');
     }
 
     public function destroy(PaymentMethod $metodo)
     {
         $metodo->delete();
-        return redirect()->route('admin.metodos_pago.index')
+        return redirect()->route($this->routePrefix() . '.metodos_pago.index')
             ->with('success', 'Método de pago eliminado.');
     }
 }

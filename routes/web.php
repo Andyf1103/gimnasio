@@ -13,6 +13,7 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ClientControlController;
 use App\Http\Controllers\DailyReportController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -22,17 +23,15 @@ Route::get('/login', [UnifiedLoginController::class, 'showLoginForm'])->name('lo
 Route::post('/login', [UnifiedLoginController::class, 'login'])->name('login.submit');
 Route::post('/logout', [UnifiedLoginController::class, 'logout'])->name('logout');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:admin,employee')->group(function () {
 
     Route::get('/dashboard', function () {
-        if (auth()->user()->hasRole('Administrador')) {
-            return redirect()->route('admin.dashboard');
-        }
+        if (Auth::guard('admin')->check()) return redirect()->route('admin.dashboard');
         return redirect()->route('employee.dashboard');
     })->name('dashboard');
 
     // Admin
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin')->middleware('auth:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
         Route::resource('usuarios', ClientController::class)->names('admin.usuarios');
         Route::resource('productos', ProductController::class)->names('admin.productos');
@@ -43,22 +42,23 @@ Route::middleware('auth')->group(function () {
         Route::post('/membresias/{membresium}/pago', [MembershipController::class, 'registrarPago'])->name('admin.membresias.registrarPago');
         Route::post('/membresias/{membresium}/renovar', [MembershipController::class, 'renovar'])->name('admin.membresias.renovar');
         Route::resource('ventas', SaleController::class)->names('admin.ventas')->parameters(['ventas' => 'venta']);
-        Route::resource('metodos_pago', PaymentMethodController::class)->names('admin.metodos_pago')->parameters(['metodos_pago' => 'metodo']);
+        Route::resource('metodos_pago', PaymentMethodController::class)->except(['show'])->names('admin.metodos_pago')->parameters(['metodos_pago' => 'metodo']);
         Route::resource('controles', ClientControlController::class)->names('admin.controles')->parameters(['controles' => 'control']);
         Route::get('/reportes/detalle', [DailyReportController::class, 'detalle'])->name('admin.reportes.detalle');
         Route::get('/reportes/pdf', [DailyReportController::class, 'exportarPdf'])->name('admin.reportes.pdf');
     });
 
     // Employee
-    Route::prefix('employee')->group(function () {
+    Route::prefix('employee')->middleware('auth:employee')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'employee'])->name('employee.dashboard');
         Route::resource('usuarios', ClientController::class)->names('employee.usuarios');
         Route::resource('productos', ProductController::class)->names('employee.productos');
+        Route::resource('planes', PlanTypeController::class)->names('employee.planes')->parameters(['planes' => 'plan']);
         Route::resource('membresias', MembershipController::class)->names('employee.membresias')->parameters(['membresias' => 'membresium']);
         Route::post('/membresias/{membresium}/pago', [MembershipController::class, 'registrarPago'])->name('employee.membresias.registrarPago');
         Route::post('/membresias/{membresium}/renovar', [MembershipController::class, 'renovar'])->name('employee.membresias.renovar');
         Route::resource('ventas', SaleController::class)->names('employee.ventas')->parameters(['ventas' => 'venta']);
-        Route::resource('metodos_pago', PaymentMethodController::class)->names('employee.metodos_pago')->parameters(['metodos_pago' => 'metodo']);
+        Route::resource('metodos_pago', PaymentMethodController::class)->except(['show'])->names('employee.metodos_pago')->parameters(['metodos_pago' => 'metodo']);
         Route::resource('controles', ClientControlController::class)->names('employee.controles')->parameters(['controles' => 'control']);
     });
 });
