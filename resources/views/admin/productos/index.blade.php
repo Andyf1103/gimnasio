@@ -9,11 +9,11 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            @if(auth('admin')->check() || auth('employee')->check())
+            @can('crear productos')
                 <a href="{{ route('admin.productos.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nuevo Producto
                 </a>
-            @endif
+            @endcan
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -42,10 +42,12 @@
                                 </span>
                             </td>
                             <td>
-                                @if(auth('admin')->check() || auth('employee')->check())
+                                @can('editar productos')
                                     <a href="{{ route('admin.productos.edit', $producto) }}" class="btn btn-sm btn-warning">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                @endcan
+                                @can('eliminar productos')
                                     <form action="{{ route('admin.productos.destroy', $producto) }}" method="POST" style="display:inline">
                                         @csrf
                                         @method('DELETE')
@@ -53,7 +55,7 @@
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
-                                @endif
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

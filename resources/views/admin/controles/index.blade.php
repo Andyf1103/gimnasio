@@ -9,9 +9,11 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('admin.controles.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Nuevo Control
-            </a>
+            @can('crear control usuarios')
+                <a href="{{ route('admin.controles.create') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nuevo Control
+                </a>
+            @endcan
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -41,9 +43,12 @@
                                 <a href="{{ route('admin.controles.show', $control) }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
+                                @can('editar control usuarios')
                                 <a href="{{ route('admin.controles.edit', $control) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                @endcan
+                                @can('eliminar control usuarios')
                                 <form action="{{ route('admin.controles.destroy', $control) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
@@ -51,6 +56,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

@@ -50,9 +50,12 @@
                             <td>Bs {{ number_format($membresia->saldo, 2) }}</td>
                             <td>{{ $membresia->estado }}</td>
                             <td>
+                                @can('editar membresias')
                                 <a href="{{ route('admin.membresias.edit', $membresia) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                @endcan
+                                @can('eliminar membresias')
                                 <form action="{{ route('admin.membresias.destroy', $membresia) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
@@ -60,6 +63,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

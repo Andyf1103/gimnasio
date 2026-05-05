@@ -20,20 +20,24 @@ class UnifiedLoginController extends Controller
             'password' => 'required',
         ]);
 
+        // Intentar como Admin
         if (Auth::guard('admin')->attempt([
             'email' => $request->email,
             'password' => $request->password,
         ])) {
+            Auth::guard('web')->login(Auth::guard('admin')->user());
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
         }
 
+        // Intentar como Employee
         if (Auth::guard('employee')->attempt([
             'correo' => $request->email,
             'password' => $request->password,
         ])) {
+            Auth::guard('web')->login(Auth::guard('employee')->user());
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard'); // 👈 cambiado
+            return redirect()->route('employee.dashboard');
         }
 
         return back()->withErrors([
@@ -43,13 +47,7 @@ class UnifiedLoginController extends Controller
 
     public function logout(Request $request)
     {
-        if (Auth::guard('admin')->check()) {
-            Auth::guard('admin')->logout();
-        }
-
-        if (Auth::guard('employee')->check()) {
-            Auth::guard('employee')->logout();
-        }
+        Auth::guard('web')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

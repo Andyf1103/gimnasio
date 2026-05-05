@@ -9,9 +9,11 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('admin.planes.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Nuevo Plan
-            </a>
+            @can('crear planes')
+                <a href="{{ route('admin.planes.create') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nuevo Plan
+                </a>
+            @endcan
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -38,9 +40,12 @@
                             <td>{{ $plan->precio_matricula ? 'Bs '.number_format($plan->precio_matricula, 2) : 'N/A' }}</td>
                             <td>{{ $plan->duracion_dias }}</td>
                             <td>
+                                @can('editar planes')
                                 <a href="{{ route('admin.planes.edit', $plan) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                @endcan
+                                @can('eliminar planes')
                                 <form action="{{ route('admin.planes.destroy', $plan) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
@@ -48,6 +53,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

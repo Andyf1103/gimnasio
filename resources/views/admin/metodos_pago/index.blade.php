@@ -9,9 +9,11 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('admin.metodos_pago.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Nuevo Método
-            </a>
+            @can('crear metodos pago')
+                <a href="{{ route('admin.metodos_pago.create') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nuevo Método
+                </a>
+            @endcan
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -32,9 +34,12 @@
                             <td>{{ $metodo->id }}</td>
                             <td>{{ $metodo->nombre }}</td>
                             <td>
+                                @can('editar metodos pago')
                                 <a href="{{ route('admin.metodos_pago.edit', $metodo) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                @endcan
+                                @can('eliminar metodos pago')
                                 <form action="{{ route('admin.metodos_pago.destroy', $metodo) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
@@ -42,6 +47,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

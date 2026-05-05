@@ -9,9 +9,11 @@
 @section('content')
     <div class="card">
         <div class="card-header">
+            @can('crear ventas')
             <a href="{{ route('admin.ventas.create') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Nueva Venta
             </a>
+            @endcan
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -59,6 +61,7 @@
                                 <a href="{{ route('admin.ventas.show', $venta) }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
+                                @can('eliminar ventas')
                                 <form action="{{ route('admin.ventas.destroy', $venta) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
@@ -66,6 +69,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
