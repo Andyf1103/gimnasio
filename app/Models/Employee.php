@@ -32,6 +32,11 @@ class Employee extends Authenticatable
         return $this->contrasena;
     }
 
+    public function getNameAttribute(): string
+    {
+        return trim($this->nombre . ' ' . $this->apellido);
+    }
+
     public function sales(): HasMany
     {
         return $this->hasMany(Sale::class);

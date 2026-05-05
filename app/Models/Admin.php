@@ -29,20 +29,25 @@ class Admin extends Authenticatable
     {
         return $this->contrasena;
     }
+
+    public function getNameAttribute(): string
+    {
+        return trim($this->nombre . ' ' . $this->apellido);
+    }
     
     public function adminlte_image()
     {
-    return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->email)) . '?d=mp';
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->email)) . '?d=mp';
     }
 
     public function adminlte_desc()
     {
-    return 'Administrador';
+        return 'Administrador';
     }
 
     public function adminlte_profile_url()
     {
-    return '#';
+        return '#';
     }
 
 }

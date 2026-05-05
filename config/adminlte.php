@@ -44,8 +44,9 @@ return [
     ],
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
-    'usermenu_desc' => false,
+    'usermenu_header' => true,
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
 
     'layout_topnav' => null,
     'layout_boxed' => null,
