@@ -168,22 +168,22 @@
         let cantidad = parseInt($('#cantidad').val());
 
         if (!id || !nombre) {
-            alert('Seleccione un producto.');
+            Swal.fire({ icon: 'warning', title: 'Atención', text: 'Seleccione un producto.' });
             return;
         }
 
         if (stockDisponible === 0) {
-            alert('No hay stock de este producto.');
+            Swal.fire({ icon: 'error', title: 'Sin stock', text: 'No hay stock de este producto.' });
             return;
         }
 
         if (cantidad < 1) {
-            alert('La cantidad debe ser al menos 1.');
+            Swal.fire({ icon: 'warning', title: 'Cantidad inválida', text: 'La cantidad debe ser al menos 1.' });
             return;
         }
 
         if (cantidad > stockDisponible) {
-            alert('No hay suficiente stock. Solo hay ' + stockDisponible + ' disponible(s).');
+            Swal.fire({ icon: 'error', title: 'Stock insuficiente', text: 'No hay suficiente stock. Solo hay ' + stockDisponible + ' disponible(s).' });
             return;
         }
 
