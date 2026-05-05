@@ -1,66 +1,186 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Spasso Gym
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema web de gestion para gimnasio construido con Laravel. La aplicacion centraliza el trabajo administrativo y operativo del negocio: control de usuarios, membresias, ventas, productos, empleados, roles y permisos.
 
-## About Laravel
+## Resumen
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Spasso Gym esta pensado para dos perfiles principales:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- `Administrador`: configura el sistema, gestiona empleados, roles, permisos, reportes y todos los modulos del negocio.
+- `Empleado`: opera el dia a dia segun los permisos asignados a su rol.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+El sistema incluye autenticacion por guard, control de acceso por roles y permisos, y menu lateral dinamico para mostrar solo los modulos que realmente puede usar cada usuario.
 
-## Learning Laravel
+## Funcionalidades
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Inicio de sesion unificado para administradores y empleados.
+- Dashboard independiente para admin y empleado.
+- Gestion de usuarios/clientes.
+- Registro y seguimiento de membresias.
+- Renovacion y pagos parciales de membresias.
+- Control fisico de usuarios.
+- Gestion de planes.
+- Gestion de productos y stock.
+- Registro de ventas.
+- Gestion de metodos de pago.
+- Administracion de empleados.
+- Asignacion de roles y permisos por modulo.
+- Sidebar dinamico basado en permisos.
+- Reportes para el area administrativa.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Permisos y visibilidad
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+La aplicacion usa `spatie/laravel-permission` para controlar acceso por guard:
 
-## Laravel Sponsors
+- Guard `admin` para administradores.
+- Guard `employee` para empleados.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Comportamiento esperado:
 
-### Premium Partners
+- Si un rol no tiene permisos de un modulo, ese modulo no se muestra en el sidebar.
+- Si un usuario intenta entrar a una ruta sin permiso, el sistema bloquea el acceso.
+- Los roles de empleados se administran desde el panel de administracion.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Stack Tecnologico
 
-## Contributing
+- PHP 8.2
+- Laravel 11
+- MySQL o MariaDB
+- Laravel AdminLTE
+- Spatie Laravel Permission
+- DomPDF
+- Vite
+- Bootstrap
+- Tailwind CSS
+- Alpine.js
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Estructura Funcional
 
-## Code of Conduct
+### Modulos principales
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- `Usuarios`: registro, consulta, edicion y eliminacion de clientes.
+- `Membresias`: alta, edicion, renovacion, pagos y consulta de estado.
+- `Control de usuarios`: seguimiento fisico como peso, talla y avances.
+- `Planes`: configuracion de planes comerciales.
+- `Productos`: inventario y precios.
+- `Ventas`: ventas de productos y trazabilidad de movimientos.
+- `Metodos de pago`: administracion de medios de cobro.
+- `Empleados`: alta y mantenimiento del personal.
+- `Roles y permisos`: control granular por modulo para empleados.
+- `Reportes`: informacion consolidada para administracion.
 
-## Security Vulnerabilities
+## Instalacion
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Clonar el repositorio
 
-## License
+```bash
+git clone https://github.com/Andyf1103/gimnasio.git
+cd gimnasio
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 2. Instalar dependencias
+
+```bash
+composer install
+npm install
+```
+
+### 3. Configurar variables de entorno
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Configura en `.env` los valores de base de datos, correo y demas servicios necesarios.
+
+### 4. Ejecutar migraciones y seeders
+
+```bash
+php artisan migrate --seed
+```
+
+### 5. Crear enlace de almacenamiento
+
+```bash
+php artisan storage:link
+```
+
+### 6. Levantar el proyecto
+
+```bash
+php artisan serve
+npm run dev
+```
+
+## Credenciales de prueba
+
+Despues de correr los seeders base, el sistema crea usuarios de acceso inicial:
+
+### Administrador
+
+- Usuario: `cristiansanabria@gmail.com`
+- Contrasena: `Cristian.2026*`
+
+### Empleado
+
+- Usuario: `recepcion@gimnasio.local`
+- Contrasena: `Recep.2026*`
+- Rol inicial: `Recepcionista`
+
+## Flujo de trabajo recomendado
+
+1. Ingresar como administrador.
+2. Revisar o crear roles de empleados.
+3. Asignar permisos por modulo.
+4. Crear empleados y asociarles un rol.
+5. Validar que cada empleado solo vea en el sidebar los modulos autorizados.
+
+## Comandos utiles
+
+```bash
+php artisan test
+php artisan optimize:clear
+php artisan route:list
+```
+
+Compilacion de frontend:
+
+```bash
+npm run dev
+npm run build
+```
+
+## Calidad y pruebas
+
+El proyecto incluye pruebas automatizadas para validar comportamiento base del sistema, incluyendo acceso de empleados y generacion del menu segun permisos.
+
+## Estado actual del proyecto
+
+El sistema ya incorpora:
+
+- control de acceso por guard,
+- rutas protegidas por permisos,
+- roles de empleados separados del guard de administracion,
+- menu dinamico segun permisos,
+- seeders base para admin, empleado y permisos.
+
+## Proximos pasos sugeridos
+
+- agregar mas pruebas de integracion por modulo,
+- documentar flujos de caja y reportes,
+- mejorar manejo de errores y mensajes de autorizacion,
+- incorporar CI para pruebas automaticas en cada push.
+
+## Contribucion
+
+Si vas a colaborar en el proyecto:
+
+- crea una rama por cambio,
+- ejecuta pruebas antes de subir cambios,
+- documenta nuevas variables, modulos o credenciales de desarrollo,
+- evita mezclar cambios funcionales con refactors no relacionados.
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia MIT.
