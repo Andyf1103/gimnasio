@@ -7,9 +7,12 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.membresias.update', $membresium) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route($routePrefix . '.membresias.update', $membresium) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
@@ -143,7 +146,7 @@
                 <button type="submit" class="btn btn-primary mt-3">
                     <i class="fas fa-save"></i> Actualizar
                 </button>
-                <a href="{{ route('admin.membresias.index') }}" class="btn btn-secondary mt-3">
+                <a href="{{ route($routePrefix . '.membresias.index') }}" class="btn btn-secondary mt-3">
                     <i class="fas fa-times"></i> Cancelar
                 </a>
             </form>
@@ -190,7 +193,7 @@
             @if($membresium->saldo > 0)
                 <hr>
                 <h5>Registrar Nuevo Pago</h5>
-                <form action="{{ route('admin.membresias.registrarPago', $membresium) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route($routePrefix . '.membresias.registrarPago', $membresium) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">

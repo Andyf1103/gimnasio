@@ -7,10 +7,13 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     @can('crear usuarios')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.usuarios.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route($routePrefix . '.usuarios.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <h5>Datos del Usuario</h5>
@@ -98,7 +101,7 @@
                 <button type="submit" class="btn btn-primary mt-3">
                     <i class="fas fa-save"></i> Guardar
                 </button>
-                <a href="{{ route('admin.usuarios.index') }}" class="btn btn-secondary mt-3">
+                <a href="{{ route($routePrefix . '.usuarios.index') }}" class="btn btn-secondary mt-3">
                     <i class="fas fa-times"></i> Cancelar
                 </a>
             </form>

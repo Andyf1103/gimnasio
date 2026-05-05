@@ -7,10 +7,13 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     @if(auth('admin')->check() || auth('employee')->check())
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.productos.store') }}" method="POST">
+            <form action="{{ route($routePrefix . '.productos.store') }}" method="POST">
                 @csrf
                 
                 <div class="row">
@@ -52,7 +55,7 @@
                 <button type="submit" class="btn btn-primary mt-3">
                     <i class="fas fa-save"></i> Guardar
                 </button>
-                <a href="{{ route('admin.productos.index') }}" class="btn btn-secondary mt-3">
+                <a href="{{ route($routePrefix . '.productos.index') }}" class="btn btn-secondary mt-3">
                     <i class="fas fa-times"></i> Cancelar
                 </a>
             </form>

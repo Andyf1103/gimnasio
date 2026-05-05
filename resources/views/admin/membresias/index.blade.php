@@ -7,6 +7,9 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-body">
             <div class="row mb-3">
@@ -51,12 +54,12 @@
                             <td>{{ $membresia->estado }}</td>
                             <td>
                                 @can('editar membresias')
-                                <a href="{{ route('admin.membresias.edit', $membresia) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route($routePrefix . '.membresias.edit', $membresia) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @endcan
                                 @can('eliminar membresias')
-                                <form action="{{ route('admin.membresias.destroy', $membresia) }}" method="POST" style="display:inline">
+                                <form action="{{ route($routePrefix . '.membresias.destroy', $membresia) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar membresía?')">
@@ -81,7 +84,7 @@
         clearTimeout(timer);
         let valor = $(this).val();
         timer = setTimeout(function() {
-            window.location = '{{ route("admin.membresias.index") }}?buscar=' + encodeURIComponent(valor);
+            window.location = '{{ route($routePrefix . ".membresias.index") }}?buscar=' + encodeURIComponent(valor);
         }, 500);
     });
 </script>

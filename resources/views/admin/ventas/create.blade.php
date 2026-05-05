@@ -7,6 +7,9 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="row">
         {{-- Columna productos --}}
         <div class="col-md-8">
@@ -73,9 +76,9 @@
                     <h3 class="card-title">Datos de la Venta</h3>
                 </div>
                 <div class="card-body">
-                    <form id="formVenta" action="{{ route('admin.ventas.store') }}" method="POST" enctype="multipart/form-data">
+                    <form id="formVenta" action="{{ route($routePrefix . '.ventas.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        
+
                         <div id="productosContainer"></div>
 
                         <div class="form-group">

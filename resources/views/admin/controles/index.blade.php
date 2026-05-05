@@ -7,10 +7,13 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-header">
             @can('crear control usuarios')
-                <a href="{{ route('admin.controles.create') }}" class="btn btn-primary">
+                <a href="{{ route($routePrefix . '.controles.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nuevo Control
                 </a>
             @endcan
@@ -40,16 +43,16 @@
                             <td>{{ $control->peso_final }}</td>
                             <td>{{ $control->talla_usuario }}</td>
                             <td>
-                                <a href="{{ route('admin.controles.show', $control) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route($routePrefix . '.controles.show', $control) }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 @can('editar control usuarios')
-                                <a href="{{ route('admin.controles.edit', $control) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route($routePrefix . '.controles.edit', $control) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @endcan
                                 @can('eliminar control usuarios')
-                                <form action="{{ route('admin.controles.destroy', $control) }}" method="POST" style="display:inline">
+                                <form action="{{ route($routePrefix . '.controles.destroy', $control) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar?')">

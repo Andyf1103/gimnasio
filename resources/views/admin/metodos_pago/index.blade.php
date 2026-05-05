@@ -7,10 +7,13 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-header">
             @can('crear metodos pago')
-                <a href="{{ route('admin.metodos_pago.create') }}" class="btn btn-primary">
+                <a href="{{ route($routePrefix . '.metodos_pago.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nuevo Método
                 </a>
             @endcan
@@ -35,12 +38,12 @@
                             <td>{{ $metodo->nombre }}</td>
                             <td>
                                 @can('editar metodos pago')
-                                <a href="{{ route('admin.metodos_pago.edit', $metodo) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route($routePrefix . '.metodos_pago.edit', $metodo) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @endcan
                                 @can('eliminar metodos pago')
-                                <form action="{{ route('admin.metodos_pago.destroy', $metodo) }}" method="POST" style="display:inline">
+                                <form action="{{ route($routePrefix . '.metodos_pago.destroy', $metodo) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar?')">

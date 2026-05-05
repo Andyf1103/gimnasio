@@ -7,10 +7,13 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-header">
             @can('crear planes')
-                <a href="{{ route('admin.planes.create') }}" class="btn btn-primary">
+                <a href="{{ route($routePrefix . '.planes.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nuevo Plan
                 </a>
             @endcan
@@ -41,12 +44,12 @@
                             <td>{{ $plan->duracion_dias }}</td>
                             <td>
                                 @can('editar planes')
-                                <a href="{{ route('admin.planes.edit', $plan) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route($routePrefix . '.planes.edit', $plan) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @endcan
                                 @can('eliminar planes')
-                                <form action="{{ route('admin.planes.destroy', $plan) }}" method="POST" style="display:inline">
+                                <form action="{{ route($routePrefix . '.planes.destroy', $plan) }}" method="POST" style="display:inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar plan?')">

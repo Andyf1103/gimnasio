@@ -7,9 +7,12 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.planes.update', $plan) }}" method="POST">
+            <form action="{{ route($routePrefix . '.planes.update', $plan) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
@@ -75,7 +78,7 @@
                 <button type="submit" class="btn btn-primary mt-3">
                     <i class="fas fa-save"></i> Actualizar
                 </button>
-                <a href="{{ route('admin.planes.index') }}" class="btn btn-secondary mt-3">
+                <a href="{{ route($routePrefix . '.planes.index') }}" class="btn btn-secondary mt-3">
                     <i class="fas fa-times"></i> Cancelar
                 </a>
             </form>

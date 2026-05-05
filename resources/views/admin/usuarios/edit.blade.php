@@ -7,10 +7,13 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     @can('editar usuarios')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.usuarios.update', $usuario) }}" method="POST">
+            <form action="{{ route($routePrefix . '.usuarios.update', $usuario) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
@@ -83,7 +86,7 @@
                 <button type="submit" class="btn btn-primary mt-3">
                     <i class="fas fa-save"></i> Actualizar
                 </button>
-                <a href="{{ route('admin.usuarios.index') }}" class="btn btn-secondary mt-3">
+                <a href="{{ route($routePrefix . '.usuarios.index') }}" class="btn btn-secondary mt-3">
                     <i class="fas fa-times"></i> Cancelar
                 </a>
             </form>

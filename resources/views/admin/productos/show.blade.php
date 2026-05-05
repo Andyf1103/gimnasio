@@ -7,6 +7,9 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -20,7 +23,7 @@
                 </div>
             </div>
 
-            <a href="{{ route('admin.productos.index') }}" class="btn btn-secondary">
+            <a href="{{ route($routePrefix . '.productos.index') }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Volver
             </a>
         </div>

@@ -7,9 +7,12 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.membresias.store') }}" method="POST">
+            <form action="{{ route($routePrefix . '.membresias.store') }}" method="POST">
                 @csrf
                 
                 <div class="row">
@@ -106,7 +109,7 @@
                 <button type="submit" class="btn btn-primary mt-3">
                     <i class="fas fa-save"></i> Guardar
                 </button>
-                <a href="{{ route('admin.membresias.index') }}" class="btn btn-secondary mt-3">
+                <a href="{{ route($routePrefix . '.membresias.index') }}" class="btn btn-secondary mt-3">
                     <i class="fas fa-times"></i> Cancelar
                 </a>
             </form>

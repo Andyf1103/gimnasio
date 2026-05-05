@@ -7,6 +7,10 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+        $urlPrefix = Auth::guard('admin')->check() ? '/admin' : '/employee';
+    @endphp
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -20,7 +24,7 @@
                 </div>
                 <div class="col-md-8 text-right">
                     @can('crear usuarios')
-                        <a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary">
+                        <a href="{{ route($routePrefix . '.usuarios.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Nuevo Usuario
                         </a>
                     @endcan
@@ -82,7 +86,7 @@
                                     </button>
                                 @endif
                                 @can('eliminar usuarios')
-                                    <form action="{{ route('admin.usuarios.destroy', $usuario) }}" method="POST" style="display:inline">
+                                    <form action="{{ route($routePrefix . '.usuarios.destroy', $usuario) }}" method="POST" style="display:inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar usuario?')">
@@ -122,7 +126,7 @@
         clearTimeout(timer);
         let valor = $(this).val();
         timer = setTimeout(function() {
-            window.location = '{{ route("admin.usuarios.index") }}?buscar=' + encodeURIComponent(valor);
+            window.location = '{{ route($routePrefix . ".usuarios.index") }}?buscar=' + encodeURIComponent(valor);
         }, 500);
     });
 
@@ -130,7 +134,7 @@
         let id = $(this).data('id');
         $('#modalMembresia').modal('show');
         $('#contenidoMembresia').html('Cargando...');
-        $.get('{{ url("/admin/membresias") }}/' + id + '?modal=1', function(data) {
+        $.get('{{ url($urlPrefix . "/membresias") }}/' + id + '?modal=1', function(data) {
             $('#contenidoMembresia').html(data);
         });
     });
@@ -142,7 +146,7 @@
         btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
 
         $.ajax({
-            url: '{{ url("/admin/membresias") }}/' + id + '/renovar',
+            url: '{{ url($urlPrefix . "/membresias") }}/' + id + '/renovar',
             type: 'POST',
             data: {
                 _token: '{{ csrf_token() }}'

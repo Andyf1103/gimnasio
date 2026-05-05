@@ -25,7 +25,6 @@ class UnifiedLoginController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ])) {
-            Auth::guard('web')->login(Auth::guard('admin')->user());
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
         }
@@ -35,7 +34,6 @@ class UnifiedLoginController extends Controller
             'correo' => $request->email,
             'password' => $request->password,
         ])) {
-            Auth::guard('web')->login(Auth::guard('employee')->user());
             $request->session()->regenerate();
             return redirect()->route('employee.dashboard');
         }
@@ -47,6 +45,8 @@ class UnifiedLoginController extends Controller
 
     public function logout(Request $request)
     {
+        Auth::guard('admin')->logout();
+        Auth::guard('employee')->logout();
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

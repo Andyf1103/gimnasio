@@ -7,10 +7,13 @@
 @stop
 
 @section('content')
+    @php
+        $routePrefix = Auth::guard('admin')->check() ? 'admin' : 'employee';
+    @endphp
     <div class="card">
         <div class="card-header">
             @can('crear productos')
-                <a href="{{ route('admin.productos.create') }}" class="btn btn-primary">
+                <a href="{{ route($routePrefix . '.productos.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nuevo Producto
                 </a>
             @endcan
@@ -43,12 +46,12 @@
                             </td>
                             <td>
                                 @can('editar productos')
-                                    <a href="{{ route('admin.productos.edit', $producto) }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ route($routePrefix . '.productos.edit', $producto) }}" class="btn btn-sm btn-warning">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
                                 @can('eliminar productos')
-                                    <form action="{{ route('admin.productos.destroy', $producto) }}" method="POST" style="display:inline">
+                                    <form action="{{ route($routePrefix . '.productos.destroy', $producto) }}" method="POST" style="display:inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar producto?')">

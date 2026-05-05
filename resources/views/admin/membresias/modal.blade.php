@@ -1,3 +1,7 @@
+@php
+    $urlPrefix = Auth::guard('admin')->check() ? '/admin' : '/employee';
+@endphp
+
 <form id="formEditarMembresiaModal" enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -184,7 +188,7 @@
         let formData = new FormData(this);
 
         $.ajax({
-            url: '/admin/membresias/' + id,
+            url: '{{ $urlPrefix }}/membresias/' + id,
             type: 'POST',
             data: formData,
             processData: false,
@@ -206,13 +210,13 @@
         let formData = new FormData(this);
 
         $.ajax({
-            url: '/admin/membresias/' + id + '/pago',
+            url: '{{ $urlPrefix }}/membresias/' + id + '/pago',
             type: 'POST',
             data: formData,
             processData: false,
             contentType: false,
             success: function(response) {
-                $.get('/admin/membresias/' + id + '?modal=1', function(data) {
+                $.get('{{ $urlPrefix }}/membresias/' + id + '?modal=1', function(data) {
                     $('#contenidoMembresia').html(data);
                 });
             },
