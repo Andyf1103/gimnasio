@@ -75,7 +75,7 @@ class MembershipController extends Controller
             $rutaComprobante = $request->file('comprobante')->store('comprobantes', 'public');
         }
 
-        Membership::create([
+        $membresia = Membership::create([
             'client_id' => $request->client_id,
             'plan_type_id' => $request->plan_type_id,
             'payment_method_id' => $request->payment_method_id,
@@ -86,8 +86,7 @@ class MembershipController extends Controller
             'comprobante' => $rutaComprobante,
         ]);
 
-        return redirect()->route($this->routePrefix() . '.membresias.index')
-            ->with('success', 'Membresía creada correctamente.');
+        return redirect()->route($this->routePrefix() . '.membresias.ticket', $membresia);
     }
 
     public function show(Membership $membresium, Request $request)
@@ -194,6 +193,12 @@ class MembershipController extends Controller
             'modal_url' => url($this->urlPrefix() . '/membresias/' . $membresium->id . '?modal=1'),
             'message' => 'Membresía renovada. Nuevo vencimiento: ' . $membresium->fecha_final->format('d/m/Y'),
         ]);
+    }
+
+    public function ticket(Membership $membresium)
+    {
+        $membresium->load(['client', 'planType', 'paymentMethod']);
+        return view('admin.usuarios.ticket', compact('membresium'));
     }
 
     private function calcularFechaFinal($fechaInicio, $diasHabiles)

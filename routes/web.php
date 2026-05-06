@@ -42,6 +42,7 @@ Route::middleware('auth:admin,employee')->group(function () {
         Route::resource('membresias', MembershipController::class)->names('admin.membresias')->parameters(['membresias' => 'membresium']);
         Route::post('/membresias/{membresium}/pago', [MembershipController::class, 'registrarPago'])->name('admin.membresias.registrarPago');
         Route::post('/membresias/{membresium}/renovar', [MembershipController::class, 'renovar'])->name('admin.membresias.renovar');
+        Route::get('/membresias/{membresium}/ticket', [MembershipController::class, 'ticket'])->name('admin.membresias.ticket');
         Route::resource('ventas', SaleController::class)->names('admin.ventas')->parameters(['ventas' => 'venta']);
         Route::resource('metodos_pago', PaymentMethodController::class)->except(['show'])->names('admin.metodos_pago')->parameters(['metodos_pago' => 'metodo']);
         Route::resource('controles', ClientControlController::class)->names('admin.controles')->parameters(['controles' => 'control']);
@@ -58,6 +59,7 @@ Route::middleware('auth:admin,employee')->group(function () {
         Route::resource('membresias', MembershipController::class)->names('employee.membresias')->parameters(['membresias' => 'membresium']);
         Route::post('/membresias/{membresium}/pago', [MembershipController::class, 'registrarPago'])->name('employee.membresias.registrarPago');
         Route::post('/membresias/{membresium}/renovar', [MembershipController::class, 'renovar'])->name('employee.membresias.renovar');
+        Route::get('/membresias/{membresium}/ticket', [MembershipController::class, 'ticket'])->name('employee.membresias.ticket');
         Route::resource('ventas', SaleController::class)->names('employee.ventas')->parameters(['ventas' => 'venta']);
         Route::resource('metodos_pago', PaymentMethodController::class)->except(['show'])->names('employee.metodos_pago')->parameters(['metodos_pago' => 'metodo']);
         Route::resource('controles', ClientControlController::class)->names('employee.controles')->parameters(['controles' => 'control']);

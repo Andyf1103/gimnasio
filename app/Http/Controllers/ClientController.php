@@ -77,7 +77,7 @@ class ClientController extends Controller
             $rutaComprobante = $request->file('comprobante')->store('comprobantes', 'public');
         }
 
-        Membership::create([
+        $membresia = Membership::create([
             'client_id' => $cliente->id,
             'plan_type_id' => $request->plan_type_id,
             'payment_method_id' => $request->payment_method_id,
@@ -90,8 +90,7 @@ class ClientController extends Controller
             'comprobante' => $rutaComprobante,
         ]);
 
-        return redirect()->route($this->routePrefix() . '.usuarios.index')
-            ->with('success', 'Usuario y membresía registrados correctamente.');
+        return redirect()->route($this->routePrefix() . '.membresias.ticket', $membresia);
     }
 
     public function show(Client $usuario)
