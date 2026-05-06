@@ -15,8 +15,9 @@ use App\Http\Controllers\DailyReportController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 
+// Landing Page - Pública
 Route::get('/', function () {
-    return redirect('/login');
+    return view('welcome');
 });
 
 Route::get('/login', [UnifiedLoginController::class, 'showLoginForm'])->name('login');
