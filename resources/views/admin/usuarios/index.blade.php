@@ -89,13 +89,11 @@
                                     </button>
                                 @endif
                                 @can('eliminar usuarios')
-                                    <form action="{{ route($routePrefix . '.usuarios.destroy', $usuario) }}" method="POST" style="display:inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar usuario?')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-sm btn-danger btn-eliminar" 
+                                            data-id="{{ $usuario->id }}"
+                                            data-url="{{ route($routePrefix . '.usuarios.destroy', $usuario) }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 @endcan
                             </td>
                         </tr>
@@ -105,6 +103,12 @@
             {!! $usuarios->links('pagination::bootstrap-4') !!}
         </div>
     </div>
+
+    {{-- Formulario oculto para eliminar --}}
+    <form id="formEliminar" method="POST" style="display:none">
+        @csrf
+        @method('DELETE')
+    </form>
 
     {{-- Contenedor del Modal --}}
     <div class="modal fade" id="modalMembresia" tabindex="-1" role="dialog">
@@ -151,9 +155,7 @@
         $.ajax({
             url: '{{ url($urlPrefix . "/membresias") }}/' + id + '/renovar',
             type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
+            data: { _token: '{{ csrf_token() }}' },
             success: function(response) {
                 btn.prop('disabled', false).html('<i class="fas fa-sync-alt"></i>');
                 $('#modalMembresia').modal('show');
@@ -164,7 +166,26 @@
             },
             error: function() {
                 btn.prop('disabled', false).html('<i class="fas fa-sync-alt"></i>');
-                alert('Error al renovar la membresía.');
+                Swal.fire('Error', 'Error al renovar la membresía.', 'error');
+            }
+        });
+    });
+
+    // Botón Eliminar con SweetAlert2
+    $(document).on('click', '.btn-eliminar', function() {
+        let url = $(this).data('url');
+        Swal.fire({
+            title: '¿Eliminar usuario?',
+            text: 'No podrás deshacer esta acción.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#formEliminar').attr('action', url).submit();
             }
         });
     });
