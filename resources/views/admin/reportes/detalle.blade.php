@@ -27,11 +27,11 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label for="tipo">Método</label>
+                            <label for="tipo">Método de Pago</label>
                             <select name="tipo" id="tipo" class="form-control">
                                 <option value="">Todos</option>
                                 <option value="efectivo" {{ request('tipo') == 'efectivo' ? 'selected' : '' }}>Efectivo</option>
-                                <option value="digital" {{ request('tipo') == 'digital' ? 'selected' : '' }}>Digital</option>
+                                <option value="digital" {{ request('tipo') == 'digital' ? 'selected' : '' }}>QR</option>
                             </select>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                     <tr>
                         <th>Plan</th>
                         <th>Monto</th>
-                        <th>Método</th>
+                        <th>Método de Pago</th>
                         <th>Recepcionista</th>
                         <th>Fecha</th>
                     </tr>
@@ -104,7 +104,7 @@
                     <tr>
                         <th>Productos</th>
                         <th>Total</th>
-                        <th>Método</th>
+                        <th>Método de Pago</th>
                         <th>Recepcionista</th>
                         <th>Fecha</th>
                     </tr>

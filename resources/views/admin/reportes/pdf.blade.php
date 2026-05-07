@@ -25,7 +25,7 @@
             <tr>
                 <th>Plan</th>
                 <th>Monto</th>
-                <th>Método</th>
+                <th>Método de Pago</th>
                 <th>Recepcionista</th>
                 <th>Fecha</th>
             </tr>
@@ -58,7 +58,7 @@
             <tr>
                 <th>Productos</th>
                 <th>Total</th>
-                <th>Método</th>
+                <th>Método de Pago</th>
                 <th>Recepcionista</th>
                 <th>Fecha</th>
             </tr>
