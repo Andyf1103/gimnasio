@@ -29,8 +29,10 @@ class ClientController extends Controller
         $query = Client::query();
 
         if ($request->buscar) {
-            $query->where('nombre', 'like', '%' . $request->buscar . '%')
-                  ->orWhere('apellido', 'like', '%' . $request->buscar . '%');
+            $buscar = $request->buscar;
+            $query->where('nombre', 'like', '%' . $buscar . '%')
+                  ->orWhere('apellido', 'like', '%' . $buscar . '%')
+                  ->orWhereRaw("CONCAT(nombre, ' ', apellido) LIKE ?", ['%' . $buscar . '%']);
         }
 
         $usuarios = $query->orderBy('id', 'asc')->paginate(10);

@@ -35,9 +35,11 @@ class MembershipController extends Controller
         $query = Membership::with(['client', 'planType', 'paymentMethod']);
 
         if ($request->buscar) {
-            $query->whereHas('client', function ($q) use ($request) {
-                $q->where('nombre', 'like', '%' . $request->buscar . '%')
-                  ->orWhere('apellido', 'like', '%' . $request->buscar . '%');
+            $buscar = $request->buscar;
+            $query->whereHas('client', function ($q) use ($buscar) {
+                $q->where('nombre', 'like', '%' . $buscar . '%')
+                  ->orWhere('apellido', 'like', '%' . $buscar . '%')
+                  ->orWhereRaw("CONCAT(nombre, ' ', apellido) LIKE ?", ['%' . $buscar . '%']);
             });
         }
 
