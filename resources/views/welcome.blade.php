@@ -29,9 +29,7 @@
             padding: 0;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'DM Sans', sans-serif;
@@ -40,11 +38,10 @@
             overflow-x: hidden;
         }
 
+        /* ── NAV ── */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 100;
             display: flex;
             align-items: center;
@@ -100,9 +97,7 @@
             transition: color .2s;
         }
 
-        .nav-links a:hover {
-            color: var(--gold-light);
-        }
+        .nav-links a:hover { color: var(--gold-light); }
 
         .nav-cta {
             background: var(--gold-light);
@@ -142,6 +137,7 @@
             transform: translateY(-1px);
         }
 
+        /* ── HERO ── */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -155,17 +151,14 @@
         }
 
         .hero-bg {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background:
                 radial-gradient(ellipse 60% 50% at 50% 0%, #c9a84c18 0%, transparent 70%),
                 radial-gradient(ellipse 40% 60% at 80% 80%, #c9a84c0a 0%, transparent 60%);
         }
 
         .hero-grid {
-            position: absolute;
-            inset: 0;
-            opacity: .04;
+            position: absolute; inset: 0; opacity: .04;
             background-image:
                 linear-gradient(var(--border) 1px, transparent 1px),
                 linear-gradient(90deg, var(--border) 1px, transparent 1px);
@@ -187,8 +180,7 @@
             text-transform: uppercase;
             margin-bottom: 28px;
             animation: fadeUp .8s ease both;
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
         }
 
         .hero-title {
@@ -198,24 +190,22 @@
             line-height: .95;
             color: var(--white);
             animation: fadeUp .8s .1s ease both;
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
         }
 
-        .hero-title span {
-            color: var(--gold-light);
-        }
+        .hero-title span { color: var(--gold-light); }
 
+        /* ── SUBTÍTULO HERO: blanco con sombra luminosa ── */
         .hero-sub {
-            font-size: clamp(14px, 1.5vw, 17px);
-            color: var(--muted);
-            max-width: 500px;
-            line-height: 1.7;
+            font-size: clamp(15px, 1.6vw, 18px);
+            color: #ffffff;
+            max-width: 540px;
+            line-height: 1.75;
             margin-top: 24px;
-            font-weight: 300;
+            font-weight: 400;
+            text-shadow: 0 0 40px rgba(255,255,255,0.18);
             animation: fadeUp .8s .2s ease both;
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
         }
 
         .hero-actions {
@@ -225,8 +215,7 @@
             flex-wrap: wrap;
             justify-content: center;
             animation: fadeUp .8s .3s ease both;
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
         }
 
         .btn-primary {
@@ -274,13 +263,10 @@
             gap: 48px;
             margin-top: 64px;
             animation: fadeUp .8s .4s ease both;
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
         }
 
-        .stat {
-            text-align: center;
-        }
+        .stat { text-align: center; }
 
         .stat-num {
             font-family: 'Bebas Neue', sans-serif;
@@ -298,14 +284,10 @@
             margin-top: 4px;
         }
 
-        .stat-sep {
-            width: 1px;
-            background: var(--border);
-        }
+        .stat-sep { width: 1px; background: var(--border); }
 
-        section {
-            padding: 100px 5vw;
-        }
+        /* ── SECTIONS BASE ── */
+        section { padding: 100px 5vw; }
 
         .section-label {
             display: inline-block;
@@ -326,23 +308,39 @@
             margin-bottom: 20px;
         }
 
+        /* ── DESCRIPCIONES: blanco claro ── */
         .section-desc {
             font-size: 15px;
-            color: var(--muted);
-            max-width: 520px;
+            color: #d0cdc7;
+            max-width: 600px;
             line-height: 1.7;
-            font-weight: 300;
+            font-weight: 400;
         }
 
-        #servicios {
-            background: var(--dark2);
+        /* ── ENCABEZADOS DE SECCIÓN: centrados ── */
+        section > .reveal:first-child {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        section > .reveal:first-child .section-desc {
+            text-align: center;
+        }
+
+        /* ── SERVICIOS ── */
+        #servicios { background: var(--dark2); }
 
         .servicios-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
             margin-top: 56px;
+        }
+
+        @media (min-width: 900px) {
+            .servicios-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
         .servicio-card {
@@ -358,9 +356,7 @@
         .servicio-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 2px;
             background: var(--gold-light);
             transform: scaleX(0);
@@ -368,14 +364,8 @@
             transform-origin: left;
         }
 
-        .servicio-card:hover {
-            border-color: #333;
-            transform: translateY(-4px);
-        }
-
-        .servicio-card:hover::before {
-            transform: scaleX(1);
-        }
+        .servicio-card:hover { border-color: #333; transform: translateY(-4px); }
+        .servicio-card:hover::before { transform: scaleX(1); }
 
         .servicio-icon {
             width: 44px;
@@ -388,32 +378,18 @@
             margin-bottom: 16px;
         }
 
-        .servicio-icon i {
-            color: var(--gold-light);
-            font-size: 18px;
-        }
+        .servicio-icon i { color: var(--gold-light); font-size: 18px; }
+        .servicio-name { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+        /* descripciones de servicio: más claras */
+        .servicio-desc { font-size: 13px; color: #c0bdb8; line-height: 1.5; }
 
-        .servicio-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--white);
-            margin-bottom: 6px;
-        }
-
-        .servicio-desc {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.5;
-        }
-
-        #planes {
-            background: var(--dark);
-        }
+        /* ── PLANES ── */
+        #planes { background: var(--dark); }
 
         .plan-tabs {
             display: flex;
             gap: 8px;
-            margin: 40px 0 32px;
+            margin: 40px auto 32px;
             background: var(--dark2);
             padding: 4px;
             border-radius: 10px;
@@ -434,20 +410,18 @@
             letter-spacing: .5px;
         }
 
-        .plan-tab.active {
-            background: var(--gold-light);
-            color: #0a0a0a;
-        }
+        .plan-tab.active { background: var(--gold-light); color: #0a0a0a; }
 
+        /* ── PLANES GRID: flex centrado ── */
         .plans-grid {
             display: none;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .plans-grid.active {
-            display: grid;
-        }
+        .plans-grid.active { display: flex; }
+        .plans-grid .plan-card { flex: 1 1 260px; max-width: 360px; }
 
         .plan-card {
             background: var(--dark2);
@@ -464,14 +438,8 @@
             background: linear-gradient(135deg, #1a1500 0%, var(--dark2) 60%);
         }
 
-        .plan-card:hover {
-            transform: translateY(-3px);
-            border-color: #333;
-        }
-
-        .plan-card.featured:hover {
-            border-color: var(--gold-light);
-        }
+        .plan-card:hover { transform: translateY(-3px); border-color: #333; }
+        .plan-card.featured:hover { border-color: var(--gold-light); }
 
         .plan-badge {
             display: inline-block;
@@ -486,12 +454,7 @@
             margin-bottom: 16px;
         }
 
-        .plan-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--white);
-            margin-bottom: 6px;
-        }
+        .plan-name { font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
 
         .plan-price {
             font-family: 'Bebas Neue', sans-serif;
@@ -516,21 +479,17 @@
             gap: 8px;
         }
 
+        /* items de plan: más claros */
         .plan-item {
             display: flex;
             align-items: flex-start;
             gap: 8px;
             font-size: 13px;
-            color: #aaa;
+            color: #c8c5bf;
             line-height: 1.4;
         }
 
-        .plan-item i {
-            color: var(--gold-light);
-            font-size: 11px;
-            margin-top: 3px;
-            flex-shrink: 0;
-        }
+        .plan-item i { color: var(--gold-light); font-size: 11px; margin-top: 3px; flex-shrink: 0; }
 
         .plan-extra {
             margin-top: 8px;
@@ -539,9 +498,8 @@
             font-style: italic;
         }
 
-        #horarios {
-            background: var(--dark2);
-        }
+        /* ── HORARIOS ── */
+        #horarios { background: var(--dark2); }
 
         .horarios-wrap {
             display: grid;
@@ -551,11 +509,7 @@
             align-items: start;
         }
 
-        .horario-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .horario-list { display: flex; flex-direction: column; gap: 12px; }
 
         .horario-item {
             display: flex;
@@ -567,22 +521,14 @@
             padding: 16px 20px;
         }
 
-        .horario-dia {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--white);
-        }
+        .horario-dia { font-size: 14px; font-weight: 500; color: var(--white); }
 
-        .horario-hora {
-            font-size: 13px;
-            color: var(--gold-light);
-            font-weight: 500;
-        }
+        .horario-hora { font-size: 13px; color: var(--gold-light); font-weight: 500; }
 
         .horario-hora small {
             display: block;
             font-size: 11px;
-            color: var(--muted);
+            color: #aaa;
             font-weight: 400;
             margin-top: 2px;
             text-align: right;
@@ -597,48 +543,21 @@
         }
 
         .ubicacion-icon {
-            width: 52px;
-            height: 52px;
+            width: 52px; height: 52px;
             border-radius: 12px;
             background: var(--gold-dim);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px;
         }
 
-        .ubicacion-icon i {
-            color: var(--gold-light);
-            font-size: 22px;
-        }
+        .ubicacion-icon i { color: var(--gold-light); font-size: 22px; }
+        .ubicacion-title { font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 12px; }
+        .ubicacion-addr { font-size: 14px; color: #c0bdb8; line-height: 1.6; margin-bottom: 24px; }
+        .ubicacion-addr strong { color: var(--text); }
+        .ubicacion-social { display: flex; gap: 10px; flex-wrap: wrap; }
 
-        .ubicacion-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--white);
-            margin-bottom: 12px;
-        }
-
-        .ubicacion-addr {
-            font-size: 14px;
-            color: var(--muted);
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        .ubicacion-addr strong {
-            color: var(--text);
-        }
-
-        .ubicacion-social {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        #contacto {
-            background: var(--dark);
-        }
+        /* ── CONTACTO ── */
+        #contacto { background: var(--dark); }
 
         .contacto-wrap {
             display: grid;
@@ -648,11 +567,7 @@
             align-items: start;
         }
 
-        .contacto-info {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        .contacto-info { display: flex; flex-direction: column; gap: 20px; }
 
         .contacto-item {
             display: flex;
@@ -665,43 +580,19 @@
         }
 
         .contacto-item-icon {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border-radius: 10px;
             background: var(--gold-dim);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
 
-        .contacto-item-icon i {
-            color: var(--gold-light);
-            font-size: 16px;
-        }
-
-        .contacto-item-label {
-            font-size: 11px;
-            color: var(--muted);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .contacto-item-val {
-            font-size: 14px;
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        .contacto-item-val a {
-            color: var(--gold-light);
-            text-decoration: none;
-        }
-
-        .contacto-item-val a:hover {
-            text-decoration: underline;
-        }
+        .contacto-item-icon i { color: var(--gold-light); font-size: 16px; }
+        /* labels de contacto: más visibles */
+        .contacto-item-label { font-size: 11px; color: #999; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+        .contacto-item-val { font-size: 14px; color: var(--white); font-weight: 500; }
+        .contacto-item-val a { color: var(--gold-light); text-decoration: none; }
+        .contacto-item-val a:hover { text-decoration: underline; }
 
         .contact-form {
             background: var(--dark2);
@@ -713,31 +604,10 @@
             gap: 16px;
         }
 
-        .form-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--white);
-            margin-bottom: 4px;
-        }
-
-        .form-sub {
-            font-size: 13px;
-            color: var(--muted);
-            margin-bottom: 8px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-label {
-            font-size: 11px;
-            color: var(--muted);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+        .form-title { font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+        .form-sub { font-size: 13px; color: #bbb; margin-bottom: 8px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-label { font-size: 11px; color: #aaa; letter-spacing: 1px; text-transform: uppercase; }
 
         .form-input {
             background: var(--dark3);
@@ -751,18 +621,9 @@
             transition: border-color .2s;
         }
 
-        .form-input:focus {
-            border-color: var(--gold);
-        }
-
-        .form-input::placeholder {
-            color: #3a3a3a;
-        }
-
-        textarea.form-input {
-            resize: vertical;
-            min-height: 100px;
-        }
+        .form-input:focus { border-color: var(--gold); }
+        .form-input::placeholder { color: #3a3a3a; }
+        textarea.form-input { resize: vertical; min-height: 100px; }
 
         .form-btn {
             border: none;
@@ -779,33 +640,13 @@
             width: 100%;
         }
 
-        .form-btn-wa {
-            background: #25D366;
-            color: #fff;
-        }
+        .form-btn-wa { background: #25D366; color: #fff; }
+        .form-btn-wa:hover { background: #1ebe5a; transform: translateY(-1px); }
+        .form-btn-fb { background: #1877F2; color: #fff; }
+        .form-btn-fb:hover { background: #145dca; transform: translateY(-1px); }
+        .form-btns { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
 
-        .form-btn-wa:hover {
-            background: #1ebe5a;
-            transform: translateY(-1px);
-        }
-
-        .form-btn-fb {
-            background: #1877F2;
-            color: #fff;
-        }
-
-        .form-btn-fb:hover {
-            background: #145dca;
-            transform: translateY(-1px);
-        }
-
-        .form-btns {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 4px;
-        }
-
+        /* ── FOOTER ── */
         footer {
             background: var(--dark2);
             border-top: 1px solid var(--border);
@@ -817,57 +658,97 @@
             gap: 16px;
         }
 
-        .footer-brand {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 20px;
-            letter-spacing: 3px;
-            color: var(--white);
-        }
-
-        .footer-brand span {
-            color: var(--gold-light);
-        }
-
-        .footer-copy {
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 12px;
-        }
+        .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--white); }
+        .footer-brand span { color: var(--gold-light); }
+        .footer-copy { font-size: 12px; color: var(--muted); }
+        .footer-social { display: flex; gap: 12px; }
 
         .social-btn {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 8px;
             border: 1px solid var(--border);
             background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             color: var(--muted);
             font-size: 15px;
             text-decoration: none;
             transition: all .2s;
         }
 
-        .social-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold-light);
+        .social-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+
+        /* ── FLOATING CONTACT ── */
+        .float-contact {
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(24px);
-            }
+        .float-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(12px);
+            transition: opacity .25s ease, transform .25s ease;
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .float-menu.open {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .float-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px 10px 14px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+            transition: transform .2s, box-shadow .2s;
+            white-space: nowrap;
+        }
+
+        .float-btn:hover { transform: translateX(-5px); box-shadow: 0 6px 26px rgba(0,0,0,0.55); }
+        .float-btn i { font-size: 18px; flex-shrink: 0; }
+        .float-btn.wa  { background: #25D366; }
+        .float-btn.fb  { background: #1877F2; }
+        .float-btn.ig  { background: linear-gradient(135deg,#f58529,#dd2a7b,#8134af); }
+
+        .float-toggle {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: var(--gold-light);
+            border: none;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(201,168,76,0.5);
+            transition: all .3s;
+            color: #0a0a0a;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .float-toggle:hover { background: var(--gold); transform: scale(1.08); }
+        .float-toggle.active { background: #2a2a2a; color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .reveal {
@@ -876,72 +757,29 @@
             transition: opacity .6s ease, transform .6s ease;
         }
 
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
+        /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
-            nav {
-                padding: 0 4vw;
-            }
-
-            .nav-logo-text {
-                font-size: 18px;
-                letter-spacing: 2px;
-            }
-
-            .nav-logo img {
-                height: 38px;
-                width: 38px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .login-btn {
-                padding: 8px 13px;
-                font-size: 12px;
-            }
-
-            .hero-stats {
-                gap: 24px;
-            }
-
-            .horarios-wrap {
-                grid-template-columns: 1fr;
-            }
-
-            .contacto-wrap {
-                grid-template-columns: 1fr;
-            }
-
-            .plan-tabs {
-                flex-wrap: wrap;
-            }
+            nav { padding: 0 4vw; }
+            .nav-logo-text { font-size: 18px; letter-spacing: 2px; }
+            .nav-logo img { height: 38px; width: 38px; }
+            .nav-links { display: none; }
+            .login-btn { padding: 8px 13px; font-size: 12px; }
+            .hero-stats { gap: 24px; }
+            .horarios-wrap { grid-template-columns: 1fr; }
+            .contacto-wrap { grid-template-columns: 1fr; }
+            .plan-tabs { flex-wrap: wrap; }
+            .float-btn-label { display: none; }
+            .float-btn { padding: 13px; border-radius: 50%; }
+            .float-btn i { font-size: 20px; }
         }
 
         @media (max-width: 480px) {
-            .hero-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn-primary,
-            .btn-outline {
-                width: 100%;
-                text-align: center;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .stat-sep {
-                display: none;
-            }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-outline { width: 100%; text-align: center; }
+            .hero-stats { flex-direction: column; gap: 20px; }
+            .stat-sep { display: none; }
         }
     </style>
 </head>
@@ -985,7 +823,7 @@
         </h1>
 
         <p class="hero-sub">
-            Tu espacio para entrenar, mejorar y sentirte bien. Máquinas de musculación, cardio, sauna y más — todo en un solo lugar.
+            Tu espacio para entrenar, mejorar y sentirte bien. Máquinas de musculación, cardio, sauna y más, todo en un solo lugar en Sucre.
         </p>
 
         <div class="hero-actions">
@@ -1032,57 +870,43 @@
 
         <div class="servicios-grid reveal">
             <div class="servicio-card">
-                <div class="servicio-icon">
-                    <i class="fas fa-dumbbell"></i>
-                </div>
+                <div class="servicio-icon"><i class="fas fa-dumbbell"></i></div>
                 <div class="servicio-name">Musculación</div>
                 <div class="servicio-desc">Máquinas de musculación completas para todos los grupos musculares.</div>
             </div>
 
             <div class="servicio-card">
-                <div class="servicio-icon">
-                    <i class="fas fa-running"></i>
-                </div>
+                <div class="servicio-icon"><i class="fas fa-running"></i></div>
                 <div class="servicio-name">Cardio</div>
                 <div class="servicio-desc">Equipos de cardio modernos: trotadoras, bicicletas y más.</div>
             </div>
 
             <div class="servicio-card">
-                <div class="servicio-icon">
-                    <i class="fas fa-hot-tub"></i>
-                </div>
+                <div class="servicio-icon"><i class="fas fa-hot-tub"></i></div>
                 <div class="servicio-name">Sauna</div>
                 <div class="servicio-desc">Sauna incluido en varios planes. Relájate después de tu entrenamiento.</div>
             </div>
 
             <div class="servicio-card">
-                <div class="servicio-icon">
-                    <i class="fas fa-user-graduate"></i>
-                </div>
+                <div class="servicio-icon"><i class="fas fa-user-graduate"></i></div>
                 <div class="servicio-name">Instructores</div>
                 <div class="servicio-desc">Personal capacitado para guiarte en tu rutina y alcanzar tus metas.</div>
             </div>
 
             <div class="servicio-card">
-                <div class="servicio-icon">
-                    <i class="fas fa-camera"></i>
-                </div>
+                <div class="servicio-icon"><i class="fas fa-camera"></i></div>
                 <div class="servicio-name">Seguridad</div>
                 <div class="servicio-desc">Cámaras de seguridad para tus vehículos y motocicletas.</div>
             </div>
 
             <div class="servicio-card">
-                <div class="servicio-icon">
-                    <i class="fas fa-lock"></i>
-                </div>
+                <div class="servicio-icon"><i class="fas fa-lock"></i></div>
                 <div class="servicio-name">Vestuarios</div>
                 <div class="servicio-desc">Cambiadores y casilleros disponibles para todos los socios.</div>
             </div>
 
             <div class="servicio-card">
-                <div class="servicio-icon">
-                    <i class="fas fa-flask"></i>
-                </div>
+                <div class="servicio-icon"><i class="fas fa-flask"></i></div>
                 <div class="servicio-name">Suplementos</div>
                 <div class="servicio-desc">Suplementos deportivos a excelentes precios disponibles en el local.</div>
             </div>
@@ -1222,7 +1046,7 @@
         </div>
 
         <div class="plans-grid" id="plan-oro">
-            <div class="plan-card featured" style="max-width:380px">
+            <div class="plan-card featured">
                 <div class="plan-badge">⭐ Membresía Premium</div>
                 <div class="plan-name">Socio de Oro — Anual</div>
                 <div class="plan-price">150<span> Bs/mes</span></div>
@@ -1284,7 +1108,7 @@
                 <div class="ubicacion-title">¿Dónde estamos?</div>
 
                 <div class="ubicacion-addr">
-                    <strong>Nestor Galindo, Esq.Av. Canadá </strong><br>
+                    <strong>Nestor Galindo, Esq. Av. Canadá</strong><br>
                     Sucre, Bolivia
                 </div>
 
@@ -1314,22 +1138,17 @@
         <div class="contacto-wrap reveal">
             <div class="contacto-info">
                 <div class="contacto-item">
-                    <div class="contacto-item-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
+                    <div class="contacto-item-icon"><i class="fas fa-map-marker-alt"></i></div>
                     <div>
                         <div class="contacto-item-label">Dirección</div>
                         <div class="contacto-item-val">
-                            Sucre, Departamento de Chuquisaca<br>
-                            Bolivia
+                            Sucre, Departamento de Chuquisaca<br>Bolivia
                         </div>
                     </div>
                 </div>
 
                 <div class="contacto-item">
-                    <div class="contacto-item-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
+                    <div class="contacto-item-icon"><i class="fab fa-whatsapp"></i></div>
                     <div>
                         <div class="contacto-item-label">WhatsApp</div>
                         <div class="contacto-item-val">
@@ -1339,9 +1158,7 @@
                 </div>
 
                 <div class="contacto-item">
-                    <div class="contacto-item-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
+                    <div class="contacto-item-icon"><i class="fas fa-envelope"></i></div>
                     <div>
                         <div class="contacto-item-label">Correo electrónico</div>
                         <div class="contacto-item-val">
@@ -1351,9 +1168,7 @@
                 </div>
 
                 <div class="contacto-item">
-                    <div class="contacto-item-icon">
-                        <i class="fab fa-facebook"></i>
-                    </div>
+                    <div class="contacto-item-icon"><i class="fab fa-facebook"></i></div>
                     <div>
                         <div class="contacto-item-label">Facebook</div>
                         <div class="contacto-item-val">
@@ -1365,9 +1180,7 @@
                 </div>
 
                 <div class="contacto-item">
-                    <div class="contacto-item-icon">
-                        <i class="fab fa-instagram"></i>
-                    </div>
+                    <div class="contacto-item-icon"><i class="fab fa-instagram"></i></div>
                     <div>
                         <div class="contacto-item-label">Instagram</div>
                         <div class="contacto-item-val">
@@ -1379,9 +1192,7 @@
                 </div>
 
                 <div class="contacto-item">
-                    <div class="contacto-item-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
+                    <div class="contacto-item-icon"><i class="fas fa-clock"></i></div>
                     <div>
                         <div class="contacto-item-label">Horario de atención</div>
                         <div class="contacto-item-val">
@@ -1443,27 +1254,43 @@
         </div>
     </section>
 
+    <!-- FLOATING CONTACT -->
+    <div class="float-contact">
+        <div class="float-menu" id="floatMenu">
+            <a href="https://www.instagram.com/spassosaunaclub?igsh=ZWF6Y2s1cWMyZGcw" target="_blank" class="float-btn ig">
+                <i class="fab fa-instagram"></i>
+                <span class="float-btn-label">Instagram</span>
+            </a>
+            <a href="https://www.facebook.com/SpazioSaunaClub" target="_blank" class="float-btn fb">
+                <i class="fab fa-facebook-f"></i>
+                <span class="float-btn-label">Facebook</span>
+            </a>
+            <a href="https://wa.me/59176692963" target="_blank" class="float-btn wa">
+                <i class="fab fa-whatsapp"></i>
+                <span class="float-btn-label">WhatsApp</span>
+            </a>
+        </div>
+        <button class="float-toggle" id="floatToggle" onclick="toggleFloat()" title="Contáctanos">
+            <i class="fas fa-comment-dots" id="floatIcon"></i>
+        </button>
+    </div>
+
     <!-- FOOTER -->
     <footer>
         <div class="footer-brand">SPASSO <span>GYM</span></div>
 
-        <div class="footer-copy">
-            © 2026 Spasso Gym — Sucre, Chuquisaca, Bolivia
-        </div>
+        <div class="footer-copy">© 2026 Spasso Gym — Sucre, Chuquisaca, Bolivia</div>
 
         <div class="footer-social">
             <a href="https://www.facebook.com/SpazioSaunaClub" target="_blank" class="social-btn" title="Facebook">
                 <i class="fab fa-facebook-f"></i>
             </a>
-
             <a href="https://www.instagram.com/spassosaunaclub?igsh=ZWF6Y2s1cWMyZGcw" target="_blank" class="social-btn" title="Instagram">
                 <i class="fab fa-instagram"></i>
             </a>
-
             <a href="https://wa.me/59176692963" target="_blank" class="social-btn" title="WhatsApp">
                 <i class="fab fa-whatsapp"></i>
             </a>
-
             <a href="mailto:spaziosaunaclub@gmail.com" class="social-btn" title="Email">
                 <i class="fas fa-envelope"></i>
             </a>
@@ -1471,27 +1298,32 @@
     </footer>
 
     <script>
+        function toggleFloat() {
+            const menu   = document.getElementById('floatMenu');
+            const toggle = document.getElementById('floatToggle');
+            const icon   = document.getElementById('floatIcon');
+            const open   = menu.classList.toggle('open');
+            toggle.classList.toggle('active', open);
+            icon.className = open ? 'fas fa-times' : 'fas fa-comment-dots';
+        }
+
         function showPlan(id, btn) {
             document.querySelectorAll('.plans-grid').forEach(function(grid) {
                 grid.classList.remove('active');
             });
-
             document.querySelectorAll('.plan-tab').forEach(function(tab) {
                 tab.classList.remove('active');
             });
-
             document.getElementById('plan-' + id).classList.add('active');
             btn.classList.add('active');
         }
 
         function contactarWA() {
             const nombre = document.getElementById('f-nombre').value || 'Sin nombre';
-            const tel = document.getElementById('f-tel').value || 'No indicado';
-            const plan = document.getElementById('f-plan').value || 'Sin seleccionar';
-            const msg = document.getElementById('f-msg').value || '';
-
-            const texto = `Hola Spasso Sauna Club! 👋\n\n*Nombre:* ${nombre}\n*Teléfono:* ${tel}\n*Plan de interés:* ${plan}${msg ? '\n*Mensaje:* ' + msg : ''}`;
-
+            const tel    = document.getElementById('f-tel').value || 'No indicado';
+            const plan   = document.getElementById('f-plan').value || 'Sin seleccionar';
+            const msg    = document.getElementById('f-msg').value || '';
+            const texto  = `Hola Spasso Gym! 👋\n\n*Nombre:* ${nombre}\n*Teléfono:* ${tel}\n*Plan de interés:* ${plan}${msg ? '\n*Mensaje:* ' + msg : ''}`;
             window.open('https://wa.me/59176692963?text=' + encodeURIComponent(texto), '_blank');
         }
 
@@ -1501,9 +1333,7 @@
                     entry.target.classList.add('visible');
                 }
             });
-        }, {
-            threshold: 0.1
-        });
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach(function(element) {
             observer.observe(element);
