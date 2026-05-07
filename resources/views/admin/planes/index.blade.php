@@ -56,13 +56,10 @@
                                 </a>
                                 @endcan
                                 @can('eliminar planes')
-                                <form action="{{ route($routePrefix . '.planes.destroy', $plan) }}" method="POST" style="display:inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar plan?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-sm btn-danger btn-eliminar" 
+                                        data-url="{{ route($routePrefix . '.planes.destroy', $plan) }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                                 @endcan
                             </td>
                         </tr>
@@ -72,4 +69,31 @@
             {!! $planes->links('pagination::bootstrap-4') !!}
         </div>
     </div>
+
+    <form id="formEliminar" method="POST" style="display:none">
+        @csrf
+        @method('DELETE')
+    </form>
+@stop
+
+@section('js')
+<script>
+    $(document).on('click', '.btn-eliminar', function() {
+        let url = $(this).data('url');
+        Swal.fire({
+            title: '¿Eliminar plan?',
+            text: 'No podrás deshacer esta acción.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#formEliminar').attr('action', url).submit();
+            }
+        });
+    });
+</script>
 @stop
