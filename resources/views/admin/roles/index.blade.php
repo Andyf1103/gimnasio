@@ -53,13 +53,10 @@
                                 <a href="{{ route('admin.roles.edit', $rol) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('admin.roles.destroy', $rol) }}" method="POST" style="display:inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar rol?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-sm btn-danger btn-eliminar" 
+                                        data-url="{{ route('admin.roles.destroy', $rol) }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -67,4 +64,31 @@
             </table>
         </div>
     </div>
+
+    <form id="formEliminar" method="POST" style="display:none">
+        @csrf
+        @method('DELETE')
+    </form>
+@stop
+
+@section('js')
+<script>
+    $(document).on('click', '.btn-eliminar', function() {
+        let url = $(this).data('url');
+        Swal.fire({
+            title: '¿Eliminar rol?',
+            text: 'No podrás deshacer esta acción.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#formEliminar').attr('action', url).submit();
+            }
+        });
+    });
+</script>
 @stop
