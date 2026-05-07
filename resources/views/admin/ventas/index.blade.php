@@ -72,13 +72,10 @@
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 @can('eliminar ventas')
-                                <form action="{{ route($routePrefix . '.ventas.destroy', $venta) }}" method="POST" style="display:inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar venta?')">
+                                    <button type="button" class="btn btn-sm btn-danger btn-eliminar" 
+                                            data-url="{{ route($routePrefix . '.ventas.destroy', $venta) }}">
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                </form>
                                 @endcan
                             </td>
                         </tr>
@@ -88,4 +85,31 @@
             {!! $ventas->links('pagination::bootstrap-4') !!}
         </div>
     </div>
+
+    <form id="formEliminar" method="POST" style="display:none">
+        @csrf
+        @method('DELETE')
+    </form>
+@stop
+
+@section('js')
+<script>
+    $(document).on('click', '.btn-eliminar', function() {
+        let url = $(this).data('url');
+        Swal.fire({
+            title: '¿Eliminar venta?',
+            text: 'Se repondrá el stock de los productos.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#formEliminar').attr('action', url).submit();
+            }
+        });
+    });
+</script>
 @stop
