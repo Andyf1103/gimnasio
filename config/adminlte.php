@@ -31,17 +31,17 @@ return [
         ],
     ],
 
-    'preloader' => [
-        'enabled' => true,
-        'mode' => 'fullscreen',
-        'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
-        ],
+  'preloader' => [
+    'enabled' => true,
+    'mode' => 'fullscreen',
+    'img' => [
+        'path' => 'img/logo.png',
+        'alt' => 'Spasso Gym',
+        'effect' => 'animation__shake',
+        'width' => 60,
+        'height' => 60,
     ],
+],
 
     'usermenu_enabled' => true,
     'usermenu_header' => true,
