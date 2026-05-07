@@ -16,7 +16,15 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col-md-12 text-right">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" id="buscar" class="form-control" placeholder="Buscar..." value="{{ request('buscar') }}">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 text-right">
                     @if($puedeCrear)
                         <a href="{{ route($routePrefix . '.planes.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Nuevo Plan
@@ -78,6 +86,15 @@
 
 @section('js')
 <script>
+    let timer;
+    $('#buscar').on('input', function() {
+        clearTimeout(timer);
+        let valor = $(this).val();
+        timer = setTimeout(function() {
+            window.location = '{{ route($routePrefix . ".planes.index") }}?buscar=' + encodeURIComponent(valor);
+        }, 500);
+    });
+
     $(document).on('click', '.btn-eliminar', function() {
         let url = $(this).data('url');
         Swal.fire({

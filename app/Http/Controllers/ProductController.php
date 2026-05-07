@@ -21,9 +21,17 @@ class ProductController extends Controller
         return Auth::guard('admin')->check() ? 'admin' : 'employee';
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $productos = Product::orderBy('id', 'asc')->paginate(10);
+        $query = Product::query();
+
+        if ($request->buscar) {
+            $buscar = $request->buscar;
+            $query->where('nombre', 'like', '%' . $buscar . '%');
+        }
+
+        $productos = $query->orderBy('id', 'asc')->paginate(10);
+
         return view('admin.productos.index', compact('productos'));
     }
 

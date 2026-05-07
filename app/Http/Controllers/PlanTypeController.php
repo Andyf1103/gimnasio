@@ -21,9 +21,17 @@ class PlanTypeController extends Controller
         return Auth::guard('admin')->check() ? 'admin' : 'employee';
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $planes = PlanType::orderBy('id', 'asc')->paginate(10);
+        $query = PlanType::query();
+
+        if ($request->buscar) {
+            $buscar = $request->buscar;
+            $query->where('nombre_plan', 'like', '%' . $buscar . '%');
+        }
+
+        $planes = $query->orderBy('id', 'asc')->paginate(10);
+
         return view('admin.planes.index', compact('planes'));
     }
 
