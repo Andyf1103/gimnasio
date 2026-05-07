@@ -97,7 +97,6 @@
 
 <hr>
 
-{{-- Comprobante del primer pago --}}
 @if($membresium->comprobante)
     <h6>Comprobante del Primer Pago</h6>
     <p>
@@ -194,11 +193,20 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                alert('Membresía actualizada.');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Membresía actualizada',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 $('#modalMembresia').modal('hide');
             },
             error: function(xhr) {
-                alert('Error al actualizar la membresía.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al actualizar la membresía.'
+                });
             }
         });
     });
@@ -221,7 +229,11 @@
                 });
             },
             error: function(xhr) {
-                alert('Error al registrar el pago.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al registrar el pago.'
+                });
             }
         });
     });
