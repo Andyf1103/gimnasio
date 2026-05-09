@@ -58,6 +58,9 @@
                             <td>{{ $plan->precio_matricula ? 'Bs '.number_format($plan->precio_matricula, 2) : 'N/A' }}</td>
                             <td>{{ $plan->duracion_dias }}</td>
                             <td>
+                                <a href="{{ route($routePrefix . '.planes.show', $plan) }}" class="btn btn-sm btn-info">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                                 @can('editar planes')
                                 <a href="{{ route($routePrefix . '.planes.edit', $plan) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
