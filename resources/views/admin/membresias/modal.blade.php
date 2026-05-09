@@ -14,7 +14,7 @@
                 <select name="client_id" class="form-control" required>
                     @foreach($clientes as $cliente)
                         <option value="{{ $cliente->id }}" {{ $membresium->client_id == $cliente->id ? 'selected' : '' }}>
-                            {{ $cliente->nombre }} {{ $cliente->apellido }}
+                            {{ $cliente->nombre }} {{ $cliente->apellido }} ({{ $cliente->ci ?? 'S/N' }})
                         </option>
                     @endforeach
                 </select>

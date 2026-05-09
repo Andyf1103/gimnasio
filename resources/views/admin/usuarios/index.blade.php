@@ -45,6 +45,7 @@
                         <th>#</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>CI</th>
                         <th>Fecha Inscripción</th>
                         <th>Saldo Pendiente</th>
                         <th>Acciones</th>
@@ -59,6 +60,7 @@
                             <td>{{ $usuario->id }}</td>
                             <td>{{ $usuario->nombre }}</td>
                             <td>{{ $usuario->apellido }}</td>
+                            <td>{{ $usuario->ci ?? 'N/A' }}</td>
                             <td>{{ $usuario->fecha_inscripcion->format('d/m/Y') }}</td>
                             <td>
                                 @if($membresiaActiva && $membresiaActiva->saldo > 0)

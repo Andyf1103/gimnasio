@@ -19,7 +19,7 @@
                 
                 <h5>Datos del Usuario</h5>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="nombre">Nombre *</label>
                             <input type="text" name="nombre" id="nombre" 
@@ -30,13 +30,24 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="apellido">Apellido *</label>
                             <input type="text" name="apellido" id="apellido" 
                                    class="form-control @error('apellido') is-invalid @enderror" 
                                    value="{{ old('apellido', $usuario->apellido) }}" required>
                             @error('apellido')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="ci">Carnet de Identidad *</label>
+                            <input type="text" name="ci" id="ci" 
+                                   class="form-control @error('ci') is-invalid @enderror" 
+                                   value="{{ old('ci', $usuario->ci) }}" required>
+                            @error('ci')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>

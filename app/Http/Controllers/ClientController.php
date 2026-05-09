@@ -32,6 +32,7 @@ class ClientController extends Controller
             $buscar = $request->buscar;
             $query->where('nombre', 'like', '%' . $buscar . '%')
                   ->orWhere('apellido', 'like', '%' . $buscar . '%')
+                  ->orWhere('ci', 'like', '%' . $buscar . '%')
                   ->orWhereRaw("CONCAT(nombre, ' ', apellido) LIKE ?", ['%' . $buscar . '%']);
         }
 
@@ -52,17 +53,21 @@ class ClientController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:100',
             'apellido' => 'required|string|max:100',
+            'ci' => 'required|string|max:20|unique:clients,ci',
             'plan_type_id' => 'required|exists:plan_types,id',
             'payment_method_id' => 'required|exists:payment_methods,id',
             'fecha_inicio' => 'required|date',
             'monto_total' => 'required|numeric|min:0',
             'saldo' => 'required|numeric|min:0',
             'comprobante' => 'nullable|image|max:2048',
+        ], [
+            'ci.unique' => 'Este carnet de identidad ya está registrado.',
         ]);
 
         $cliente = Client::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
+            'ci' => $request->ci,
         ]);
 
         $plan = PlanType::find($request->plan_type_id);
@@ -110,11 +115,15 @@ class ClientController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:100',
             'apellido' => 'required|string|max:100',
+            'ci' => 'required|string|max:20|unique:clients,ci,' . $usuario->id,
+        ], [
+            'ci.unique' => 'Este carnet de identidad ya está registrado.',
         ]);
 
         $usuario->update([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
+            'ci' => $request->ci,
         ]);
 
         return redirect()->route($this->routePrefix() . '.usuarios.index')
