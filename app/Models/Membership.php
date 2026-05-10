@@ -19,6 +19,7 @@ class Membership extends Model
         'fecha_final',
         'monto_total',
         'saldo',
+        'dias_disponibles',
         'fecha_limite_pago',
         'estado',
         'comprobante',
@@ -56,9 +57,17 @@ class Membership extends Model
         return $this->hasMany(PagoMembresia::class);
     }
 
+    public function asistencias(): HasMany
+    {
+        return $this->hasMany(Asistencia::class);
+    }
+
     public function getEstadoRealAttribute()
     {
         if ($this->fecha_final < now() && in_array($this->estado, ['ACTIVA', 'activa'])) {
+            return 'VENCIDA';
+        }
+        if ($this->dias_disponibles !== null && $this->dias_disponibles <= 0 && in_array($this->estado, ['ACTIVA', 'activa'])) {
             return 'VENCIDA';
         }
         return $this->estado;

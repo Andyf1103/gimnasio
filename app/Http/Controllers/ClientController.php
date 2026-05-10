@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\PlanType;
 use App\Models\PaymentMethod;
 use App\Models\Membership;
+use App\Models\Asistencia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,13 +65,14 @@ class ClientController extends Controller
             'ci.unique' => 'Este carnet de identidad ya está registrado.',
         ]);
 
+        $plan = PlanType::find($request->plan_type_id);
+
         $cliente = Client::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'ci' => $request->ci,
         ]);
 
-        $plan = PlanType::find($request->plan_type_id);
         $fecha_final = $this->calcularFechaFinal($request->fecha_inicio, $plan->duracion_dias);
 
         $fecha_limite_pago = null;
@@ -93,6 +95,7 @@ class ClientController extends Controller
             'fecha_final' => $fecha_final,
             'monto_total' => $request->monto_total,
             'saldo' => $request->saldo,
+            'dias_disponibles' => $plan->duracion_dias,
             'fecha_limite_pago' => $fecha_limite_pago,
             'comprobante' => $rutaComprobante,
         ]);
@@ -136,6 +139,16 @@ class ClientController extends Controller
 
         return redirect()->route($this->routePrefix() . '.usuarios.index')
             ->with('success', 'Usuario eliminado correctamente.');
+    }
+
+    public function historialAsistencias(Client $usuario)
+    {
+        $asistencias = Asistencia::with('membership.planType')
+            ->where('client_id', $usuario->id)
+            ->orderBy('fecha_hora_ingreso', 'desc')
+            ->get();
+
+        return view('admin.usuarios.historial_asistencias', compact('asistencias'));
     }
 
     private function calcularFechaFinal($fechaInicio, $diasHabiles)

@@ -78,6 +78,10 @@
                                 @endif
                             </td>
                             <td>
+                                <button type="button" class="btn btn-sm btn-secondary btn-asistencias" 
+                                        data-id="{{ $usuario->id }}">
+                                    <i class="fas fa-clock"></i>
+                                </button>
                                 @if($membresiaActiva)
                                     @if($membresiaActiva->fecha_final < now())
                                         <button type="button" class="btn btn-sm btn-success btn-renovar" 
@@ -112,7 +116,7 @@
         @method('DELETE')
     </form>
 
-    {{-- Contenedor del Modal --}}
+    {{-- Modal de Membresía --}}
     <div class="modal fade" id="modalMembresia" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -121,6 +125,21 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body" id="contenidoMembresia">
+                    Cargando...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal de Historial de Asistencias --}}
+    <div class="modal fade" id="modalAsistencias" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Historial de Asistencias</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="contenidoAsistencias">
                     Cargando...
                 </div>
             </div>
@@ -145,6 +164,16 @@
         $('#contenidoMembresia').html('Cargando...');
         $.get('{{ url($urlPrefix . "/membresias") }}/' + id + '?modal=1', function(data) {
             $('#contenidoMembresia').html(data);
+        });
+    });
+
+    // Botón Historial de Asistencias
+    $(document).on('click', '.btn-asistencias', function() {
+        let id = $(this).data('id');
+        $('#modalAsistencias').modal('show');
+        $('#contenidoAsistencias').html('Cargando...');
+        $.get('{{ url($urlPrefix . "/usuarios") }}/' + id + '/asistencias', function(data) {
+            $('#contenidoAsistencias').html(data);
         });
     });
 

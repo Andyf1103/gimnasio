@@ -47,14 +47,14 @@ class RoleAndPermissionSeeder extends Seeder
             'crear ventas',
             'ver ventas',
             'eliminar ventas',
-            // Caja
-            'gestionar caja',
-            'ver caja',
             // Métodos de Pago
             'crear metodos pago',
             'editar metodos pago',
             'eliminar metodos pago',
             'ver metodos pago',
+            // Asistencias
+            'ver asistencias',
+            'registrar asistencia',
             // Reportes
             'ver reportes',
             // Roles y permisos
@@ -91,8 +91,8 @@ class RoleAndPermissionSeeder extends Seeder
             'ver ventas',
             'ver metodos pago',
             'crear metodos pago',
-            'gestionar caja',
-            'ver caja',
+            'ver asistencias',
+            'registrar asistencia',
         ]);
     }
 }

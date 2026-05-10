@@ -48,12 +48,17 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <a href="{{ route('employee.usuarios.create') }}" class="btn btn-primary btn-block mb-2">
                 <i class="fas fa-user-plus"></i> Nuevo Usuario
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <a href="{{ route('employee.asistencias.registro') }}" class="btn btn-info btn-block mb-2">
+                <i class="fas fa-clipboard-check"></i> Registrar Ingreso
+            </a>
+        </div>
+        <div class="col-md-4">
             <a href="{{ route('employee.ventas.create') }}" class="btn btn-success btn-block mb-2">
                 <i class="fas fa-shopping-cart"></i> Nueva Venta
             </a>

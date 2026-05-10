@@ -10,12 +10,17 @@
     <p>Bienvenido, <strong>{{ Auth::guard('admin')->user()->nombre }}</strong>.</p>
 
     <div class="row mb-3">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary btn-block">
                 <i class="fas fa-user-plus"></i> Nuevo Usuario
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <a href="{{ route('admin.asistencias.registro') }}" class="btn btn-info btn-block">
+                <i class="fas fa-clipboard-check"></i> Registrar Ingreso
+            </a>
+        </div>
+        <div class="col-md-4">
             <a href="{{ route('admin.ventas.create') }}" class="btn btn-success btn-block">
                 <i class="fas fa-shopping-cart"></i> Nueva Venta
             </a>

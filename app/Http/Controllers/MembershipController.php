@@ -85,6 +85,7 @@ class MembershipController extends Controller
             'fecha_final' => $fecha_final,
             'monto_total' => $request->monto_total,
             'saldo' => $request->saldo,
+            'dias_disponibles' => $plan->duracion_dias,
             'comprobante' => $rutaComprobante,
         ]);
 
@@ -187,6 +188,7 @@ class MembershipController extends Controller
             'fecha_final' => $this->calcularFechaFinal(date('Y-m-d'), $plan->duracion_dias),
             'monto_total' => $plan->precio_plan,
             'saldo' => $plan->precio_plan,
+            'dias_disponibles' => $plan->duracion_dias,
             'estado' => 'activa',
         ]);
 

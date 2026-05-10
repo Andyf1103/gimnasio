@@ -13,6 +13,7 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ClientControlController;
 use App\Http\Controllers\DailyReportController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AsistenciaController;
 use Illuminate\Support\Facades\Auth;
 
 // Landing Page - Pública
@@ -35,6 +36,7 @@ Route::middleware('auth:admin,employee')->group(function () {
     Route::prefix('admin')->middleware('auth:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
         Route::resource('usuarios', ClientController::class)->names('admin.usuarios');
+        Route::get('/usuarios/{usuario}/asistencias', [ClientController::class, 'historialAsistencias'])->name('admin.usuarios.asistencias');
         Route::resource('productos', ProductController::class)->names('admin.productos');
         Route::resource('empleados', EmployeeController::class)->names('admin.empleados');
         Route::resource('roles', RoleController::class)->names('admin.roles');
@@ -48,12 +50,15 @@ Route::middleware('auth:admin,employee')->group(function () {
         Route::resource('controles', ClientControlController::class)->names('admin.controles')->parameters(['controles' => 'control']);
         Route::get('/reportes/detalle', [DailyReportController::class, 'detalle'])->name('admin.reportes.detalle');
         Route::get('/reportes/pdf', [DailyReportController::class, 'exportarPdf'])->name('admin.reportes.pdf');
+        Route::get('/asistencias/registro', [AsistenciaController::class, 'registro'])->name('admin.asistencias.registro');
+        Route::post('/asistencias/registrar', [AsistenciaController::class, 'registrar'])->name('admin.asistencias.registrar');
     });
 
     // Employee
     Route::prefix('employee')->middleware('auth:employee')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'employee'])->name('employee.dashboard');
         Route::resource('usuarios', ClientController::class)->names('employee.usuarios');
+        Route::get('/usuarios/{usuario}/asistencias', [ClientController::class, 'historialAsistencias'])->name('employee.usuarios.asistencias');
         Route::resource('productos', ProductController::class)->names('employee.productos');
         Route::resource('planes', PlanTypeController::class)->names('employee.planes')->parameters(['planes' => 'plan']);
         Route::resource('membresias', MembershipController::class)->names('employee.membresias')->parameters(['membresias' => 'membresium']);
@@ -63,5 +68,7 @@ Route::middleware('auth:admin,employee')->group(function () {
         Route::resource('ventas', SaleController::class)->names('employee.ventas')->parameters(['ventas' => 'venta']);
         Route::resource('metodos_pago', PaymentMethodController::class)->except(['show'])->names('employee.metodos_pago')->parameters(['metodos_pago' => 'metodo']);
         Route::resource('controles', ClientControlController::class)->names('employee.controles')->parameters(['controles' => 'control']);
+        Route::get('/asistencias/registro', [AsistenciaController::class, 'registro'])->name('employee.asistencias.registro');
+        Route::post('/asistencias/registrar', [AsistenciaController::class, 'registrar'])->name('employee.asistencias.registrar');
     });
 });
