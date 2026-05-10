@@ -92,6 +92,19 @@
                 </div>
             </div>
         </div>
+
+        {{-- Saldos Pendientes --}}
+<div class="col-lg-3 col-6">
+    <div class="small-box bg-warning">
+        <div class="inner">
+            <h3>Bs {{ number_format($saldosPendientes->sum('saldo'), 2) }}</h3>
+            <p>{{ $saldosPendientes->count() }} Usuarios con Saldo</p>
+        </div>
+        <div class="icon">
+            <i class="fas fa-hand-holding-usd"></i>
+        </div>
+    </div>
+</div>
     </div>
 
     <div class="row">
@@ -154,5 +167,34 @@
                 </div>
             </div>
         </div>
+
+        {{-- Saldos Pendientes - Detalle --}}
+<div class="col-md-4">
+    <div class="card">
+        <div class="card-header bg-warning">
+            <h3 class="card-title">Saldos Pendientes</h3>
+        </div>
+        <div class="card-body table-responsive p-0">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($saldosPendientes as $sp)
+                        <tr>
+                            <td>{{ $sp->client->nombre ?? 'N/A' }} {{ $sp->client->apellido ?? '' }}</td>
+                            <td>Bs {{ number_format($sp->saldo, 2) }}</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="2" class="text-center">Sin saldos pendientes.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
     </div>
 @stop

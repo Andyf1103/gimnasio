@@ -10,7 +10,7 @@
     <p>Bienvenid@, <strong>{{ Auth::guard('employee')->user()->nombre }}</strong>.</p>
 
     <div class="row">
-        <div class="col-lg-4 col-6">
+        <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
                 <div class="inner">
                     <h3>{{ $usuariosActivos }}</h3>
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-6">
+        <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>Bs {{ number_format($ventasDia, 2) }}</h3>
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-6">
+        <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{ $membresiasPorVencer->count() }}</h3>
@@ -42,6 +42,18 @@
                 </div>
                 <div class="icon">
                     <i class="fas fa-calendar-alt"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>Bs {{ number_format($saldosPendientes->sum('saldo'), 2) }}</h3>
+                    <p>{{ $saldosPendientes->count() }} Clientes con Saldo</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-hand-holding-usd"></i>
                 </div>
             </div>
         </div>
@@ -65,31 +77,63 @@
         </div>
     </div>
 
-    <div class="card mt-3">
-        <div class="card-header">
-            <h3 class="card-title">Membresías por Vencer (3 días)</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="card-title">Membresías por Vencer (3 días)</h3>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Plan</th>
+                                <th>Vence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($membresiasPorVencer as $m)
+                                <tr>
+                                    <td>{{ $m->client->nombre ?? 'N/A' }} {{ $m->client->apellido ?? '' }}</td>
+                                    <td>{{ $m->planType->nombre_plan ?? 'N/A' }}</td>
+                                    <td>{{ $m->fecha_final->format('d/m/Y') }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="3" class="text-center">Sin membresías por vencer.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="card-body table-responsive p-0">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Plan</th>
-                        <th>Vence</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($membresiasPorVencer as $m)
-                        <tr>
-                            <td>{{ $m->client->nombre ?? 'N/A' }} {{ $m->client->apellido ?? '' }}</td>
-                            <td>{{ $m->planType->nombre_plan ?? 'N/A' }}</td>
-                            <td>{{ $m->fecha_final->format('d/m/Y') }}</td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="3" class="text-center">Sin membresías por vencer.</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
+
+        <div class="col-md-6">
+            <div class="card mt-3">
+                <div class="card-header bg-warning">
+                    <h3 class="card-title">Saldos Pendientes</h3>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Saldo Pendiente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($saldosPendientes as $sp)
+                                <tr>
+                                    <td>{{ $sp->client->nombre ?? 'N/A' }} {{ $sp->client->apellido ?? '' }}</td>
+                                    <td>Bs {{ number_format($sp->saldo, 2) }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="2" class="text-center">Sin saldos pendientes.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 @stop

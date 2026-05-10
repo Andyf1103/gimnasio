@@ -39,12 +39,19 @@ class DashboardController extends Controller
 
         $productosBajoStock = Product::where('stock', '<=', 3)->get();
 
+        $saldosPendientes = Membership::where('saldo', '>', 0)
+            ->whereIn('estado', ['ACTIVA', 'activa'])
+            ->with('client')
+            ->orderBy('saldo', 'desc')
+            ->get();
+
         return view('admin.dashboard', compact(
             'usuariosActivos',
             'ingresosDia',
             'ingresosMes',
             'membresiasPorVencer',
-            'productosBajoStock'
+            'productosBajoStock',
+            'saldosPendientes'
         ));
     }
 
@@ -66,10 +73,17 @@ class DashboardController extends Controller
             ->with('client')
             ->get();
 
+        $saldosPendientes = Membership::where('saldo', '>', 0)
+            ->whereIn('estado', ['ACTIVA', 'activa'])
+            ->with('client')
+            ->orderBy('saldo', 'desc')
+            ->get();
+
         return view('employee.dashboard', compact(
             'usuariosActivos',
             'ventasDia',
-            'membresiasPorVencer'
+            'membresiasPorVencer',
+            'saldosPendientes'
         ));
     }
 }
