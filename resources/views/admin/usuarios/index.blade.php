@@ -83,7 +83,7 @@
                                     <i class="fas fa-clock"></i>
                                 </button>
                                 @if($membresiaActiva)
-                                    @if($membresiaActiva->fecha_final < now())
+                                    @if($membresiaActiva->dias_disponibles <= 3)
                                         <button type="button" class="btn btn-sm btn-success btn-renovar" 
                                                 data-id="{{ $membresiaActiva->id }}">
                                             <i class="fas fa-sync-alt"></i>
