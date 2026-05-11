@@ -31,9 +31,10 @@ class DashboardController extends Controller
         $ingresosMesVentas = Sale::whereDate('created_at', '>=', $primerDiaMes)->sum('total');
         $ingresosMes = $ingresosMesMembresias + $ingresosMesVentas;
 
+        // Membresías por vencer basadas en días disponibles restantes (≤ 3 días)
         $membresiasPorVencer = Membership::where('estado', 'activa')
-            ->whereDate('fecha_final', '>=', $fechaHoy)
-            ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+3 days')))
+            ->where('dias_disponibles', '>', 0)
+            ->where('dias_disponibles', '<=', 3)
             ->with('client')
             ->get();
 
@@ -67,9 +68,10 @@ class DashboardController extends Controller
             ->where('employee_id', Auth::guard('employee')->id())
             ->sum('total');
 
+        // Membresías por vencer basadas en días disponibles restantes (≤ 3 días)
         $membresiasPorVencer = Membership::where('estado', 'activa')
-            ->whereDate('fecha_final', '>=', $fechaHoy)
-            ->whereDate('fecha_final', '<=', date('Y-m-d', strtotime('+3 days')))
+            ->where('dias_disponibles', '>', 0)
+            ->where('dias_disponibles', '<=', 3)
             ->with('client')
             ->get();
 
